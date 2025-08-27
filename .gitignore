@@ -2,3 +2,4 @@
 /api/.idea/
 /api/.mvn/
 /api/target/
+/api/src/main/resources/application.properties
