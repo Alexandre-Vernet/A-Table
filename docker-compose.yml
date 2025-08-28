@@ -1,0 +1,53 @@
+version: '3'
+services:
+  a-table-app:
+    image: alexv31/a-table:app
+    networks:
+      - a-table-network
+    ports:
+      - "3010:80"
+      - "3011:443"
+
+  a-table-api:
+    image: alexv31/a-table:api
+    depends_on:
+      - a-table-db
+    environment:
+      - spring.datasource.url=
+      - spring.datasource.username=
+      - spring.datasource.password=
+      - spring.datasource.driver-class-name=
+      - spring.jpa.properties.hibernate.default_schema=
+      - spring.jpa.hibernate.ddl-auto=
+      - spring.jpa.show-sql=
+      - spring.jpa.properties.hibernate.format_sql=
+      - spring.jpa.properties.hibernate.dialect=
+      - spring.jpa.open-in-view=
+      - server.port=80
+      - server.address=0.0.0.0
+
+    networks:
+      - a-table-network
+    ports:
+      - "4010:80"
+      - "4011:443"
+
+  a-table-db:
+    image: postgres
+    restart: always
+    networks:
+      - a-table-network
+    environment:
+      - POSTGRES_DB=a-table-dev
+      - POSTGRES_USER=a-table-dev
+      - POSTGRES_PASSWORD=a-table-dev
+    ports:
+      - "5010:5432"
+      - "5011:443"
+
+volumes:
+  postgres_data:
+
+networks:
+  a-table-network:
+    driver: bridge
