@@ -24,6 +24,7 @@ jobs:
       - name: Build images app and api
         run: |
           docker build -t  ${{ env.DOCKERHUB_REPOSITORY_NAME }}:app -f ${{ env.APP_NAME }}/Dockerfile .
+          docker build -t  ${{ env.DOCKERHUB_REPOSITORY_NAME }}:api -f ${{ env.API_NAME }}/Dockerfile .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -45,6 +46,13 @@ jobs:
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPOSITORY_NAME }}:app
 
+      - name: Push image api
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ${{ env.API_NAME }}/Dockerfile
+          push: true
+          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPOSITORY_NAME }}:api
 
   redeploy-containers:
     needs: build-push-images
@@ -60,6 +68,7 @@ jobs:
           port: ${{ env.SERVER_PORT }}
           script: |
             docker pull ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPOSITORY_NAME }}:app
+            docker pull ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPOSITORY_NAME }}:api
             docker system prune -f
             cd /home/debian/apps/${{ env.DOCKERHUB_REPOSITORY_NAME }}/
             docker-compose up -d
