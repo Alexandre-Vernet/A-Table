@@ -13,15 +13,19 @@ services:
     depends_on:
       - a-table-db
     environment:
-      - NODE_ENV=
-      - PORT=
-      - JWT_SECRET=
-      - ALLOWED_ORIGIN=
-      - POSTGRES_HOST=
-      - POSTGRES_PORT=
-      - POSTGRES_USERNAME=
-      - POSTGRES_PASSWORD=
-      - POSTGRES_DATABASE=
+      - spring.datasource.url=
+      - spring.datasource.username=
+      - spring.datasource.password=
+      - spring.datasource.driver-class-name=
+      - spring.jpa.properties.hibernate.default_schema=
+      - spring.jpa.hibernate.ddl-auto=
+      - spring.jpa.show-sql=
+      - spring.jpa.properties.hibernate.format_sql=
+      - spring.jpa.properties.hibernate.dialect=
+      - spring.jpa.open-in-view=
+      - server.port=80
+      - server.address=0.0.0.0
+
     networks:
       - a-table-network
     ports:
@@ -34,12 +38,12 @@ services:
     networks:
       - a-table-network
     environment:
-      - POSTGRES_DB=a-table-local
+      - POSTGRES_DB=a-table-dev
       - POSTGRES_USER=a-table-dev
       - POSTGRES_PASSWORD=a-table-dev
     ports:
-      - "5008:5432"
-      - "5009:443"
+      - "5010:5432"
+      - "5011:443"
 
 volumes:
   postgres_data:
