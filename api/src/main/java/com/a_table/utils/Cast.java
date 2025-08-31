@@ -14,11 +14,11 @@ public class Cast {
         this.modelMapper = modelMapper;
     }
 
-    public <T, D> D castToDto(T data, Class<D> clazz) {
+    public <T, D> D convertTo(T data, Class<D> clazz) {
         return modelMapper.map(data, clazz);
     }
 
-    public <T, D> List<D> castToDtoList(List<T> data, Class<D> clazz) {
+    public <T, D> List<D> convertListTo(List<T> data, Class<D> clazz) {
         return data.stream()
                 .map(d -> modelMapper.map(d, clazz))
                 .toList();

@@ -1,5 +1,7 @@
 package com.a_table.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +11,23 @@ public class Recipe {
 
     private Integer id;
 
+    @NotNull(message = "Le nom est obligatoire")
     private String name;
 
-    private Float nbPerson;
+    @NotNull(message = "Le nombre de personne est obligatoire")
+    private Integer nbPerson;
 
+
+    @NotNull(message = "La catégorie est obligatoire")
     private String category;
 
+
+    @NotNull(message = "Le temps de préparation est obligatoire")
+    @Positive(message = "Le temps de préparation doit être supérieur à 0")
     private Short preparationTime;
 
+
+    @NotNull(message = "Le temps de cuisson est obligatoire")
+    @Positive(message = "Le temps de cuisson doit être supérieur à 0")
     private Short cookingTime;
 }

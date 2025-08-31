@@ -1,6 +1,7 @@
 package com.a_table.service;
 
 import com.a_table.dto.Recipe;
+import com.a_table.model.RecipeEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.Cast;
 import jakarta.annotation.Resource;
@@ -19,6 +20,11 @@ public class RecipeService {
 
 
     public List<Recipe> getRecipes() {
-        return cast.castToDtoList(recipeRepository.findAll(), Recipe.class);
+        return cast.convertListTo(recipeRepository.findAll(), Recipe.class);
+    }
+
+    public Recipe createRecipe(Recipe recipe) {
+        RecipeEntity createdRecipe = recipeRepository.save(cast.convertTo(recipe, RecipeEntity.class));
+        return cast.convertTo(createdRecipe, Recipe.class);
     }
 }
