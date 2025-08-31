@@ -1,9 +1,12 @@
 package com.a_table.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,4 +33,7 @@ public class Recipe {
     @NotNull(message = "Le temps de cuisson est obligatoire")
     @Positive(message = "Le temps de cuisson doit être supérieur à 0")
     private Short cookingTime;
+
+    @JsonManagedReference
+    private List<Ingredient> ingredients;
 }

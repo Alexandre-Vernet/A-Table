@@ -25,6 +25,8 @@ public class RecipeService {
     }
 
     public Recipe createRecipe(Recipe recipe) {
+        recipe.getIngredients().forEach(i -> i.setRecipe(recipe));
+
         RecipeEntity createdRecipe = recipeRepository.save(mappingService.map(recipe, RecipeEntity.class));
         return mappingService.map(createdRecipe, Recipe.class);
     }
