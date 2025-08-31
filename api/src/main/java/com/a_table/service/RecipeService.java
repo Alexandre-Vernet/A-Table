@@ -4,41 +4,35 @@ import com.a_table.dto.Recipe;
 import com.a_table.exception.ErrorResponseException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.repository.RecipeRepository;
-import com.a_table.utils.Cast;
+import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class RecipeService {
-
-    @Resource
-    Cast cast;
 
     @Resource
     RecipeRepository recipeRepository;
 
-    private final ModelMapper modelMapper;  // Injected directly (no need for Cast)
+    @Resource
+    MappingService mappingService;
 
 
     public List<Recipe> getRecipes() {
-        return cast.convertListTo(recipeRepository.findAll(), Recipe.class);
+        return mappingService.convertListTo(recipeRepository.findAll(), Recipe.class);
     }
 
     public Recipe createRecipe(Recipe recipe) {
-        RecipeEntity createdRecipe = recipeRepository.save(cast.convertTo(recipe, RecipeEntity.class));
-        return cast.convertTo(createdRecipe, Recipe.class);
+        RecipeEntity createdRecipe = recipeRepository.save(mappingService.map(recipe, RecipeEntity.class));
+        return mappingService.map(createdRecipe, Recipe.class);
     }
 
     public Recipe updateRecipe(Long id, Recipe recipe) {
         RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(() -> new ErrorResponseException("Recette non trouvée avec l'ID : " + id));
-        modelMapper.map(recipe, existingRecipe);
-        RecipeEntity updatedRecipe = recipeRepository.save(cast.convertTo(existingRecipe, RecipeEntity.class));
-        return modelMapper.map(updatedRecipe, Recipe.class);
+        mappingService.merge(recipe, existingRecipe);
+        RecipeEntity updatedRecipe = recipeRepository.save(mappingService.map(existingRecipe, RecipeEntity.class));
+        return mappingService.map(updatedRecipe, Recipe.class);
     }
 
     public void deleteRecipe(Long recipeId) {
