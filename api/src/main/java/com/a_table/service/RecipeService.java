@@ -7,7 +7,6 @@ import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

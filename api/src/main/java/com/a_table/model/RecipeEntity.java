@@ -34,6 +34,8 @@ public class RecipeEntity {
 
     private Short cookingTime;
 
+    private String note;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<IngredientEntity> ingredients = new ArrayList<>();
 }
