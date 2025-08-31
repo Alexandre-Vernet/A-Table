@@ -38,4 +38,7 @@ public class Recipe {
 
     @JsonManagedReference
     private List<Ingredient> ingredients;
+
+    @JsonManagedReference
+    private List<RecipeStep> steps;
 }

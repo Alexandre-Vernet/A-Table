@@ -26,7 +26,7 @@ public class RecipeEntity {
 
     private String name;
 
-    private Float nbPerson;
+    private Integer nbPerson;
 
     private String category;
 
@@ -38,4 +38,7 @@ public class RecipeEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<IngredientEntity> ingredients = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<RecipeStepEntity> steps = new ArrayList<>();
 }
