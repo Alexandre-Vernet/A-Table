@@ -1,13 +1,13 @@
 package com.a_table.service;
 
 import com.a_table.dto.Recipe;
-import com.a_table.exception.ErrorResponseException;
 import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -30,14 +30,14 @@ public class RecipeService {
     }
 
     public Recipe updateRecipe(Long id, Recipe recipe) {
-        RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(() -> new ErrorResponseException("Recette non trouvée avec l'ID : " + id));
+        RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
         mappingService.merge(recipe, existingRecipe);
         RecipeEntity updatedRecipe = recipeRepository.save(mappingService.map(existingRecipe, RecipeEntity.class));
         return mappingService.map(updatedRecipe, Recipe.class);
     }
 
     public void deleteRecipe(Long recipeId) {
-        RecipeEntity recipeEntity = recipeRepository.findById(recipeId).orElseThrow(() -> new RecipeNotFoundException(recipeId));
+        RecipeEntity recipeEntity = recipeRepository.findById(recipeId).orElseThrow(RecipeNotFoundException::new);
         recipeRepository.delete(recipeEntity);
     }
 }

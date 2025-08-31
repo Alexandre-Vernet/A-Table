@@ -19,7 +19,14 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Classe interne pour la structure de l'erreur
+    @ExceptionHandler(InvalidCategoryException.class)
+    public ResponseEntity<?> handleBadCategory(InvalidCategoryException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor

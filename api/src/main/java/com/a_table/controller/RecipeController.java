@@ -1,12 +1,11 @@
 package com.a_table.controller;
 
-import com.a_table.exception.ErrorResponseException;
 import com.a_table.dto.Category;
 import com.a_table.dto.Recipe;
+import com.a_table.exception.InvalidCategoryException;
 import com.a_table.service.RecipeService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,19 +31,18 @@ public class RecipeController {
     }
 
     @PostMapping("/")
-    ResponseEntity<?> createRecipe(@Valid @RequestBody Recipe recipe) {
+    Recipe createRecipe(@Valid @RequestBody Recipe recipe) {
         boolean categoryValid = Category.categoryValid(recipe.getCategory());
         if (!categoryValid) {
-            ErrorResponseException errorResponse = new ErrorResponseException("Catégorie invalide");
-            return ResponseEntity.badRequest().body(errorResponse);
+            throw new InvalidCategoryException();
         }
 
-        return ResponseEntity.ok(recipeService.createRecipe(recipe));
+        return recipeService.createRecipe(recipe);
     }
 
     @PutMapping("/{id}")
     Recipe updateRecipe(@PathVariable Long id, @Valid @RequestBody Recipe recipe) {
-        return recipeService.updateRecipe(id ,recipe);
+        return recipeService.updateRecipe(id, recipe);
     }
 
     @DeleteMapping("/")
