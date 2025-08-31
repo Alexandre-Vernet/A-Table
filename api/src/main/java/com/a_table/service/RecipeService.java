@@ -6,11 +6,14 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.Cast;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RecipeService {
 
     @Resource
@@ -18,6 +21,8 @@ public class RecipeService {
 
     @Resource
     RecipeRepository recipeRepository;
+
+    private final ModelMapper modelMapper;  // Injected directly (no need for Cast)
 
 
     public List<Recipe> getRecipes() {
@@ -27,6 +32,13 @@ public class RecipeService {
     public Recipe createRecipe(Recipe recipe) {
         RecipeEntity createdRecipe = recipeRepository.save(cast.convertTo(recipe, RecipeEntity.class));
         return cast.convertTo(createdRecipe, Recipe.class);
+    }
+
+    public Recipe updateRecipe(Long id, Recipe recipe) {
+        RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(() -> new ErrorResponseException("Recette non trouvée avec l'ID : " + id));
+        modelMapper.map(recipe, existingRecipe);
+        RecipeEntity updatedRecipe = recipeRepository.save(cast.convertTo(existingRecipe, RecipeEntity.class));
+        return modelMapper.map(updatedRecipe, Recipe.class);
     }
 
     public void deleteRecipe(Long recipeId) {
