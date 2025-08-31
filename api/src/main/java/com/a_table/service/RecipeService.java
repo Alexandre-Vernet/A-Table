@@ -1,6 +1,7 @@
 package com.a_table.service;
 
 import com.a_table.dto.Recipe;
+import com.a_table.exception.ErrorResponseException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.Cast;
@@ -26,5 +27,10 @@ public class RecipeService {
     public Recipe createRecipe(Recipe recipe) {
         RecipeEntity createdRecipe = recipeRepository.save(cast.convertTo(recipe, RecipeEntity.class));
         return cast.convertTo(createdRecipe, Recipe.class);
+    }
+
+    public void deleteRecipe(Long recipeId) {
+        RecipeEntity recipeEntity = recipeRepository.findById(recipeId).orElseThrow(() -> new ErrorResponseException("Recette non trouvée avec l'ID : " + recipeId));
+        recipeRepository.delete(recipeEntity);
     }
 }

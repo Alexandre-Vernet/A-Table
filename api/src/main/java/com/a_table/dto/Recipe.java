@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class Recipe {
 
-    private Integer id;
+    private Long id;
 
     @NotNull(message = "Le nom est obligatoire")
     private String name;
