@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -45,8 +44,8 @@ public class RecipeController {
         return recipeService.updateRecipe(id, recipe);
     }
 
-    @DeleteMapping("/")
-    void deleteRecipe(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    void deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
     }
 }
