@@ -29,6 +29,11 @@ public class RecipeController {
         return recipeService.getRecipes();
     }
 
+    @GetMapping("/{id}")
+    Recipe getExercises(@PathVariable Long id) {
+        return recipeService.getRecipe(id);
+    }
+
     @PostMapping("/")
     Recipe createRecipe(@Valid @RequestBody Recipe recipe) {
         boolean categoryValid = Category.categoryValid(recipe.getCategory());

@@ -4,7 +4,7 @@ import { Recipe } from '../dto/Recipe';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RecipeService {
 
@@ -16,6 +16,10 @@ export class RecipeService {
     }
 
     getRecipes() {
-        return this.http.get<Recipe[]>(this.recipeUrl);
+        return this.http.get<Recipe[]>(`${ this.recipeUrl }/`);
+    }
+
+    getRecipe(id: number) {
+        return this.http.get<Recipe>(`${ this.recipeUrl }/${ id }`);
     }
 }

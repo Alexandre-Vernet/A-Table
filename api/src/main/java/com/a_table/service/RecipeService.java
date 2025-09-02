@@ -3,10 +3,13 @@ package com.a_table.service;
 import com.a_table.dto.Recipe;
 import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
+import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -21,6 +24,12 @@ public class RecipeService {
 
     public List<Recipe> getRecipes() {
         return mappingService.convertListTo(recipeRepository.findAll(), Recipe.class);
+    }
+
+    public Recipe getRecipe(Long id) {
+        RecipeEntity recipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
+        recipe.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
+        return mappingService.map(recipe, Recipe.class);
     }
 
     public Recipe createRecipe(Recipe recipe) {

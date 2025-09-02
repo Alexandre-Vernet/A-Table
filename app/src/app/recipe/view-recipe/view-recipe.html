@@ -1,0 +1,58 @@
+<img class="recipe-image" src="recipe.jpeg" alt="recipe">
+
+@if (recipe) {
+    <p-badge [value]="recipe.category | titlecase" size="xlarge" severity="info"/>
+    <h1 class="text-primary">{{ recipe.name }}</h1>
+    <div class="text-lg flex justify-center align-items-center gap-2">
+        <div>
+            <i class="pi pi-stopwatch text-primary text-xl"></i>
+        </div>
+        <div>
+            <div>
+                <span>Temps de préparation : </span>
+                <span>{{ recipe.preparationTime }} mn</span>
+            </div>
+            <div>
+                <span>Temps de cuisson : </span>
+                <span>{{ recipe.cookingTime }} mn</span>
+            </div>
+        </div>
+    </div>
+
+
+    <p-tabs value="0" class="mt-4">
+        <p-tablist>
+            <p-tab value="0">Ingrédients</p-tab>
+            <p-tab value="1">Préparation</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+            <p-tabpanel value="0">
+                <ul class="m-0 p-0 list-none">
+                    @for (ingredient of recipe.ingredients; track ingredient.id) {
+                        <li class="mb-4">
+                            <div class="mb-2 flex items-center">
+                                <span>{{ ingredient.ingredient | titlecase }}</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <span class="text-primary">{{ ingredient.quantity }}</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+                <ul class="m-0 p-0 list-none">
+                    @for (step of recipe.steps; track step.id) {
+                        <li class="mb-4">
+                            <div class="mb-2 flex items-center gap-3">
+                                <span
+                                    class="step-number text-lg flex justify-content-center align-items-center align-self-center">{{ step.stepNumber }}</span>
+                                <span class="text-justify">{{ step.description }}</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+}
