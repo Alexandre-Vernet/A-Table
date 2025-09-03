@@ -30,7 +30,6 @@ public class Recipe {
     private Short preparationTime;
 
 
-    @NotNull(message = "Le temps de cuisson est obligatoire")
     @Positive(message = "Le temps de cuisson doit être supérieur à 0")
     private Short cookingTime;
 

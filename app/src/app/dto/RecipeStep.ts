@@ -1,5 +1,5 @@
 export interface RecipeStep {
-    id: number;
+    id?: number;
     stepNumber: number;
     description: string;
 }

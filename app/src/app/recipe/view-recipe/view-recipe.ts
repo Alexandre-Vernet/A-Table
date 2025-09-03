@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RecipeService } from '../recipe.service';
+import { RecipeService } from '../../services/recipe.service';
 import { switchMap } from 'rxjs';
 import { Recipe } from '../../dto/Recipe';
 import { TitleCasePipe } from '@angular/common';
-import { Badge } from 'primeng/badge';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 
@@ -12,7 +11,6 @@ import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
     selector: 'app-view-recipe',
     imports: [
         TitleCasePipe,
-        Badge,
         Tabs,
         TabList,
         Tab,

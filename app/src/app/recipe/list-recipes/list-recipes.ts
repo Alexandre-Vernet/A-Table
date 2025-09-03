@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from '../recipe.service';
+import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../dto/Recipe';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from "@angular/common";
