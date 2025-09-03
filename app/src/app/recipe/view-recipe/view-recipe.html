@@ -2,11 +2,15 @@
 
 @if (recipe) {
     <div class="ml-3">
-        <p-badge [value]="recipe.category | titlecase" size="xlarge" severity="info" class="mt-2 mb-3"/>
-        <h1 class="text-primary">{{ recipe.name }}</h1>
-        <div class="text-lg flex justify-center align-items-center gap-2">
+        <h1 class="text-primary text-center">{{ recipe.name }}</h1>
+
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <i class="pi pi-clock text-primary text-lg"></i>
+            <span>{{ recipe.category | titlecase }}</span>
+        </div>
+        <div class="flex justify-center align-items-center gap-2 mt-4">
             <div>
-                <i class="pi pi-stopwatch text-primary text-xl"></i>
+                <i class="pi pi-hourglass text-primary text-lg"></i>
             </div>
             <div>
                 <div>
@@ -19,6 +23,17 @@
                 </div>
             </div>
         </div>
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <i class="pi pi-user text-primary text-lg"></i>
+            {{ recipe.nbPerson }} personnes
+        </div>
+
+        @if (recipe.note) {
+            <div class="flex justify-center align-items-center gap-2 mt-4">
+                <i class="pi pi-pencil text-primary text-lg"></i>
+                {{ recipe.note }}
+            </div>
+        }
 
 
         <p-tabs value="0" class="mt-4">
