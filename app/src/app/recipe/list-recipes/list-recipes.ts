@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from '../../dto/Recipe';
-import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { TitleCasePipe } from "@angular/common";
+import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 
 @Component({
     selector: 'app-list-recipes',
     templateUrl: './list-recipes.html',
     styleUrl: './list-recipes.scss',
     imports: [
-        Button,
-        RouterLink
+        RouterLink,
+        TitleCasePipe,
+        TimeConvertPipe
     ],
     standalone: true
 })

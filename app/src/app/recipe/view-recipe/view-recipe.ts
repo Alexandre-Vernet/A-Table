@@ -6,6 +6,7 @@ import { Recipe } from '../../dto/Recipe';
 import { TitleCasePipe } from '@angular/common';
 import { Badge } from 'primeng/badge';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 
 @Component({
     selector: 'app-view-recipe',
@@ -16,7 +17,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
         TabList,
         Tab,
         TabPanels,
-        TabPanel
+        TabPanel,
+        TimeConvertPipe
     ],
     templateUrl: './view-recipe.html',
     styleUrl: './view-recipe.scss',
