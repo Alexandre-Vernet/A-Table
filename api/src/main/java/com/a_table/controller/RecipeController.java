@@ -6,6 +6,7 @@ import com.a_table.exception.InvalidCategoryException;
 import com.a_table.service.RecipeService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/")
+    @Transactional(readOnly = true) // <-- Garde la session ouverte
     List<Recipe> getRecipes() {
         return recipeService.getRecipes();
     }
