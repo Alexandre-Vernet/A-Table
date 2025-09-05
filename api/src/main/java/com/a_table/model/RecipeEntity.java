@@ -26,7 +26,7 @@ public class RecipeEntity {
 
     private String name;
 
-    private Integer nbPerson;
+    private Short nbPerson;
 
     private String category;
 
