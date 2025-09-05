@@ -12,6 +12,8 @@ public class ModelMapperConfig {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setSkipNullEnabled(true)
+                .setCollectionsMergeEnabled(true)
+                .setAmbiguityIgnored(true)
                 .setPropertyCondition(context -> context.getSource() != null);
         return mapper;
     }
