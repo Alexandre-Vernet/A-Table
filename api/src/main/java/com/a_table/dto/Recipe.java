@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,8 +37,8 @@ public class Recipe {
     private String note;
 
     @JsonManagedReference
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     @JsonManagedReference
-    private List<RecipeStep> steps;
+    private List<RecipeStep> steps = new ArrayList<>();
 }
