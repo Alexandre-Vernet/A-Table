@@ -25,12 +25,12 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/")
-    List<Recipe> getExercises() {
+    List<Recipe> getRecipes() {
         return recipeService.getRecipes();
     }
 
     @GetMapping("/{id}")
-    Recipe getExercises(@PathVariable Long id) {
+    Recipe getRecipe(@PathVariable Long id) {
         return recipeService.getRecipe(id);
     }
 

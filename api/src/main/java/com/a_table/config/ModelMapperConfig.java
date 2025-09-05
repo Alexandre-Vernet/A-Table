@@ -13,6 +13,7 @@ public class ModelMapperConfig {
         mapper.getConfiguration()
                 .setSkipNullEnabled(true)
                 .setPropertyCondition(context -> context.getSource() != null);
+
         return mapper;
     }
 }
