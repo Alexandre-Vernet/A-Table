@@ -1,0 +1,75 @@
+<img class="recipe-image" src="recipe.jpeg" alt="recipe">
+
+@if (recipe) {
+    <div class="ml-3">
+        <h1 class="text-primary text-center">{{ recipe.name }}</h1>
+
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <i class="pi pi-clock text-primary text-lg"></i>
+            <span>{{ recipe.category | titlecase }}</span>
+        </div>
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <div>
+                <i class="pi pi-hourglass text-primary text-lg"></i>
+            </div>
+            <div>
+                <div>
+                    <span>Temps de préparation : </span>
+                    <span>{{ recipe.preparationTime | timeConvert }}</span>
+                </div>
+                <div>
+                    <span>Temps de cuisson : </span>
+                    <span>{{ recipe.cookingTime | timeConvert }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <i class="pi pi-user text-primary text-lg"></i>
+            {{ recipe.nbPerson }} personnes
+        </div>
+
+        @if (recipe.note) {
+            <div class="flex justify-center align-items-center gap-2 mt-4">
+                <i class="pi pi-pencil text-primary text-lg"></i>
+                {{ recipe.note }}
+            </div>
+        }
+
+
+        <p-tabs value="0" class="mt-4">
+            <p-tablist>
+                <p-tab value="0">Ingrédients</p-tab>
+                <p-tab value="1">Préparation</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+                <p-tabpanel value="0">
+                    <ul class="m-0 p-0 list-none">
+                        @for (ingredient of recipe.ingredients; track ingredient.id) {
+                            <li class="mb-4">
+                                <div class="mb-2 flex items-center">
+                                    <span>{{ ingredient.ingredient | titlecase }}</span>
+                                </div>
+                                <div class="mb-2 flex items-center">
+                                    <span class="text-primary">{{ ingredient.quantity }}</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </p-tabpanel>
+                <p-tabpanel value="1">
+                    <ul class="m-0 p-0 list-none">
+                        @for (step of recipe.steps; track step.id) {
+                            <li class="mb-4">
+                                <div class="mb-2 flex items-center gap-3">
+                                <span
+                                        class="step-number text-lg flex justify-content-center align-items-center align-self-center">{{ step.stepNumber }}</span>
+                                    <span class="text-justify">{{ step.description }}</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </p-tabpanel>
+            </p-tabpanels>
+        </p-tabs>
+    </div>
+}

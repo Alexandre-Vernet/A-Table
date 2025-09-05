@@ -25,6 +25,7 @@ services:
       - spring.jpa.open-in-view=
       - server.port=80
       - server.address=0.0.0.0
+      - server.error.include-stacktrace=never
 
     networks:
       - a-table-network

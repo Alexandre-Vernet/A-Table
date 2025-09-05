@@ -1,0 +1,37 @@
+package com.a_table.exception;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(RecipeNotFoundException.class)
+    public ResponseEntity<?> handleRecipeNotFoundException(RecipeNotFoundException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value()),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(InvalidCategoryException.class)
+    public ResponseEntity<?> handleBadCategory(InvalidCategoryException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ErrorResponse {
+        private String message;
+        private int status;
+    }
+}
