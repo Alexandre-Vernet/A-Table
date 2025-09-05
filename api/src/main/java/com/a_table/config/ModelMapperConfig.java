@@ -1,5 +1,6 @@
 package com.a_table.config;
 
+import org.hibernate.proxy.HibernateProxy;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ public class ModelMapperConfig {
                 .setSkipNullEnabled(true)
                 .setCollectionsMergeEnabled(true)
                 .setAmbiguityIgnored(true)
-                .setPropertyCondition(context -> context.getSource() != null);
+                .setPropertyCondition(context ->  !(context.getSource() instanceof HibernateProxy) && context.getSource() != null);
         return mapper;
     }
 }
