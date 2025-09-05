@@ -8,6 +8,7 @@ import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +27,7 @@ public class RecipeService {
         return mappingService.convertListTo(recipeRepository.findAll(), Recipe.class);
     }
 
+    @Transactional(readOnly = true)
     public Recipe getRecipe(Long id) {
         RecipeEntity recipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
         recipe.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
