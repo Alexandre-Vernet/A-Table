@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
+@Transactional
 public class RecipeService {
 
     @Resource
@@ -27,7 +28,6 @@ public class RecipeService {
         return mappingService.convertListTo(recipeRepository.findAll(), Recipe.class);
     }
 
-    @Transactional(readOnly = true)
     public Recipe getRecipe(Long id) {
         RecipeEntity recipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
         recipe.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
