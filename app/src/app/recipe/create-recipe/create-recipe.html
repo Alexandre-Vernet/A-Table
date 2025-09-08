@@ -59,7 +59,8 @@
 
             <div class="flex flex-row gap-2">
                 <p-floatlabel variant="on" class="flex-1">
-                    <p-inputNumber class="w-full" id="preparationTime" formControlName="preparationTime" autocomplete="off" [min]="1"
+                    <p-inputNumber class="w-full" id="preparationTime" formControlName="preparationTime"
+                                   autocomplete="off" [min]="1"
                                    placeholder="15 mn" suffix=" mn"/>
                     <label for="preparationTime">Temps de préparation</label>
                     @if (formCreateRecipe.controls.preparationTime.touched) {
@@ -75,7 +76,8 @@
                 </p-floatlabel>
 
                 <p-floatlabel variant="on" class="flex-1">
-                    <p-inputNumber class="w-full" id="cookingTime" formControlName="cookingTime" autocomplete="off" [min]="0"
+                    <p-inputNumber class="w-full" id="cookingTime" formControlName="cookingTime" autocomplete="off"
+                                   [min]="0"
                                    placeholder="45mn" suffix=" mn"/>
                     <label for="cookingTime">Temps de cuisson</label>
                     @if (formCreateRecipe.controls.cookingTime.touched) {
@@ -90,6 +92,14 @@
                     }
                 </p-floatlabel>
             </div>
+
+            <div class="flex flex-row gap-2">
+                <p-fileupload #fu mode="basic" chooseLabel="Importer une image" chooseIcon="pi pi-upload" name="demo[]"
+                              url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="4000000"
+                              [auto]="true"
+                              (onUpload)="onUpload($event)"/>
+            </div>
+
             <p-floatlabel variant="on">
                 <textarea id="note" formControlName="note" pTextarea rows="5" cols="30" style="resize: none"></textarea>
                 <label for="note">Note facultative</label>

@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from "@angular/common";
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 import { SearchRecipe } from "../search-recipe/search-recipe";
+import { Button } from "primeng/button";
 
 @Component({
     selector: 'app-list-recipes',
@@ -14,7 +15,8 @@ import { SearchRecipe } from "../search-recipe/search-recipe";
         RouterLink,
         TitleCasePipe,
         TimeConvertPipe,
-        SearchRecipe
+        SearchRecipe,
+        Button
     ],
     standalone: true
 })

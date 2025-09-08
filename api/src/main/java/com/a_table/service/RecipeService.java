@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,11 +26,20 @@ public class RecipeService {
 
 
     public List<Recipe> getRecipes() {
-        return mappingService.convertListTo(recipeRepository.findAll(), Recipe.class);
+        List<RecipeEntity> entities = recipeRepository.findAll();
+        entities.forEach(r -> {
+            if (r.getImage() != null && r.getImage().length > 0) {
+                r.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getImage()));
+            }
+        });
+        return mappingService.convertListTo(entities, Recipe.class);
     }
 
     public Recipe getRecipe(Long id) {
         RecipeEntity recipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
+        if (recipe.getImage() != null && recipe.getImage().length > 0) {
+            recipe.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage()));
+        }
         recipe.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
         return mappingService.map(recipe, Recipe.class);
     }

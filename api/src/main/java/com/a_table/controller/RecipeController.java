@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,12 @@ public class RecipeController {
         boolean categoryValid = Category.categoryValid(recipe.getCategory());
         if (!categoryValid) {
             throw new InvalidCategoryException();
+        }
+
+        if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
+            String base64Image = recipe.getImage().split(",")[1];
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+            recipe.setImageBytes(imageBytes);
         }
 
         return recipeService.createRecipe(recipe);

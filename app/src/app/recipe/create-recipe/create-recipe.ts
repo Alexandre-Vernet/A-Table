@@ -12,6 +12,7 @@ import { Message } from 'primeng/message';
 import { Recipe } from '../../dto/Recipe';
 import { Ingredient } from '../../dto/Ingredient';
 import { AlertService } from '../../services/alert.service';
+import { FileUpload, FileUploadEvent } from "primeng/fileupload";
 
 @Component({
     selector: 'app-create-recipe',
@@ -23,7 +24,8 @@ import { AlertService } from '../../services/alert.service';
         InputNumber,
         Select,
         Button,
-        Message
+        Message,
+        FileUpload
     ],
     templateUrl: './create-recipe.html',
     styleUrl: './create-recipe.scss'
@@ -49,16 +51,17 @@ export class CreateRecipe {
         "Verser le lait progressivement tout en rajoutant l'autre moitié de la farine petit à petit";
 
     formCreateRecipe = new FormGroup({
-        name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
+        name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
         nbPerson: new FormControl(4, [Validators.required, Validators.min(1), Validators.max(50)]),
         category: new FormControl(<{ name: string, code: string }>this.categories[1], [Validators.required]),
         preparationTime: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(999)]),
         cookingTime: new FormControl(null, [Validators.min(0), Validators.max(999)]),
-        note: new FormControl('', [Validators.minLength(5), Validators.maxLength(200)]),
+        image: new FormControl(null),
+        note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),
         ingredients: new FormArray([
             this.createIngredientsFormGroup(),
         ]),
-        steps: new FormControl('', [Validators.required, Validators.minLength(5), Validators.max(50)]),
+        steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
     });
 
     get ingredientsControls() {
@@ -71,6 +74,15 @@ export class CreateRecipe {
     ) {
     }
 
+    onUpload(event: FileUploadEvent) {
+        const file: File = event.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => this.formCreateRecipe.controls.image.setValue(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    }
+
     submitCreateRecipe() {
         const {
             name,
@@ -78,6 +90,7 @@ export class CreateRecipe {
             nbPerson,
             preparationTime,
             cookingTime,
+            image,
             note,
             ingredients,
             steps
@@ -85,7 +98,7 @@ export class CreateRecipe {
 
         const ingredientConvert: Ingredient[] = [];
         ingredients
-            .filter(i => i.ingredient !== '' && i.quantity !== '')
+            .filter(i => !!i.ingredient && !!i.quantity)
             .forEach(i => {
                 const newIngredient: Ingredient = {
                     ingredient: i.ingredient,
@@ -114,6 +127,7 @@ export class CreateRecipe {
             nbPerson,
             preparationTime,
             cookingTime,
+            image,
             note,
             ingredients: ingredientConvert,
             steps: recipeSteps
@@ -146,8 +160,8 @@ export class CreateRecipe {
 
     private createIngredientsFormGroup() {
         return new FormGroup({
-            ingredient: new FormControl(''),
-            quantity: new FormControl(''),
+            ingredient: new FormControl(null),
+            quantity: new FormControl(null),
         });
     }
 }

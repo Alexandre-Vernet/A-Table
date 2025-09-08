@@ -8,6 +8,7 @@ export interface Recipe {
     category: string;
     preparationTime: number;
     cookingTime: number;
+    image?: string;
     note?: string;
     ingredients: Ingredient[];
     steps: RecipeStep[];
