@@ -1,6 +1,7 @@
 package com.a_table.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -33,6 +34,12 @@ public class Recipe {
 
     @Positive(message = "Le temps de cuisson doit être supérieur à 0")
     private Short cookingTime;
+
+    private String image;
+
+    @Transient
+    private byte[] imageBytes; // Champ temporaire pour les bytes
+
 
     private String note;
 
