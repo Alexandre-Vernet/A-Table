@@ -26,4 +26,8 @@ export class RecipeService {
     createRecipe(recipe: Recipe) {
         return this.http.post<Recipe>(`${ this.recipeUrl }/`, recipe);
     }
+
+    searchRecipe(term: string) {
+        return this.http.get<Recipe[]>(`${ this.recipeUrl }/search/${ term }`);
+    }
 }

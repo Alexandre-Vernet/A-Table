@@ -4,6 +4,7 @@ import { Recipe } from '../../dto/Recipe';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from "@angular/common";
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
+import { SearchRecipe } from "../search-recipe/search-recipe";
 
 @Component({
     selector: 'app-list-recipes',
@@ -12,13 +13,15 @@ import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
     imports: [
         RouterLink,
         TitleCasePipe,
-        TimeConvertPipe
+        TimeConvertPipe,
+        SearchRecipe
     ],
     standalone: true
 })
 export class ListRecipes implements OnInit {
 
     recipes: Recipe[] = [];
+    filterRecipes: Recipe[] = [];
 
     constructor(
         private readonly recipeService: RecipeService
@@ -30,8 +33,16 @@ export class ListRecipes implements OnInit {
             .subscribe({
                 next: (recipes) => {
                     this.recipes = recipes;
+                    this.filterRecipes = recipes;
                 }
             })
     }
 
+    searchRecipes(filterRecipes: Recipe[]) {
+        this.filterRecipes = filterRecipes;
+    }
+
+    resetFilter() {
+        this.filterRecipes = this.recipes;
+    }
 }

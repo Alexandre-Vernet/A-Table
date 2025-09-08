@@ -53,4 +53,9 @@ public class RecipeService {
         RecipeEntity recipeEntity = recipeRepository.findById(recipeId).orElseThrow(RecipeNotFoundException::new);
         recipeRepository.delete(recipeEntity);
     }
+
+    public List<Recipe> getRecipesSearch(String search) {
+        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearch(search);
+        return mappingService.convertListTo(recipeEntityList, Recipe.class);
+    }
 }
