@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,9 @@ public class RecipeEntity {
     private String note;
 
     private byte[] image;
+
+    @Transient
+    private String imageBase64;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<IngredientEntity> ingredients = new ArrayList<>();

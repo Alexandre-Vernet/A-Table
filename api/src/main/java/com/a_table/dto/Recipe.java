@@ -38,7 +38,7 @@ public class Recipe {
     private String image;
 
     @Transient
-    private byte[] imageBytes; // Champ temporaire pour les bytes
+    private byte[] imageBytes;
 
 
     private String note;
