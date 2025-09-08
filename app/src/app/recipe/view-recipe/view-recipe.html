@@ -34,6 +34,9 @@
                 {{ recipe.note }}
             </div>
         }
+        <div class="flex justify-center align-items-center gap-2 mt-4">
+            <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
+        </div>
 
 
         <p-tabs value="0" class="mt-4">
@@ -73,3 +76,6 @@
         </p-tabs>
     </div>
 }
+
+
+<p-confirmdialog />
