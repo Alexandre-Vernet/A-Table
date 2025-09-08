@@ -6,6 +6,7 @@ import { Recipe } from '../../dto/Recipe';
 import { TitleCasePipe } from '@angular/common';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
+import { AlertService } from "../../services/alert.service";
 
 @Component({
     selector: 'app-view-recipe',
@@ -28,20 +29,20 @@ export class ViewRecipe implements OnInit {
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly recipeService: RecipeService
+        private readonly recipeService: RecipeService,
+        private readonly alertService: AlertService
     ) {
     }
 
     ngOnInit() {
         this.route.params
-            .pipe(
-                switchMap((p: { id: number }) => this.recipeService.getRecipe(p.id))
-            )
+            .pipe(switchMap((p: { id: number }) => this.recipeService.getRecipe(p.id)))
             .subscribe({
                 next: (recipe => this.recipe = recipe),
-                error: (err => {
-                    console.log(err)
-                })
+                error: (err => this.alertService.alert$.next({
+                    severity: 'error',
+                    message: err?.error?.message ?? 'Impossible de supprimer cette recette'
+                }))
             });
     }
 }
