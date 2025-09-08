@@ -29,6 +29,11 @@ public class RecipeController {
         return recipeService.getRecipes();
     }
 
+    @GetMapping("/search/{search}")
+    List<Recipe> getRecipesSearch(@PathVariable String search) {
+        return recipeService.getRecipesSearch(search);
+    }
+
     @GetMapping("/{id}")
     Recipe getRecipe(@PathVariable Long id) {
         return recipeService.getRecipe(id);

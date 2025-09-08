@@ -1,0 +1,6 @@
+<div class="search mt-2">
+    <p-floatlabel variant="in">
+        <input #inputSearch pInputText id="in_label" autocomplete="off" [(ngModel)]="search" (ngModelChange)="onSearchChange()" (keydown.escape)="clearSearch()"/>
+        <label for="in_label">Rechercher</label>
+    </p-floatlabel>
+</div>
