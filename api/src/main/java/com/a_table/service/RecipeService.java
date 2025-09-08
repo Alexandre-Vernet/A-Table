@@ -66,6 +66,11 @@ public class RecipeService {
 
     public List<Recipe> getRecipesSearch(String search) {
         List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearch(search);
+        recipeEntityList.forEach(r -> {
+            if (r.getImage() != null && r.getImage().length > 0) {
+                r.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getImage()));
+            }
+        });
         return mappingService.convertListTo(recipeEntityList, Recipe.class);
     }
 }
