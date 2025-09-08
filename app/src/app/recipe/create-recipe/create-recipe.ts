@@ -13,6 +13,7 @@ import { Recipe } from '../../dto/Recipe';
 import { Ingredient } from '../../dto/Ingredient';
 import { AlertService } from '../../services/alert.service';
 import { FileUpload, FileUploadEvent } from "primeng/fileupload";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-create-recipe',
@@ -70,7 +71,8 @@ export class CreateRecipe {
 
     constructor(
         private readonly recipeService: RecipeService,
-        private alertService: AlertService
+        private readonly alertService: AlertService,
+        private readonly router: Router
     ) {
     }
 
@@ -135,7 +137,10 @@ export class CreateRecipe {
 
         this.recipeService.createRecipe(recipe)
             .subscribe({
-                next: () => this.alertService.alert$.next({severity: 'success', message: 'Votre recette a bien été créée'}),
+                next: (recipe) => {
+                    this.router.navigate(['/', 'view-recipe', recipe.id]);
+                    this.alertService.alert$.next({ severity: 'success', message: 'Votre recette a bien été créée' });
+                },
                 error: (err) => this.alertService.alert$.next({severity: 'success', message:  err?.error?.message ?? 'Erreur lors de la création de votre recette'}),
             });
     }
