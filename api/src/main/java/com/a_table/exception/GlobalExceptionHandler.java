@@ -27,6 +27,14 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<?> handleBadCategory(UserAlreadyExistException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor
