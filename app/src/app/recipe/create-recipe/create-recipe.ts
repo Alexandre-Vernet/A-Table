@@ -138,7 +138,7 @@ export class CreateRecipe {
         this.recipeService.createRecipe(recipe)
             .subscribe({
                 next: (recipe) => {
-                    this.router.navigate(['/', 'view-recipe', recipe.id]);
+                    this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
                     this.alertService.alert$.next({ severity: 'success', message: 'Votre recette a bien été créée' });
                 },
                 error: (err) => this.alertService.alert$.next({severity: 'success', message:  err?.error?.message ?? 'Erreur lors de la création de votre recette'}),
