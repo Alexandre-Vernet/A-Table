@@ -10,6 +10,8 @@ import { AlertService } from "../../services/alert.service";
 import { Button } from "primeng/button";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
+import { UserService } from '../../auth/user.service';
+import { User } from '../../dto/User';
 
 @Component({
     selector: 'app-view-recipe',
@@ -33,25 +35,35 @@ export class ViewRecipe implements OnInit {
 
     recipe: Recipe;
 
+    user: User;
+
     constructor(
         private readonly route: ActivatedRoute,
         private readonly router: Router,
         private readonly recipeService: RecipeService,
         private readonly alertService: AlertService,
-        private readonly confirmationService: ConfirmationService
+        private readonly confirmationService: ConfirmationService,
+        private readonly userService: UserService
     ) {
     }
 
     ngOnInit() {
         this.route.params
-            .pipe(switchMap((p: { id: number }) => this.recipeService.getRecipe(p.id)))
+            .pipe(switchMap((param: { id: number }) => this.recipeService.getRecipe(param.id)))
             .subscribe({
                 next: (recipe => this.recipe = recipe),
-                error: (err => this.alertService.alert$.next({
-                    severity: 'error',
-                    message: err?.error?.message ?? 'Impossible de supprimer cette recette'
-                }))
+                error: (err => {
+                    this.alertService.alert$.next({
+                        severity: 'error',
+                        message: err?.error?.message ?? 'Impossible d\'accéder à cette recette'
+                    });
+
+                    this.router.navigate(['/']);
+                })
             });
+
+        this.userService.signInWithAccessToken()
+            .subscribe(user => this.user = user)
     }
 
     showDialogDeleteRecipe(recipe: Recipe) {

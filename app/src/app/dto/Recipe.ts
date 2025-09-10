@@ -1,5 +1,6 @@
 import { Ingredient } from './Ingredient';
 import { RecipeStep } from './RecipeStep';
+import { User } from './User';
 
 export interface Recipe {
     id?: number;
@@ -12,4 +13,5 @@ export interface Recipe {
     note?: string;
     ingredients: Ingredient[];
     steps: RecipeStep[];
+    user?: User;
 }

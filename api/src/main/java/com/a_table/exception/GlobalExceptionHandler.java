@@ -35,6 +35,14 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(RecipeCantBeDeleted.class)
+    public ResponseEntity<?> handleBadCategory(RecipeCantBeDeleted ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor

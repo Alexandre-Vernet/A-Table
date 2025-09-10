@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserService {
 
@@ -20,8 +20,11 @@ export class UserService {
     }
 
     signInWithAccessToken() {
-        return this.http.get<User>(`${ this.userUrl }/me`)
-            .pipe(tap(user => this.userSubject.next(user)));
+        if (localStorage.getItem("token")) {
+            return this.http.get<User>(`${ this.userUrl }/me`)
+                .pipe(tap(user => this.userSubject.next(user)));
+        }
+        return of(null);
     }
 
     updateUser(user: User) {

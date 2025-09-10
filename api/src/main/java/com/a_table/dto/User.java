@@ -12,19 +12,19 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
+@Builder()
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     Long id;
     String email;
 
-    @JsonBackReference
+    @JsonBackReference(value = "password")
     String password;
 
     String firstName;
     String lastName;
 
-    @JsonBackReference
+    @JsonBackReference(value = "recipes")
     List<Recipe> recipes = new ArrayList<>();
 }

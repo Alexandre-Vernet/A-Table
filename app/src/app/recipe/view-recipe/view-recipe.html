@@ -34,9 +34,12 @@
                 {{ recipe.note }}
             </div>
         }
-        <div class="flex justify-center align-items-center gap-2 mt-4">
-            <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
-        </div>
+
+        @if (user?.id === recipe.user.id) {
+            <div class="flex justify-center align-items-center gap-2 mt-4">
+                <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
+            </div>
+        }
 
 
         <p-tabs value="0" class="mt-4">
@@ -65,7 +68,7 @@
                             <li class="mb-4">
                                 <div class="mb-2 flex items-center gap-3">
                                 <span
-                                        class="step-number text-lg flex justify-content-center align-items-center align-self-center">{{ step.stepNumber }}</span>
+                                    class="step-number text-lg flex justify-content-center align-items-center align-self-center">{{ step.stepNumber }}</span>
                                     <span class="text-justify">{{ step.description }}</span>
                                 </div>
                             </li>
@@ -78,4 +81,4 @@
 }
 
 
-<p-confirmdialog />
+<p-confirmdialog/>

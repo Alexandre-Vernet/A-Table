@@ -19,7 +19,6 @@ export class AlertComponent implements OnInit {
     ) {
     }
 
-
     ngOnInit() {
         this.alertService.alert$
             .subscribe(alert => {

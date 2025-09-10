@@ -1,8 +1,6 @@
 package com.a_table.controller;
 
-import com.a_table.dto.Category;
 import com.a_table.dto.Recipe;
-import com.a_table.exception.InvalidCategoryException;
 import com.a_table.service.RecipeService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -42,17 +39,6 @@ public class RecipeController {
 
     @PostMapping("/")
     Recipe createRecipe(@Valid @RequestBody Recipe recipe) {
-        boolean categoryValid = Category.categoryValid(recipe.getCategory());
-        if (!categoryValid) {
-            throw new InvalidCategoryException();
-        }
-
-        if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
-            String base64Image = recipe.getImage().split(",")[1];
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            recipe.setImageBytes(imageBytes);
-        }
-
         return recipeService.createRecipe(recipe);
     }
 
