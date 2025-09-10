@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { Button } from 'primeng/button';
@@ -9,6 +8,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { Message } from 'primeng/message';
 import { Password } from 'primeng/password';
 import { User } from '../../dto/User';
+import { UserService } from '../user.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -37,9 +37,9 @@ export class ResetPasswordComponent implements OnInit {
     isLoading = false;
 
     constructor(
-        private readonly authService: AuthService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
+        private readonly userService: UserService,
+        private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute
     ) {
     }
 
@@ -49,7 +49,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     private verifyToken(token: string) {
-        this.authService.verifyToken(token)
+        this.userService.verifyToken(token)
             .subscribe({
                 next: (user) => this.user = user,
                 error: () => {
@@ -60,7 +60,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     redirectToSignIn() {
-        this.router.navigate(['/auth/sign-in']);
+        this.router.navigate(['/auth/login']);
     }
 
     submitForm() {
@@ -80,7 +80,7 @@ export class ResetPasswordComponent implements OnInit {
         const userId = this.user.id;
         const password = this.formResetPassword.controls.newPassword.value;
 
-        this.authService.updatePassword(userId, password)
+        this.userService.updatePassword(userId, password)
             .subscribe({
                 next: () => {
                     this.formResetPassword.reset();

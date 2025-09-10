@@ -2,9 +2,10 @@ import { Routes } from '@angular/router';
 import { ListRecipes } from './recipe/list-recipes/list-recipes';
 import { ViewRecipe } from './recipe/view-recipe/view-recipe';
 import { CreateRecipe } from "./recipe/create-recipe/create-recipe";
-import { SignInComponent } from './auth/sign-in/sign-in.component';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,7 @@ export const routes: Routes = [
             {
                 path: 'create-recipe',
                 component: CreateRecipe,
+                canActivate: [authGuard]
             },
             {
                 path: '**',
@@ -32,12 +34,12 @@ export const routes: Routes = [
         path: 'auth',
         children: [
             {
-                path: 'sign-in',
-                component: SignInComponent
+                path: 'login',
+                component: LoginComponent
             },
             {
-                path: 'sign-up',
-                component: SignUpComponent
+                path: 'register',
+                component: RegisterComponent
             },
             {
                 path: 'reset-password',
@@ -45,7 +47,7 @@ export const routes: Routes = [
             },
             {
                 path: '**',
-                redirectTo: 'sign-in'
+                redirectTo: 'login'
             }
         ]
     },

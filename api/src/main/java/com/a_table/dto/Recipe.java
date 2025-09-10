@@ -48,4 +48,6 @@ public class Recipe {
 
     @JsonManagedReference
     private List<RecipeStep> steps = new ArrayList<>();
+
+    private User user;
 }

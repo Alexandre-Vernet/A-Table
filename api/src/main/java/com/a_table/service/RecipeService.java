@@ -1,6 +1,7 @@
 package com.a_table.service;
 
 import com.a_table.dto.Recipe;
+import com.a_table.dto.User;
 import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
@@ -24,6 +25,9 @@ public class RecipeService {
     @Resource
     MappingService mappingService;
 
+    @Resource
+    UserService userService;
+
 
     public List<Recipe> getRecipes() {
         List<RecipeEntity> entities = recipeRepository.findAll();
@@ -45,6 +49,9 @@ public class RecipeService {
     }
 
     public Recipe createRecipe(Recipe recipe) {
+        User user = userService.getCurrentUser();
+
+        recipe.setUser(user);
         recipe.getIngredients().forEach(i -> i.setRecipe(recipe));
         recipe.getSteps().forEach(i -> i.setRecipe(recipe));
 

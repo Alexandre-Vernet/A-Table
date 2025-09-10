@@ -3,36 +3,43 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
-// import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 // import { faChevronRight, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Message } from 'primeng/message';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { Alert } from '../../dto/Alert';
 import { User } from '../../dto/User';
 
 @Component({
-    selector: 'app-sign-up',
-    templateUrl: './sign-up.component.html',
+    selector: 'app-login',
+    templateUrl: './login.component.html',
     styleUrls: ['../auth.component.scss'],
     imports: [
         ReactiveFormsModule,
         RouterLink,
         NgIf,
         NgClass,
-        Message
+        Message,
+        ForgotPasswordComponent
     ]
 })
-export class SignUpComponent {
+export class LoginComponent {
 
     // faIcons = {
-    //     faUser: faUser,
-    //     faLock: faLock,
-    //     faChevronRight: faChevronRight
+    //     faUser,
+    //     faLock,
+    //     faChevronRight
     // };
 
-    formSignUp = new FormGroup({
+    formSignIn = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+        password: new FormControl('', [Validators.required])
     });
+
+
+    showDialogForgotPassword: boolean;
+
+    alert: Alert;
 
     constructor(
         private readonly authService: AuthService,
@@ -40,27 +47,21 @@ export class SignUpComponent {
     ) {
     }
 
-    signUp() {
+    signIn() {
         const {
             email,
-            password,
-            confirmPassword
-        } = this.formSignUp.value;
-
-        if (password !== confirmPassword) {
-            this.formSignUp.setErrors({ passwordNotMatch: 'Passwords does not match' });
-            return;
-        }
+            password
+        } = this.formSignIn.value;
 
         const user: User = {
             email,
-            password,
-            confirmPassword
+            password
         };
-        this.authService.signUp(user)
+
+        this.authService.login(user)
             .subscribe({
                 next: () => this.router.navigateByUrl('/'),
-                error: (err) => this.formSignUp.setErrors({ [err.error.errorCode]: err.error.message })
+                error: (err) => this.formSignIn.setErrors({ [err.error.errorCode]: err.error.message })
             });
     }
 }

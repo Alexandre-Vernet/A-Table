@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/recipe/").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/recipe/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
