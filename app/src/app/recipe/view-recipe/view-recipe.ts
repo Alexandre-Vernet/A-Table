@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { switchMap } from 'rxjs';
 import { Recipe } from '../../dto/Recipe';
@@ -10,7 +10,7 @@ import { AlertService } from "../../services/alert.service";
 import { Button } from "primeng/button";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
-import { UserService } from '../../auth/user.service';
+import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
 
 @Component({
@@ -24,7 +24,8 @@ import { User } from '../../dto/User';
         TabPanel,
         TimeConvertPipe,
         Button,
-        ConfirmDialog
+        ConfirmDialog,
+        RouterLink
     ],
     templateUrl: './view-recipe.html',
     styleUrl: './view-recipe.scss',

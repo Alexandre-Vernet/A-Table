@@ -1,3 +1,5 @@
+import { Recipe } from "./Recipe";
+
 export interface User {
   id?: number;
   email: string;
@@ -7,4 +9,5 @@ export interface User {
   confirmPassword?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  recipes?: Recipe[];
 }

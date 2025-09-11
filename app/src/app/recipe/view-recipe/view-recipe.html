@@ -28,6 +28,11 @@
             {{ recipe.nbPerson }} personnes
         </div>
 
+        <div [routerLink]="['/', 'user-profile', recipe.user.id]" class="flex justify-center align-items-center gap-2 mt-4">
+            <i class="pi pi-user text-primary text-lg"></i>
+            Ajouté par {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+        </div>
+
         @if (recipe.note) {
             <div class="flex justify-center align-items-center gap-2 mt-4">
                 <i class="pi pi-pencil text-primary text-lg"></i>

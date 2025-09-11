@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { AlertService } from '../services/alert.service';
-import { UserService } from './user.service';
+import { UserService } from '../services/user.service';
 
 export const authGuard = (): Observable<boolean> => {
     const userService = inject(UserService);

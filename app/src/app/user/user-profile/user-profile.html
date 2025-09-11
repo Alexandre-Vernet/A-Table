@@ -1,0 +1,10 @@
+@if (data?.user) {
+    <h1>{{ data.user.firstName }} {{ data.user.lastName }}</h1>
+    <span>{{ data.recipeCount }} recettes</span>
+
+    @for (recipe of data.user.recipes; track recipe.id) {
+        <img class="recipe-image border-round-xl" [src]="recipe?.['imageBase64'] ?? 'recipe.jpeg'" alt="recipe">
+
+    }
+
+}

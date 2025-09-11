@@ -27,6 +27,10 @@ export class UserService {
         return of(null);
     }
 
+    getUser(userId: number) {
+        return this.http.get<{user: User, recipeCount: number}>(`${ this.userUrl }/${ userId }`);
+    }
+
     updateUser(user: User) {
         return this.http.put<User>(`${ this.userUrl }`, { user });
     }
