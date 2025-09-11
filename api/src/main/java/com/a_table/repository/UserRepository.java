@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByEmail(String email);
 
     @Query("SELECT u as user, count(r) as recipeCount from UserEntity u LEFT JOIN u.recipes r where u.id = :id group by u")
-    UserRecipeCountProjection findUserAndRecipeCountById(@Param("id") Long id);
+    Optional<UserRecipeCountProjection> findUserAndRecipeCountById(@Param("id") Long id);
 }

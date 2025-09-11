@@ -1,6 +1,7 @@
 package com.a_table.service;
 
 import com.a_table.dto.User;
+import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserEntity;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.model.UserRecipeCountProjection;
@@ -52,15 +53,17 @@ public class UserService {
     }
 
     public UserRecipeCount getUser(Long id) {
-        UserRecipeCountProjection userRecipeCountProjection = userRepository.findUserAndRecipeCountById(id);
-        UserRecipeCount userRecipeCount = new UserRecipeCount(userRecipeCountProjection.getUser(), userRecipeCountProjection.getRecipeCount());
+        Optional<UserRecipeCountProjection> userRecipeCountProjection = Optional.ofNullable(userRepository.findUserAndRecipeCountById(id).orElseThrow(UserNotFoundException::new));
+        if (userRecipeCountProjection.isPresent()) {
+            UserRecipeCount userRecipeCount = new UserRecipeCount(userRecipeCountProjection.get().getUser(), userRecipeCountProjection.get().getRecipeCount());
 
-        userRecipeCount.getUser().getRecipes().forEach(recipe -> {
-            if (recipe.getImage() != null && recipe.getImage().length > 0) {
-                recipe.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage()));
-            }
-        });
 
-        return userRecipeCount;
+            userRecipeCount.getUser().getRecipes().forEach(recipe -> {
+                if (recipe.getImage() != null && recipe.getImage().length > 0) {
+                    recipe.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage()));
+                }
+            });
+        }
+        return null;
     }
 }
