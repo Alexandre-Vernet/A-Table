@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
@@ -7,7 +7,9 @@ import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-user-profile',
-    imports: [],
+    imports: [
+        RouterLink
+    ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss'
 })
