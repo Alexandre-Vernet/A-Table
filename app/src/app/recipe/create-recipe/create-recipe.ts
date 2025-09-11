@@ -14,6 +14,7 @@ import { Ingredient } from '../../dto/Ingredient';
 import { AlertService } from '../../services/alert.service';
 import { FileUpload, FileUploadEvent } from "primeng/fileupload";
 import { Router } from "@angular/router";
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-create-recipe',
@@ -169,4 +170,6 @@ export class CreateRecipe {
             quantity: new FormControl(null),
         });
     }
+
+    protected readonly environment = environment;
 }
