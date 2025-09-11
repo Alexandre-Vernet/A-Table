@@ -29,14 +29,17 @@
 
 
         <div class="flex justify-center align-items-center gap-2 mt-4">
-            <i class="pi pi-user text-primary text-lg"></i>
+            <i class="pi pi-users text-primary text-lg"></i>
             {{ recipe.nbPerson }} personnes
         </div>
 
         <div [routerLink]="['/', 'user-profile', recipe.user.id]"
              class="flex justify-center align-items-center gap-2 mt-4">
             <i class="pi pi-user text-primary text-lg"></i>
-            Ajouté par {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+            <span>
+                <span>Ajouté par </span>
+                <span class="text-primary font-bold">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
+            </span>
         </div>
 
         @if (recipe.note) {
