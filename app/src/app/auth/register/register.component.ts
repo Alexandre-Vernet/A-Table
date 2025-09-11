@@ -31,7 +31,9 @@ export class RegisterComponent {
     formSignUp = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        firstName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
     });
 
     constructor(
@@ -44,7 +46,9 @@ export class RegisterComponent {
         const {
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            firstName,
+            lastName
         } = this.formSignUp.value;
 
         if (password !== confirmPassword) {
@@ -55,7 +59,9 @@ export class RegisterComponent {
         const user: User = {
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            firstName,
+            lastName
         };
         this.authService.register(user)
             .subscribe({
