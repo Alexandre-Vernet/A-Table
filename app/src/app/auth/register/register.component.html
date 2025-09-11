@@ -39,6 +39,28 @@
                     </p-message>
                 </div>
 
+                <div>
+                    <div class="login__field">
+                        <!--                        <fa-icon class="login__icon" [icon]="faIcons.faLock"></fa-icon>-->
+                        <input formControlName="lastName" class="login__input"
+                               placeholder="Nom">
+                    </div>
+                    <p-message *ngIf="formSignUp.hasError('passwordNotMatch')" severity="error" variant="simple" size="small">
+                        {{ formSignUp.getError('passwordNotMatch') }}
+                    </p-message>
+                </div>
+
+                <div>
+                    <div class="login__field">
+<!--                        <fa-icon class="login__icon" [icon]="faIcons.faLock"></fa-icon>-->
+                        <input formControlName="firstName" class="login__input"
+                               placeholder="Prénom">
+                    </div>
+                    <p-message *ngIf="formSignUp.hasError('passwordNotMatch')" severity="error" variant="simple" size="small">
+                        {{ formSignUp.getError('passwordNotMatch') }}
+                    </p-message>
+                </div>
+
                 <button type="submit" class="button login__submit" [ngClass]="{
                     'disabled': formSignUp.invalid || formSignUp.controls.password.value !== formSignUp.controls.confirmPassword.value
                     }"
