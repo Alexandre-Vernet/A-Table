@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { authGuard } from './auth/auth.guard';
+import { UserProfile } from './user/user-profile/user-profile';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,10 @@ export const routes: Routes = [
                 redirectTo: 'list-recipes',
             },
         ]
+    },
+    {
+        path: 'user-profile/:id',
+        component: UserProfile
     },
     {
         path: 'auth',

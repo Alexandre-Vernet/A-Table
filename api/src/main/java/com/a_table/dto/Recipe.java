@@ -1,6 +1,8 @@
 package com.a_table.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,6 +20,9 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Recipe {
 
     private Long id;
@@ -33,7 +38,6 @@ public class Recipe {
     private String category;
 
 
-    @NotNull(message = "Le temps de préparation est obligatoire")
     @Positive(message = "Le temps de préparation doit être supérieur à 0")
     private Short preparationTime;
 

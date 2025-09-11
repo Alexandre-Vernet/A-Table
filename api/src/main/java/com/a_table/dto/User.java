@@ -1,6 +1,7 @@
 package com.a_table.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,16 +16,17 @@ import java.util.List;
 @Builder()
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User {
     Long id;
     String email;
 
-    @JsonBackReference(value = "password")
     String password;
 
     String firstName;
     String lastName;
 
-    @JsonBackReference(value = "recipes")
     List<Recipe> recipes = new ArrayList<>();
 }

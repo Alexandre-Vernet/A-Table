@@ -1,0 +1,26 @@
+@if (data?.user) {
+    <div class="m-2 pb-5">
+        <div class="mt-4 m-3 flex justify-center align-items-center gap-3">
+            <i class="p-2 pi pi-user text-primary icon border-2"></i>
+            <div class="flex flex-column">
+                <h1 class="text-2xl">{{ data.user.firstName }} {{ data.user.lastName }}</h1>
+                <div>
+                    <span>{{ data.recipeCount }}</span>
+                    <span>{{ data.recipeCount > 1 ? ' recettes' : ' recette' }}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container mt-5">
+            @for (recipe of data.user.recipes; track recipe.id) {
+                <div [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]" class="box text-center">
+                    <img class="recipe-image border-round-xl" [src]="recipe?.['imageBase64'] ?? 'recipe.jpeg'"
+                         alt="recipe">
+                    <span>{{ recipe.name }}</span>
+                </div>
+            }
+        </div>
+    </div>
+}
+
