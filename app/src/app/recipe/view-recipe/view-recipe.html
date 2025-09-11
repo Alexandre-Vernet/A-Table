@@ -8,27 +8,33 @@
             <i class="pi pi-clock text-primary text-lg"></i>
             <span>{{ recipe.category | titlecase }}</span>
         </div>
-        <div class="flex justify-center align-items-center gap-2 mt-4">
-            <div>
-                <i class="pi pi-hourglass text-primary text-lg"></i>
-            </div>
-            <div>
+
+        @if (recipe.cookingTime && recipe.preparationTime) {
+            <div class="flex justify-center align-items-center gap-2 mt-4">
                 <div>
-                    <span>Temps de préparation : </span>
-                    <span>{{ recipe.preparationTime | timeConvert }}</span>
+                    <i class="pi pi-hourglass text-primary text-lg"></i>
                 </div>
                 <div>
-                    <span>Temps de cuisson : </span>
-                    <span>{{ recipe.cookingTime | timeConvert }}</span>
+                    <div>
+                        <span>Temps de préparation : </span>
+                        <span>{{ recipe.preparationTime | timeConvert }}</span>
+                    </div>
+                    <div>
+                        <span>Temps de cuisson : </span>
+                        <span>{{ recipe.cookingTime | timeConvert }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
+
         <div class="flex justify-center align-items-center gap-2 mt-4">
             <i class="pi pi-user text-primary text-lg"></i>
             {{ recipe.nbPerson }} personnes
         </div>
 
-        <div [routerLink]="['/', 'user-profile', recipe.user.id]" class="flex justify-center align-items-center gap-2 mt-4">
+        <div [routerLink]="['/', 'user-profile', recipe.user.id]"
+             class="flex justify-center align-items-center gap-2 mt-4">
             <i class="pi pi-user text-primary text-lg"></i>
             Ajouté par {{ recipe.user.firstName }} {{ recipe.user.lastName }}
         </div>

@@ -55,7 +55,7 @@ export class CreateRecipe {
         name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
         nbPerson: new FormControl(4, [Validators.required, Validators.min(1), Validators.max(50)]),
         category: new FormControl(<{ name: string, code: string }>this.categories[1], [Validators.required]),
-        preparationTime: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(999)]),
+        preparationTime: new FormControl(null, [Validators.min(1), Validators.max(999)]),
         cookingTime: new FormControl(null, [Validators.min(0), Validators.max(999)]),
         image: new FormControl(null),
         note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),

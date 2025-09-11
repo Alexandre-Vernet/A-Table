@@ -38,7 +38,6 @@ public class Recipe {
     private String category;
 
 
-    @NotNull(message = "Le temps de préparation est obligatoire")
     @Positive(message = "Le temps de préparation doit être supérieur à 0")
     private Short preparationTime;
 
