@@ -4,7 +4,6 @@ import com.a_table.dto.User;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.service.UserService;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    User getCurrentUser(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7);
-        return userService.getCurrentUser(token);
+    User getCurrentUser() {
+        return userService.getCurrentUser();
     }
 }

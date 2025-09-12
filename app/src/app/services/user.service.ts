@@ -19,7 +19,7 @@ export class UserService {
     ) {
     }
 
-    signInWithAccessToken() {
+    getCurrentUser() {
         if (localStorage.getItem("token")) {
             return this.http.get<User>(`${ this.userUrl }/me`)
                 .pipe(tap(user => this.userSubject.next(user)));

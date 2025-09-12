@@ -1,8 +1,6 @@
 package com.a_table.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.a_table.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,11 +49,19 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class ErrorResponse {
-        private String message;
-        private int status;
+    @ExceptionHandler(JwtTokenExpiredException.class)
+    public ResponseEntity<?> handleBadCategory(JwtTokenExpiredException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(RequireAuthException.class)
+    public ResponseEntity<?> handleBadCategory(RequireAuthException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED.value()),
+                HttpStatus.UNAUTHORIZED
+        );
     }
 }

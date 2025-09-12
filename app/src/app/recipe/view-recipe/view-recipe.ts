@@ -63,7 +63,7 @@ export class ViewRecipe implements OnInit {
                 })
             });
 
-        this.userService.signInWithAccessToken()
+        this.userService.getCurrentUser()
             .subscribe(user => this.user = user)
     }
 
