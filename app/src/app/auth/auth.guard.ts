@@ -9,7 +9,7 @@ export const authGuard = (): Observable<boolean> => {
     const alertService = inject(AlertService);
     const router = inject(Router);
 
-    return userService.signInWithAccessToken()
+    return userService.getCurrentUser()
         .pipe(
             switchMap(user => {
                 if (!user) {

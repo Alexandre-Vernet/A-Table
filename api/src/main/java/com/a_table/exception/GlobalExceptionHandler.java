@@ -56,4 +56,12 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(RequireAuthException.class)
+    public ResponseEntity<?> handleBadCategory(RequireAuthException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 }

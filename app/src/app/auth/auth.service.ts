@@ -24,7 +24,7 @@ export class AuthService {
         return this.http.post<AuthRequest>(`${ this.authUrl }/login`, user)
             .pipe(
                 tap(auth => localStorage.setItem('token', auth.token)),
-                switchMap(() => this.userService.signInWithAccessToken())
+                switchMap(() => this.userService.getCurrentUser())
             );
     }
 

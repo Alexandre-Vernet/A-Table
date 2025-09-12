@@ -1,6 +1,7 @@
 package com.a_table.service;
 
 import com.a_table.dto.User;
+import com.a_table.exception.RequireAuthException;
 import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.model.UserRecipeCountProjection;
@@ -41,7 +42,7 @@ public class UserService {
                         .firstName(user.getFirstName())
                         .lastName(user.getLastName())
                         .build())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(RequireAuthException::new);
     }
 
     public UserRecipeCount getUser(Long id) {
