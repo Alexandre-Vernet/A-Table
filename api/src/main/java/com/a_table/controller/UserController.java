@@ -1,10 +1,13 @@
 package com.a_table.controller;
 
+import com.a_table.dto.ErrorResponse;
 import com.a_table.dto.User;
+import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.service.UserService;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +27,12 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    User getCurrentUser(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7);
-        return userService.getCurrentUser(token);
+    ResponseEntity<?> getCurrentUser() {
+        try {
+            User user = userService.getCurrentUser();
+            return ResponseEntity.ok(user);
+        } catch (UserNotFoundException | SecurityException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Vous devez être connecté pour accéder à cette page", 401));
+        }
     }
 }

@@ -1,8 +1,6 @@
 package com.a_table.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.a_table.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -57,13 +55,5 @@ public class GlobalExceptionHandler {
                 new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
                 HttpStatus.BAD_REQUEST
         );
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class ErrorResponse {
-        private String message;
-        private int status;
     }
 }

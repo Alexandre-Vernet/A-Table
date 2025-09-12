@@ -2,7 +2,6 @@ package com.a_table.service;
 
 import com.a_table.dto.User;
 import com.a_table.exception.UserNotFoundException;
-import com.a_table.model.UserEntity;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.model.UserRecipeCountProjection;
 import com.a_table.repository.UserRepository;
@@ -23,32 +22,26 @@ public class UserService {
     UserRepository userRepository;
 
     @Resource
-    JwtService jwtService;
-
-    @Resource
     MappingService mappingService;
+
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            if (authentication.getPrincipal() instanceof UserEntity userEntity) {
-                return User.builder()
-                        .id(userEntity.getId())
-                        .email(userEntity.getEmail())
-                        .firstName(userEntity.getFirstName())
-                        .lastName(userEntity.getLastName())
-                        .build();
-            }
-        }
-        throw new RuntimeException("User not authenticated");
-    }
 
-    public User getCurrentUser(String token) {
-        return jwtService.extractClaim(token, claims -> {
-            String email = claims.getSubject();
-            Optional<UserEntity> userEntity = userRepository.findByEmail(email);
-            return userEntity.map(entity -> mappingService.map(entity, User.class)).orElse(null);
-        });
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new SecurityException("Utilisateur non authentifié");
+        }
+
+        String email = authentication.getName();
+        return userRepository.findByEmail(email)
+                .map(entity -> mappingService.map(entity, User.class))
+                .map(user -> User.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .build())
+                .orElseThrow(UserNotFoundException::new);
     }
 
     public UserRecipeCount getUser(Long id) {
