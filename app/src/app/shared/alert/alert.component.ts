@@ -24,6 +24,9 @@ export class AlertComponent implements OnInit {
             .subscribe(alert => {
                 this.alert = alert;
 
+                // Scroll to top
+                window.scroll(0, 0);
+
                 // Hide modal after 4s
                 // Attribute [life] on <p-message always hide alert if user click on close button
                 if (alert?.severity === 'success') {
