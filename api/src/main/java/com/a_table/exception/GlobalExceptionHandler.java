@@ -60,8 +60,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RequireAuthException.class)
     public ResponseEntity<?> handleBadCategory(RequireAuthException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
-                HttpStatus.BAD_REQUEST
+                new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED.value()),
+                HttpStatus.UNAUTHORIZED
         );
     }
 }

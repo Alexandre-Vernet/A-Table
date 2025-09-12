@@ -142,7 +142,12 @@ export class CreateRecipe {
                     this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
                     this.alertService.alert$.next({ severity: 'success', message: 'Votre recette a bien été créée' });
                 },
-                error: (err) => this.alertService.alert$.next({severity: 'success', message:  err?.error?.message ?? 'Erreur lors de la création de votre recette'}),
+                error: (err) => {
+                    this.alertService.alert$.next({
+                        severity: 'error',
+                        message: err?.error?.message ?? 'Erreur lors de la création de votre recette'
+                    });
+                },
             });
     }
 
