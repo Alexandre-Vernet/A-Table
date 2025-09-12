@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Base64;
 import java.util.Optional;
 
@@ -63,7 +62,10 @@ public class UserService {
                     recipe.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage()));
                 }
             });
+
+            return userRecipeCount;
         }
+
         return null;
     }
 }
