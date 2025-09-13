@@ -3,7 +3,6 @@ import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
 import { BehaviorSubject, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AlertService } from "./alert.service";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +16,6 @@ export class UserService {
 
     constructor(
         private readonly http: HttpClient,
-        private readonly alertService: AlertService
     ) {
     }
 
@@ -26,14 +24,13 @@ export class UserService {
             return this.http.get<User>(`${ this.userUrl }/me`)
                 .pipe(
                     tap(user => this.userSubject.next(user)),
-                    tap(() => this.alertService.alert$.next(null)),
                 );
         }
         return of(null);
     }
 
     getUser(userId: number) {
-        return this.http.get<{user: User, recipeCount: number}>(`${ this.userUrl }/${ userId }`);
+        return this.http.get<{ user: User, recipeCount: number }>(`${ this.userUrl }/${ userId }`);
     }
 
     updateUser(user: User) {

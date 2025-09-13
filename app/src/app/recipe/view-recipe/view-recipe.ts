@@ -54,11 +54,7 @@ export class ViewRecipe implements OnInit {
             .subscribe({
                 next: (recipe => this.recipe = recipe),
                 error: (err => {
-                    this.alertService.alert$.next({
-                        severity: 'error',
-                        message: err?.error?.message ?? 'Impossible d\'accéder à cette recette'
-                    });
-
+                    this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette recette');
                     this.router.navigate(['/']);
                 })
             });
@@ -93,16 +89,9 @@ export class ViewRecipe implements OnInit {
             .subscribe({
                 next: () => {
                     this.router.navigate(['/']);
-
-                    this.alertService.alert$.next({
-                        severity: 'success',
-                        message: 'Recette supprimée avec succès'
-                    });
+                    this.alertService.showSuccess('Recette supprimée avec succès');
                 },
-                error: (err => this.alertService.alert$.next({
-                    severity: 'error',
-                    message: err?.error?.message ?? 'Impossible de supprimer cette recette'
-                }))
+                error: (err => this.alertService.showError(err?.error?.message ?? 'Impossible de supprimer cette recette'))
             })
     }
 }

@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { Alert } from '../dto/Alert';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AlertService {
 
-    alert$: BehaviorSubject<Alert> = new BehaviorSubject<Alert>(null);
+    private alertSubject = new ReplaySubject<Alert>(1);
+    alert$ = this.alertSubject.asObservable();
 
-    constructor() {
+    showSuccess(message: string) {
+        this.alertSubject.next({ severity: 'success', message });
+    }
+
+    showError(message: string) {
+        this.alertSubject.next({ severity: 'error', message });
+    }
+
+    clear() {
+        this.alertSubject.next(null);
     }
 }
