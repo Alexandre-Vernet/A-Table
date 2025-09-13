@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
 import { BehaviorSubject, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AlertService } from "./alert.service";
 
 @Injectable({
     providedIn: 'root'
@@ -15,14 +16,18 @@ export class UserService {
     userUrl = environment.userUrl();
 
     constructor(
-        private readonly http: HttpClient
+        private readonly http: HttpClient,
+        private readonly alertService: AlertService
     ) {
     }
 
     getCurrentUser() {
         if (localStorage.getItem("token")) {
             return this.http.get<User>(`${ this.userUrl }/me`)
-                .pipe(tap(user => this.userSubject.next(user)));
+                .pipe(
+                    tap(user => this.userSubject.next(user)),
+                    tap(() => this.alertService.alert$.next(null)),
+                );
         }
         return of(null);
     }
