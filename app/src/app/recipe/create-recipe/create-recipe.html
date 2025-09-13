@@ -152,6 +152,6 @@
         </div>
 
 
-        <p-button type="submit" [disabled]="!formCreateRecipe.valid">Créer</p-button>
+        <p-button type="submit" icon="pi pi-check" label="Créer" [loading]="loading" [disabled]="!formCreateRecipe.valid"/>
     </form>
 </div>

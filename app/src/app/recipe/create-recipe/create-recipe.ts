@@ -66,6 +66,10 @@ export class CreateRecipe {
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
     });
 
+    protected readonly environment = environment;
+
+    loading : boolean = false;
+
     get ingredientsControls() {
         return (this.formCreateRecipe.get('ingredients') as FormArray).controls;
     }
@@ -87,6 +91,8 @@ export class CreateRecipe {
     }
 
     submitCreateRecipe() {
+        this.loading = true;
+
         const {
             name,
             category,
@@ -148,6 +154,7 @@ export class CreateRecipe {
                         message: err?.error?.message ?? 'Erreur lors de la création de votre recette'
                     });
                 },
+                complete: () => this.loading = false
             });
     }
 
@@ -175,6 +182,4 @@ export class CreateRecipe {
             quantity: new FormControl(null),
         });
     }
-
-    protected readonly environment = environment;
 }
