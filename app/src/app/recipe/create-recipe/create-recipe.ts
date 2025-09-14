@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 import { FloatLabel } from 'primeng/floatlabel';
 import { Textarea } from 'primeng/textarea';
 import { InputNumber } from 'primeng/inputnumber';
-import { Select } from 'primeng/select';
+import { Select, SelectChangeEvent } from 'primeng/select';
 import { Button } from 'primeng/button';
 import { RecipeService } from '../../services/recipe.service';
 import { RecipeStep } from '../../dto/RecipeStep';
@@ -42,7 +42,7 @@ export class CreateRecipe {
         { name: 'Autre', code: 'autre' },
     ];
 
-    quantity = [
+    units = [
         {
             name: 'g',
         },
@@ -67,7 +67,9 @@ export class CreateRecipe {
         {
             name: 'Sachet',
         },
-    ]
+    ];
+
+    selectedUnit: string = '';
 
     placeholderSteps = "Battre les oeufs et le sucre dans un saladier\n" +
         "\n" +
@@ -90,7 +92,8 @@ export class CreateRecipe {
         ingredients: new FormArray([
             new FormGroup({
                 ingredient: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-                quantity: new FormControl(null, [Validators.required]),
+                quantity: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(999)]),
+                unit: new FormControl(this.units[0], [Validators.required]),
             })
         ]),
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
@@ -137,11 +140,12 @@ export class CreateRecipe {
 
         const ingredientConvert: Ingredient[] = [];
         ingredients
-            .filter(i => !!i.ingredient && !!i.quantity)
+            .filter(i => !!i.ingredient && !!i.quantity && !!i.unit)
             .forEach(i => {
                 const newIngredient: Ingredient = {
                     ingredient: i.ingredient,
-                    quantity: i.quantity.name
+                    quantity: i.quantity,
+                    unit: i.unit.name
                 };
 
                 ingredientConvert.push(newIngredient);
@@ -207,6 +211,11 @@ export class CreateRecipe {
         return new FormGroup({
             ingredient: new FormControl(null),
             quantity: new FormControl(null),
+            unit: new FormControl(null)
         });
+    }
+
+    selectUnit($event: SelectChangeEvent) {
+        this.selectedUnit = $event.value.name;
     }
 }

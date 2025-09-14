@@ -25,6 +25,8 @@ public class IngredientEntity {
 
     private String quantity;
 
+    private String unit;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     RecipeEntity recipe;
