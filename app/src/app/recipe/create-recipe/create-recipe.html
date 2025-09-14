@@ -46,10 +46,10 @@
                     @if (formCreateRecipe.controls.nbPerson.touched) {
                         <p-message severity="error" size="small" variant="simple">
                             @if (formCreateRecipe.controls.nbPerson.hasError('min')) {
-                                Le nombre de personne doit être supérieur à 1
+                                Ce champ doit être supérieur à 1
                             }
                             @if (formCreateRecipe.controls.nbPerson.hasError('max')) {
-                                Le nombre de personne doit être inférieur à 50
+                                Ce champ doit être inférieur à 50
                             }
                         </p-message>
                     }
@@ -66,10 +66,10 @@
                     @if (formCreateRecipe.controls.preparationTime.touched) {
                         <p-message severity="error" size="small" variant="simple">
                             @if (formCreateRecipe.controls.preparationTime.hasError('min')) {
-                                Le temps de préparation doit être supérieur à 1
+                                Ce champ doit être supérieur à 1
                             }
                             @if (formCreateRecipe.controls.preparationTime.hasError('max')) {
-                                Le temps de préparation doit être inférieur à 999
+                                Ce champ doit être inférieur à 999
                             }
                         </p-message>
                     }
@@ -83,10 +83,10 @@
                     @if (formCreateRecipe.controls.cookingTime.touched) {
                         <p-message severity="error" size="small" variant="simple">
                             @if (formCreateRecipe.controls.cookingTime.hasError('min')) {
-                                Le temps de cuisson doit être supérieur à 0
+                                Ce champ doit être supérieur à 0
                             }
                             @if (formCreateRecipe.controls.cookingTime.hasError('max')) {
-                                Le temps de cuisson doit être inférieur à 999
+                                Ce champ doit être inférieur à 999
                             }
                         </p-message>
                     }
@@ -103,13 +103,13 @@
             <p-floatlabel variant="on">
                 <textarea id="note" formControlName="note" pTextarea rows="5" cols="30" style="resize: none"></textarea>
                 <label for="note">Note facultative</label>
-                @if (formCreateRecipe.controls.name.touched) {
+                @if (formCreateRecipe.controls.note.touched) {
                     <p-message severity="error" size="small" variant="simple">
                         @if (formCreateRecipe.controls.note.hasError('minlength')) {
-                            La note nécessite 5 caractères minimum
+                            Ce champ nécessite 5 caractères minimum
                         }
                         @if (formCreateRecipe.controls.note.hasError('maxlength')) {
-                            La note ne doit pas dépasser 200 caractères
+                            Ce champ ne doit pas dépasser 200 caractères
                         }
                     </p-message>
                 }
@@ -121,21 +121,53 @@
             <h2 class="text-primary mb-3">Ingrédients</h2>
             <div formArrayName="ingredients" class="flex flex-column gap-3">
                 @for (ingredient of ingredientsControls; let i = $index; let first = $first; track i) {
-                    <div [formGroupName]="i" class="flex flex-row justify-center align-items-center gap-2">
-                        <p-floatlabel variant="on">
-                            <input id="ingredient-{{ i }}" formControlName="ingredient" pInputText autocomplete="off"
-                                   class="w-full"/>
-                            <label for="ingredient-{{ i }}">Ingrédient</label>
-                        </p-floatlabel>
-                        <p-floatlabel variant="on">
-                            <input id="quantity-{{ i }}" formControlName="quantity" pInputText autocomplete="off"
-                                   (keydown)="addIngredients(i)" class="w-full"/>
-                            <label for="quantity-{{ i }}">Quantité</label>
-                        </p-floatlabel>
+                    <div [formGroupName]="i" class="flex flex-row gap-2 w-full">
+                        <!-- Ingredient (50%) -->
+                        <div class="flex flex-column flex-1 min-w-0">
+                            <p-floatlabel variant="on" class="w-full">
+                                <input id="ingredient-{{ i }}" formControlName="ingredient" pInputText
+                                       autocomplete="off" class="w-full"/>
+                                <label for="ingredient-{{ i }}">Ingrédient</label>
+                            </p-floatlabel>
+                            @if (ingredient.get('ingredient')?.touched && ingredient.get('ingredient')?.invalid) {
+                                <p-message severity="error" size="small" variant="simple" class="w-full">
+                                    @if (ingredient.get('ingredient')?.hasError('required')) {
+                                        Champ requis
+                                    } @else if (ingredient.get('ingredient')?.hasError('minlength')) {
+                                        Ce champ nécessite 3 caractères minimum
+                                    } @else if (ingredient.get('ingredient')?.hasError('maxlength')) {
+                                        Ce champ ne doit pas dépasser 50 caractères
+                                    }
+                                </p-message>
+                            }
+                        </div>
+
+                        <!-- Quantity (50%) -->
+                        <div class="flex flex-column flex-1 min-w-0">
+                            <p-floatlabel variant="on" class="w-full">
+                                <p-select id="quantity-{{ i }}" formControlName="quantity" size="small"
+                                          [options]="quantity" optionLabel="name"
+                                          class="w-full" [showClear]="true"/>
+                                <label for="quantity-{{ i }}">Quantité</label>
+                            </p-floatlabel>
+                            @if (ingredient.get('quantity')?.touched && ingredient.get('quantity')?.invalid) {
+                                <p-message severity="error" size="small" variant="simple" class="w-full">
+                                    @if (ingredient.get('quantity')?.hasError('required')) {
+                                        Champ requis
+                                    }
+                                </p-message>
+                            }
+                        </div>
+
+                        <!-- Bouton suppression -->
                         @if (!first) {
-                            <i class="pi pi-minus-circle text-primary text-lg" (click)="removeIngredient(i)"></i>
+                            <div class="flex align-items-center">
+                                <i class="pi pi-minus-circle text-primary text-lg cursor-pointer"
+                                   (click)="removeIngredient(i)"></i>
+                            </div>
                         }
                     </div>
+
                 }
             </div>
         </div>
@@ -152,6 +184,7 @@
         </div>
 
 
-        <p-button type="submit" icon="pi pi-check" label="Créer" [loading]="loading" [disabled]="!formCreateRecipe.valid || loading"/>
+        <p-button type="submit" icon="pi pi-check" label="Créer" [loading]="loading"
+                  [disabled]="!formCreateRecipe.valid || loading"/>
     </form>
 </div>

@@ -42,6 +42,33 @@ export class CreateRecipe {
         { name: 'Autre', code: 'autre' },
     ];
 
+    quantity = [
+        {
+            name: 'g',
+        },
+        {
+            name: 'kg',
+        },
+        {
+            name: 'mL',
+        },
+        {
+            name: 'L',
+        },
+        {
+            name: 'Cuillère à café',
+        },
+        {
+            name: 'Cuillère à soupe',
+        },
+        {
+            name: 'Pincée',
+        },
+        {
+            name: 'Sachet',
+        },
+    ]
+
     placeholderSteps = "Battre les oeufs et le sucre dans un saladier\n" +
         "\n" +
         "Rajouter le beurre fondu et l'huile\n" +
@@ -61,14 +88,17 @@ export class CreateRecipe {
         image: new FormControl(null),
         note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),
         ingredients: new FormArray([
-            this.createIngredientsFormGroup(),
+            new FormGroup({
+                ingredient: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+                quantity: new FormControl(null, [Validators.required]),
+            })
         ]),
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
     });
 
     protected readonly environment = environment;
 
-    loading : boolean = false;
+    loading: boolean = false;
 
     get ingredientsControls() {
         return (this.formCreateRecipe.get('ingredients') as FormArray).controls;
@@ -111,7 +141,7 @@ export class CreateRecipe {
             .forEach(i => {
                 const newIngredient: Ingredient = {
                     ingredient: i.ingredient,
-                    quantity: i.quantity
+                    quantity: i.quantity.name
                 };
 
                 ingredientConvert.push(newIngredient);
