@@ -4,17 +4,18 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 import { FloatLabel } from 'primeng/floatlabel';
 import { Textarea } from 'primeng/textarea';
 import { InputNumber } from 'primeng/inputnumber';
-import { Select, SelectChangeEvent } from 'primeng/select';
+import { Select } from 'primeng/select';
 import { Button } from 'primeng/button';
 import { RecipeService } from '../../services/recipe.service';
 import { RecipeStep } from '../../dto/RecipeStep';
 import { Message } from 'primeng/message';
 import { Recipe } from '../../dto/Recipe';
-import { Ingredient } from '../../dto/Ingredient';
 import { AlertService } from '../../services/alert.service';
 import { FileUpload, FileUploadEvent } from "primeng/fileupload";
 import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
+import { ingredientValidator } from '../../validators/ingredient.validator';
+import { parseIngredient } from '../../utils/parseIngredient';
 
 @Component({
     selector: 'app-create-recipe',
@@ -42,35 +43,6 @@ export class CreateRecipe {
         { name: 'Autre', code: 'autre' },
     ];
 
-    units = [
-        {
-            name: 'g',
-        },
-        {
-            name: 'kg',
-        },
-        {
-            name: 'mL',
-        },
-        {
-            name: 'L',
-        },
-        {
-            name: 'Cuillère à café',
-        },
-        {
-            name: 'Cuillère à soupe',
-        },
-        {
-            name: 'Pincée',
-        },
-        {
-            name: 'Sachet',
-        },
-    ];
-
-    selectedUnit: string = '';
-
     placeholderSteps = "Battre les oeufs et le sucre dans un saladier\n" +
         "\n" +
         "Rajouter le beurre fondu et l'huile\n" +
@@ -91,9 +63,7 @@ export class CreateRecipe {
         note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),
         ingredients: new FormArray([
             new FormGroup({
-                ingredient: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-                quantity: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(999)]),
-                unit: new FormControl(this.units[0], [Validators.required]),
+                ingredient: new FormControl(null, [Validators.required, ingredientValidator()]),
             })
         ]),
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
@@ -138,18 +108,10 @@ export class CreateRecipe {
             steps
         } = this.formCreateRecipe.getRawValue();
 
-        const ingredientConvert: Ingredient[] = [];
-        ingredients
-            .filter(i => !!i.ingredient && !!i.quantity && !!i.unit)
-            .forEach(i => {
-                const newIngredient: Ingredient = {
-                    ingredient: i.ingredient,
-                    quantity: i.quantity,
-                    unit: i.unit.name
-                };
+        const parsedIngredients = ingredients
+            .filter(i => i.ingredient)
+            .map(i => parseIngredient(i.ingredient));
 
-                ingredientConvert.push(newIngredient);
-            });
 
         const recipeSteps: RecipeStep[] = [];
 
@@ -172,7 +134,7 @@ export class CreateRecipe {
             cookingTime,
             image,
             note,
-            ingredients: ingredientConvert,
+            ingredients: parsedIngredients,
             steps: recipeSteps
         };
 
@@ -190,7 +152,7 @@ export class CreateRecipe {
     }
 
     addIngredients(index: number) {
-        if (this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
+        if (this.formCreateRecipe.controls.ingredients.at(index).valid && this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
             this.addNewLine();
         }
     }
@@ -209,13 +171,7 @@ export class CreateRecipe {
 
     private createIngredientsFormGroup() {
         return new FormGroup({
-            ingredient: new FormControl(null),
-            quantity: new FormControl(null),
-            unit: new FormControl(null)
+            ingredient: new FormControl(null, ingredientValidator()),
         });
-    }
-
-    selectUnit($event: SelectChangeEvent) {
-        this.selectedUnit = $event.value.name;
     }
 }

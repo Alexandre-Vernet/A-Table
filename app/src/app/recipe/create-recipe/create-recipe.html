@@ -119,26 +119,41 @@
         <div class="flex flex-column gap-1 mb-5">
             <h2 class="text-primary mb-3">Ingrédients</h2>
             <div formArrayName="ingredients" class="flex flex-column gap-3">
-                @for (ingredient of ingredientsControls; let i = $index; let first = $first; track i) {
+                @for (ingredients of ingredientsControls; let i = $index; let first = $first; track i) {
                     <div [formGroupName]="i" class="flex flex-row gap-2 w-full">
                         <!-- Ingredient -->
                         <div class="flex flex-column flex-1 min-w-0">
                             <p-floatlabel variant="on" class="w-full">
                                 <input id="ingredient-{{ i }}" formControlName="ingredient" pInputText
-                                       placeholder="Farine"
+                                       placeholder="Farine 150 g" (ngModelChange)="addIngredients(i)"
                                        autocomplete="off" class="w-full"/>
                                 <label for="ingredient-{{ i }}">Ingrédient</label>
                             </p-floatlabel>
-                            @if (ingredient.get('ingredient')?.touched && ingredient.get('ingredient')?.invalid) {
+                            @if (ingredients.get('ingredient')?.touched || ingredients.get('ingredient')?.dirty) {
                                 <p-message severity="error" size="small" variant="simple" class="w-full">
-                                    @if (ingredient.get('ingredient')?.hasError('required')) {
+                                    @if (ingredients.get('ingredient')?.hasError('required')) {
                                         Champ requis
-                                    } @else if (ingredient.get('ingredient')?.hasError('minlength')) {
-                                        Ce champ nécessite 3 caractères minimum
-                                    } @else if (ingredient.get('ingredient')?.hasError('maxlength')) {
-                                        Ce champ ne doit pas dépasser 50 caractères
                                     }
+                                    @if (ingredients.get('ingredient')?.invalid) {
+                                    Format invalide. Exemples valides:
+                                    <ul class="mt-1 ml-3 list-disc">
+                                        <li>Farine 150 g</li>
+                                        <li>Sucre vanillé 1/2 sachet</li>
+                                        <li>Oeuf 1</li>
+                                        <li>Huile d'olive 1 c à café</li>
+                                    </ul>
+                                }
                                 </p-message>
+                            }
+                            @if (ingredients.get('ingredient')?.errors?.['invalidFormat']?.['allowedUnits']) {
+                                <div class="mt-2">
+                                    <strong>Unités autorisées:</strong>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        @for (unit of ingredients.get('ingredient')?.errors?.['invalidFormat']?.['allowedUnits']; track unit) {
+                                            <span class="px-2 py-1 bg-gray-100 rounded">{{ unit }}</span>
+                                        }
+                                    </div>
+                                </div>
                             }
                         </div>
 
