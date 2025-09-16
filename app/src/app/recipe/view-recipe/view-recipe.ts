@@ -35,6 +35,7 @@ import { User } from '../../dto/User';
 export class ViewRecipe implements OnInit {
 
     recipe: Recipe;
+    filterRecipe: Recipe;
 
     user: User;
 
@@ -52,7 +53,10 @@ export class ViewRecipe implements OnInit {
         this.route.params
             .pipe(switchMap((param: { id: number }) => this.recipeService.getRecipe(param.id)))
             .subscribe({
-                next: (recipe => this.recipe = recipe),
+                next: (recipe => {
+                    this.recipe = recipe;
+                    this.filterRecipe = { ...recipe };
+                }),
                 error: (err => {
                     this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette recette');
                     this.router.navigate(['/']);
@@ -93,5 +97,33 @@ export class ViewRecipe implements OnInit {
                 },
                 error: (err => this.alertService.showError(err?.error?.message ?? 'Impossible de supprimer cette recette'))
             })
+    }
+
+    decreaseNbPersons() {
+        if (this.filterRecipe.nbPerson > 1) {
+            this.filterRecipe.nbPerson--;
+            this.updateRecipeNbPerson(this.filterRecipe.nbPerson);
+        }
+    }
+
+    increaseNbPersons() {
+        this.filterRecipe.nbPerson++;
+        this.updateRecipeNbPerson(this.filterRecipe.nbPerson);
+    }
+
+    updateRecipeNbPerson(nbPersons: number) {
+        if (nbPersons === this.recipe.nbPerson) {
+            this.filterRecipe = { ...this.recipe };
+            return;
+        }
+
+        this.filterRecipe = {
+            ...this.recipe,
+            nbPerson: nbPersons,
+            ingredients: this.recipe.ingredients.map(ingredient => ({
+                ...ingredient,
+                quantity: Math.round((ingredient.quantity * nbPersons) / this.recipe.nbPerson)
+            }))
+        };
     }
 }

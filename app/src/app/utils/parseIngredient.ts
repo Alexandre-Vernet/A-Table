@@ -9,7 +9,7 @@ export const parseIngredient = (ingredientString: string): Ingredient => {
     // Vérifier d'abord si c'est un ingrédient sans quantité (ex: "Sel")
     if (/^[a-zA-Zàâäéèêëîïôöùûüçÿœæ\s]+$/.test(trimmed)) {
         return {
-            ingredient: trimmed,
+            name: trimmed,
             quantity: null,
             unit: null
         };
@@ -19,8 +19,8 @@ export const parseIngredient = (ingredientString: string): Ingredient => {
     const simpleQuantityMatch = trimmed.match(/^([a-zA-Zàâäéèêëîïôöùûüçÿœæ\s]+)\s(\d+)$/i);
     if (simpleQuantityMatch) {
         return {
-            ingredient: simpleQuantityMatch[1].trim(),
-            quantity: simpleQuantityMatch[2].trim(),
+            name: simpleQuantityMatch[1].trim(),
+            quantity: Number(simpleQuantityMatch[2].trim()),
             unit: null
         };
     }
@@ -63,16 +63,16 @@ export const parseIngredient = (ingredientString: string): Ingredient => {
     const match = trimmed.match(pattern);
 
     if (match) {
-        const ingredient = match[1].trim();
-        const quantity = match[2].trim();
+        const name = match[1].trim();
+        const quantity = Number(match[2].trim());
         const unit = match[3].trim();
 
-        return { ingredient, quantity, unit };
+        return { name: name, quantity, unit };
     }
 
     // Si aucun pattern ne match, retourner tout dans le nom
     return {
-        ingredient: trimmed,
+        name: trimmed,
         quantity: null,
         unit: null
     };
