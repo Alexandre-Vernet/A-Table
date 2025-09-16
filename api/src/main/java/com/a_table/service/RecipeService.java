@@ -102,7 +102,7 @@ public class RecipeService {
     }
 
     public List<Recipe> getRecipesSearch(String search) {
-        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearch(search);
+        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearchIgnoreAccent(search);
         recipeEntityList = this.getRecipeListImage(recipeEntityList);
         return mappingService.convertListTo(recipeEntityList, Recipe.class);
     }
