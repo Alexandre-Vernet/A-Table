@@ -43,15 +43,11 @@ export function ingredientValidator(): ValidatorFn {
             .sort((a, b) => b.length - a.length) // Trier par longueur décroissante pour éviter les conflits
             .join('|');
 
-        // Cas 3: Avec unité (obligatoire pour fractions/décimaux)
+        // Cas 3: Avec unité (obligatoire pour les nombres)
         const unitPattern = new RegExp(
             `^([a-zA-Zàâäéèêëîïôöùûüçÿœæ\\s]+)` + // Nom de l'ingrédient
             `\\s` +
-            `(?:` +
-            `(?:\\d+\\/\\d+)` + // Fraction (ex: 1/2)
-            `|` +
-            `\\d+(?:\\.\\d+)?` + // Nombre décimal (ex: 1.5)
-            `)` +
+            `(\\d+(?:\\.\\d+)?)` + // Nombre entier ou décimal (ex: 1 ou 1.5)
             `\\s(` + escapedUnits + `)` + // Unité autorisée
             `$`, // Fin stricte - rien n'est autorisé après l'unité
             'i' // Flag insensitive
@@ -69,15 +65,15 @@ export function ingredientValidator(): ValidatorFn {
                 allowedUnits: ALLOWED_UNITS,
                 examples: [
                     'Farine 150 g',
-                    'Sucre vanillé 1/2 sachet',
                     'Lait 1.5 L',
                     'Oeuf 2',
                     'Persil 1 botte',
                     'Café 1 cuillère à café',
                     'Cannelle 1 c. à café'
                 ],
-                error: 'Aucun texte n\'est autorisé après l\'unité de mesure'
+                error: 'Aucun texte n\'est autorisé après l\'unité de mesure. Seuls les nombres entiers ou décimaux sont acceptés pour la quantité.'
             }
         };
     };
 }
+
