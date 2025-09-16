@@ -1,5 +1,4 @@
-
-@if (recipe) {
+@if (recipe && filterRecipe) {
     <img class="recipe-image" [src]="recipe.image ?? 'recipe.jpeg'" alt="recipe">
 
     <div class="ml-3">
@@ -31,7 +30,9 @@
 
         <div class="flex justify-center align-items-center gap-2 mt-4">
             <i class="pi pi-users text-primary text-lg"></i>
-            {{ recipe.nbPerson }} personnes
+            <p-button size="small" icon="pi pi-minus" (click)="decreaseNbPersons()" [disabled]="filterRecipe.nbPerson <= 1"/>
+            {{ filterRecipe.nbPerson <= 1 ? filterRecipe.nbPerson + ' personne' : filterRecipe.nbPerson + ' personnes' }}
+            <p-button size="small" icon="pi pi-plus" (click)="increaseNbPersons()"/>
         </div>
 
         <div [routerLink]="['/', 'user-profile', recipe.user.id]"
@@ -65,10 +66,10 @@
             <p-tabpanels>
                 <p-tabpanel value="0">
                     <ul class="m-0 p-0 list-none">
-                        @for (ingredient of recipe.ingredients; track ingredient.id) {
+                        @for (ingredient of filterRecipe.ingredients; track ingredient.id) {
                             <li class="mb-4">
                                 <div class="mb-2 flex items-center">
-                                    <span>{{ ingredient.ingredient | titlecase }}</span>
+                                    <span>{{ ingredient.name | titlecase }}</span>
                                 </div>
                                 <div class="mb-2 flex items-center">
                                     <span class="text-primary">{{ ingredient.quantity }} {{ ingredient.unit }}</span>

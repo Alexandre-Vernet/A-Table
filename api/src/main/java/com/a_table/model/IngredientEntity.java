@@ -21,9 +21,9 @@ public class IngredientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ingredient;
+    private String name;
 
-    private String quantity;
+    private Integer quantity;
 
     private String unit;
 

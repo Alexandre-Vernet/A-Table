@@ -10,9 +10,9 @@ public class Ingredient {
 
     private Long id;
 
-    private String ingredient;
+    private String name;
 
-    private String quantity;
+    private Integer quantity;
 
     private String unit;
 
