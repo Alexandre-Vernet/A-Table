@@ -17,8 +17,7 @@ export const authGuard = (): Observable<boolean> => {
                 }
                 return of(true);
             }),
-            catchError((e) => {
-                console.log(e)
+            catchError(() => {
                 return handleError(router, alertService);
             })
         );
