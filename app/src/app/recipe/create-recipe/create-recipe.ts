@@ -142,12 +142,13 @@ export class CreateRecipe {
             .subscribe({
                 next: (recipe) => {
                     this.alertService.showSuccess('Votre recette a bien été créée');
-                    this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id])
+                    this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
+                    this.loading = false;
                 },
                 error: (err) => {
                     this.alertService.showError(err?.error?.message ?? 'Erreur lors de la création de votre recette');
+                    this.loading = false;
                 },
-                complete: () => this.loading = false
             });
     }
 
