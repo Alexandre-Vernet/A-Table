@@ -8,7 +8,7 @@ import { Message } from 'primeng/message';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 // import emailjs from '@emailjs/browser';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { Subject } from 'rxjs';
 
