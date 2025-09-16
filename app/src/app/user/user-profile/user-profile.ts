@@ -31,11 +31,7 @@ export class UserProfile implements OnInit {
             .subscribe({
                 next: (data => this.data = data),
                 error: (err => {
-                    this.alertService.alert$.next({
-                        severity: 'error',
-                        message: err?.error?.message ?? 'Impossible d\'accéder à cette page'
-                    });
-
+                    this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette page');
                     this.router.navigate(['/']);
                 })
             });

@@ -1,6 +1,7 @@
-<img class="recipe-image border-round-xl" [src]="recipe?.image ?? 'recipe.jpeg'" alt="recipe">
 
 @if (recipe) {
+    <img class="recipe-image" [src]="recipe.image ?? 'recipe.jpeg'" alt="recipe">
+
     <div class="ml-3">
         <h1 class="text-primary text-center">{{ recipe.name }}</h1>
 
@@ -70,7 +71,7 @@
                                     <span>{{ ingredient.ingredient | titlecase }}</span>
                                 </div>
                                 <div class="mb-2 flex items-center">
-                                    <span class="text-primary">{{ ingredient.quantity }}</span>
+                                    <span class="text-primary">{{ ingredient.quantity }} {{ ingredient.unit }}</span>
                                 </div>
                             </li>
                         }

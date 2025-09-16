@@ -10,11 +10,12 @@ import { RecipeService } from '../../services/recipe.service';
 import { RecipeStep } from '../../dto/RecipeStep';
 import { Message } from 'primeng/message';
 import { Recipe } from '../../dto/Recipe';
-import { Ingredient } from '../../dto/Ingredient';
 import { AlertService } from '../../services/alert.service';
 import { FileUpload, FileUploadEvent } from "primeng/fileupload";
 import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
+import { ingredientValidator } from '../../validators/ingredient.validator';
+import { parseIngredient } from '../../utils/parseIngredient';
 
 @Component({
     selector: 'app-create-recipe',
@@ -61,10 +62,16 @@ export class CreateRecipe {
         image: new FormControl(null),
         note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),
         ingredients: new FormArray([
-            this.createIngredientsFormGroup(),
+            new FormGroup({
+                ingredient: new FormControl(null, [Validators.required, ingredientValidator()]),
+            })
         ]),
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
     });
+
+    protected readonly environment = environment;
+
+    loading: boolean = false;
 
     get ingredientsControls() {
         return (this.formCreateRecipe.get('ingredients') as FormArray).controls;
@@ -87,6 +94,8 @@ export class CreateRecipe {
     }
 
     submitCreateRecipe() {
+        this.loading = true;
+
         const {
             name,
             category,
@@ -99,17 +108,10 @@ export class CreateRecipe {
             steps
         } = this.formCreateRecipe.getRawValue();
 
-        const ingredientConvert: Ingredient[] = [];
-        ingredients
-            .filter(i => !!i.ingredient && !!i.quantity)
-            .forEach(i => {
-                const newIngredient: Ingredient = {
-                    ingredient: i.ingredient,
-                    quantity: i.quantity
-                };
+        const parsedIngredients = ingredients
+            .filter(i => i.ingredient)
+            .map(i => parseIngredient(i.ingredient));
 
-                ingredientConvert.push(newIngredient);
-            });
 
         const recipeSteps: RecipeStep[] = [];
 
@@ -132,27 +134,26 @@ export class CreateRecipe {
             cookingTime,
             image,
             note,
-            ingredients: ingredientConvert,
+            ingredients: parsedIngredients,
             steps: recipeSteps
         };
 
         this.recipeService.createRecipe(recipe)
             .subscribe({
                 next: (recipe) => {
+                    this.alertService.showSuccess('Votre recette a bien été créée');
                     this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
-                    this.alertService.alert$.next({ severity: 'success', message: 'Votre recette a bien été créée' });
+                    this.loading = false;
                 },
                 error: (err) => {
-                    this.alertService.alert$.next({
-                        severity: 'error',
-                        message: err?.error?.message ?? 'Erreur lors de la création de votre recette'
-                    });
+                    this.alertService.showError(err?.error?.message ?? 'Erreur lors de la création de votre recette');
+                    this.loading = false;
                 },
             });
     }
 
     addIngredients(index: number) {
-        if (this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
+        if (this.formCreateRecipe.controls.ingredients.at(index).valid && this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
             this.addNewLine();
         }
     }
@@ -171,10 +172,7 @@ export class CreateRecipe {
 
     private createIngredientsFormGroup() {
         return new FormGroup({
-            ingredient: new FormControl(null),
-            quantity: new FormControl(null),
+            ingredient: new FormControl(null, ingredientValidator()),
         });
     }
-
-    protected readonly environment = environment;
 }

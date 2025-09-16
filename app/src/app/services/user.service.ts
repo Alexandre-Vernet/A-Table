@@ -15,20 +15,22 @@ export class UserService {
     userUrl = environment.userUrl();
 
     constructor(
-        private readonly http: HttpClient
+        private readonly http: HttpClient,
     ) {
     }
 
     getCurrentUser() {
         if (localStorage.getItem("token")) {
             return this.http.get<User>(`${ this.userUrl }/me`)
-                .pipe(tap(user => this.userSubject.next(user)));
+                .pipe(
+                    tap(user => this.userSubject.next(user)),
+                );
         }
         return of(null);
     }
 
     getUser(userId: number) {
-        return this.http.get<{user: User, recipeCount: number}>(`${ this.userUrl }/${ userId }`);
+        return this.http.get<{ user: User, recipeCount: number }>(`${ this.userUrl }/${ userId }`);
     }
 
     updateUser(user: User) {

@@ -14,6 +14,8 @@ public class Ingredient {
 
     private String quantity;
 
+    private String unit;
+
     @JsonBackReference
     Recipe recipe;
 }

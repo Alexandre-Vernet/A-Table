@@ -24,10 +24,7 @@ export const authGuard = (): Observable<boolean> => {
 };
 
 const handleError = (router: Router, alertService: AlertService): Observable<boolean> => {
-    alertService.alert$.next({
-        severity: 'error',
-        message: 'Vous devez être connecté pour accéder à cette page'
-    });
+    alertService.showError('Vous devez être connecté pour accéder à cette page');
     router.navigate(['/auth/login']);
     return of(false);
 };
