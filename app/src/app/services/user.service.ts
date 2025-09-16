@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
-import { BehaviorSubject, of, tap } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AlertService } from './alert.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    private userSubject = new BehaviorSubject<User>(null);
-    user$ = this.userSubject.asObservable();
-
     userUrl = environment.userUrl();
 
     constructor(
         private readonly http: HttpClient,
+        private readonly alertService: AlertService,
     ) {
     }
 
     getCurrentUser() {
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem('token')) {
             return this.http.get<User>(`${ this.userUrl }/me`)
                 .pipe(
-                    tap(user => this.userSubject.next(user)),
+                    tap(user => user ? this.alertService.clear() : null),
                 );
         }
         return of(null);
@@ -47,8 +46,7 @@ export class UserService {
             accessToken: string
         }>(`${ this.userUrl }/reset-password/${ userId }`, { password })
             .pipe(
-                tap(({ user, accessToken }) => {
-                    this.userSubject.next(user);
+                tap(({ accessToken }) => {
                     localStorage.setItem('token', accessToken);
                 })
             );
@@ -64,7 +62,6 @@ export class UserService {
 
 
     signOut() {
-        this.userSubject.next(null);
         localStorage.removeItem('token');
     }
 }

@@ -36,21 +36,20 @@ public class RecipeService {
     public List<Recipe> getRecipes() {
         List<RecipeEntity> entities = recipeRepository.findAll();
         entities.forEach(recipe -> {
-            if (recipe.getImage() != null && recipe.getImage().length > 0) {
-                recipe.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage()));
-            }
-
             UserEntity user = new UserEntity();
             user.setId(recipe.getUser().getId());
             recipe.setUser(user);
         });
+
+        entities = this.getRecipeListImage(entities);
+
         return mappingService.convertListTo(entities, Recipe.class);
     }
 
     public Recipe getRecipe(Long id) {
         RecipeEntity recipeEntity = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
         if (recipeEntity.getImage() != null && recipeEntity.getImage().length > 0) {
-            recipeEntity.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipeEntity.getImage()));
+            recipeEntity.setImageBase64(getRecipeImage(recipeEntity));
         }
         recipeEntity.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
         Recipe recipe = mappingService.map(recipeEntity, Recipe.class);
@@ -103,12 +102,21 @@ public class RecipeService {
     }
 
     public List<Recipe> getRecipesSearch(String search) {
-        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearch(search);
-        recipeEntityList.forEach(r -> {
-            if (r.getImage() != null && r.getImage().length > 0) {
-                r.setImageBase64("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getImage()));
-            }
-        });
+        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearchIgnoreAccent(search);
+        recipeEntityList = this.getRecipeListImage(recipeEntityList);
         return mappingService.convertListTo(recipeEntityList, Recipe.class);
+    }
+
+
+    private String getRecipeImage(RecipeEntity recipe) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage());
+    }
+
+    private List<RecipeEntity> getRecipeListImage(List<RecipeEntity> recipe) {
+        return recipe.stream().peek(r -> {
+            if (r.getImage() != null && r.getImage().length > 0) {
+                r.setImageBase64(getRecipeImage(r));
+            }
+        }).toList();
     }
 }

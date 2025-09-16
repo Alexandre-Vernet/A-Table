@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
-    @Query("""
-    select r from RecipeEntity r where lower(r.name) like '%' || lower(:search) || '%'
-    """)
-    List<RecipeEntity> findAllBySearch(@Param("search") String search);
-
+    @Query(value = """
+            SELECT r.* FROM recipes r
+    WHERE unaccent(lower(r.name)) LIKE unaccent(lower(concat('%', :search, '%')))
+    """, nativeQuery = true)
+    List<RecipeEntity> findAllBySearchIgnoreAccent(@Param("search") String search);
 }

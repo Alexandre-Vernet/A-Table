@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
 import { AuthRequest } from '../dto/AuthRequest';
-import { UserService } from '../services/user.service';
+import { UserService } from './user.service';
 
 @Injectable({
     providedIn: 'root'
