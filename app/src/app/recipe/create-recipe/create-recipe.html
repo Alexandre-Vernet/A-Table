@@ -57,7 +57,7 @@
             </div>
 
 
-            <div class="flex flex-row gap-2">
+            <div class="flex flex-row gap-2 flex-wrap">
                 <p-floatlabel variant="on" class="flex-1">
                     <p-inputNumber class="w-full" id="preparationTime" formControlName="preparationTime"
                                    autocomplete="off" [min]="1"
@@ -175,7 +175,7 @@
             <h2 class="text-primary mb-3">Préparation</h2>
             <p-floatlabel variant="on">
                 <textarea id="steps" formControlName="steps" [placeholder]="placeholderSteps"
-                          pTextarea rows="20" cols="40" style="resize: none"></textarea>
+                          pTextarea rows="20" cols="40" class="steps w-full"></textarea>
                 <label for="steps">Préparation</label>
             </p-floatlabel>
             <small id="steps-help">Séparez les étapes par 2 retours à la ligne</small>
