@@ -1,12 +1,12 @@
 package com.a_table.service;
 
+import com.a_table.config.mapper.UserMapper;
 import com.a_table.dto.AuthResponse;
 import com.a_table.dto.LoginRequest;
 import com.a_table.dto.User;
 import com.a_table.exception.UserAlreadyExistException;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.UserRepository;
-import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +25,6 @@ public class AuthService {
     UserRepository userRepository;
 
     @Resource
-    MappingService mappingService;
-
-    @Resource
     BCryptPasswordEncoder passwordEncoder;
 
     @Resource
@@ -35,6 +32,9 @@ public class AuthService {
 
     @Resource
     JwtService jwtService;
+
+    @Resource
+    UserMapper userMapper;
 
 
     public AuthResponse loginUser(LoginRequest loginRequest) {
@@ -59,7 +59,7 @@ public class AuthService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        UserEntity userEntity = userRepository.save(mappingService.map(user, UserEntity.class));
+        UserEntity userEntity = userRepository.save(userMapper.dtoToEntity(user));
 
         User userCreated = User.builder()
                 .id(userEntity.getId())

@@ -1,5 +1,6 @@
 package com.a_table.service;
 
+import com.a_table.config.mapper.RecipeMapper;
 import com.a_table.dto.Category;
 import com.a_table.dto.Recipe;
 import com.a_table.dto.User;
@@ -10,7 +11,6 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.RecipeRepository;
-import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +27,10 @@ public class RecipeService {
     RecipeRepository recipeRepository;
 
     @Resource
-    MappingService mappingService;
-
-    @Resource
     UserService userService;
 
+    @Resource
+    RecipeMapper recipeMapper;
 
     public List<Recipe> getRecipes() {
         List<RecipeEntity> entities = recipeRepository.findAll();
@@ -43,7 +42,7 @@ public class RecipeService {
 
         entities = this.getRecipeListImage(entities);
 
-        return mappingService.convertListTo(entities, Recipe.class);
+        return recipeMapper.entityToDtoList(entities);
     }
 
     public Recipe getRecipe(Long id) {
@@ -52,14 +51,7 @@ public class RecipeService {
             recipeEntity.setImageBase64(getRecipeImage(recipeEntity));
         }
         recipeEntity.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
-        Recipe recipe = mappingService.map(recipeEntity, Recipe.class);
-        return recipe.toBuilder()
-                .user(User.builder()
-                        .id(recipe.getUser().getId())
-                        .firstName(recipe.getUser().getFirstName())
-                        .lastName(recipe.getUser().getLastName())
-                        .build())
-                .build();
+        return recipeMapper.entityToDto(recipeEntity);
     }
 
     public Recipe createRecipe(Recipe recipe) {
@@ -80,15 +72,15 @@ public class RecipeService {
         recipe.getIngredients().forEach(i -> i.setRecipe(recipe));
         recipe.getSteps().forEach(i -> i.setRecipe(recipe));
 
-        RecipeEntity createdRecipe = recipeRepository.save(mappingService.map(recipe, RecipeEntity.class));
-        return mappingService.map(createdRecipe, Recipe.class);
+        RecipeEntity createdRecipe = recipeRepository.save(recipeMapper.dtoToEntity(recipe));
+        return recipeMapper.entityToDto(createdRecipe);
     }
 
     public Recipe updateRecipe(Long id, Recipe recipe) {
         RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
-        mappingService.merge(recipe, existingRecipe);
-        RecipeEntity updatedRecipe = recipeRepository.save(mappingService.map(existingRecipe, RecipeEntity.class));
-        return mappingService.map(updatedRecipe, Recipe.class);
+        recipeMapper.concat(recipe, existingRecipe);
+        RecipeEntity updatedRecipe = recipeRepository.save(existingRecipe);
+        return recipeMapper.entityToDto(updatedRecipe);
     }
 
     public void deleteRecipe(Long recipeId) {
@@ -104,7 +96,7 @@ public class RecipeService {
     public List<Recipe> getRecipesSearch(String search) {
         List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearchIgnoreAccent(search);
         recipeEntityList = this.getRecipeListImage(recipeEntityList);
-        return mappingService.convertListTo(recipeEntityList, Recipe.class);
+        return recipeMapper.entityToDtoList(recipeEntityList);
     }
 
 

@@ -1,9 +1,5 @@
 package com.a_table.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -20,9 +16,6 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Recipe {
 
     private Long id;
@@ -31,7 +24,7 @@ public class Recipe {
     private String name;
 
     @NotNull(message = "Le nombre de personne est obligatoire")
-    private Integer nbPerson;
+    private Short nbPerson;
 
 
     @NotNull(message = "La catégorie est obligatoire")
@@ -47,16 +40,13 @@ public class Recipe {
 
     private String image;
 
-    @Transient
     private byte[] imageBytes;
 
 
     private String note;
 
-    @JsonManagedReference
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    @JsonManagedReference
     private List<RecipeStep> steps = new ArrayList<>();
 
     private User user;
