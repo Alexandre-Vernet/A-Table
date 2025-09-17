@@ -12,9 +12,9 @@ import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.RecipeRepository;
 import jakarta.annotation.Resource;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
@@ -31,9 +31,6 @@ public class RecipeService {
 
     @Resource
     RecipeMapper recipeMapper;
-
-    @Resource
-    ModelMapper modelMapper;
 
     public List<Recipe> getRecipes() {
         List<RecipeEntity> entities = recipeRepository.findAll();
@@ -81,7 +78,7 @@ public class RecipeService {
 
     public Recipe updateRecipe(Long id, Recipe recipe) {
         RecipeEntity existingRecipe = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
-        modelMapper.map(recipe, existingRecipe);
+        recipeMapper.concat(recipe, existingRecipe);
         RecipeEntity updatedRecipe = recipeRepository.save(existingRecipe);
         return recipeMapper.entityToDto(updatedRecipe);
     }

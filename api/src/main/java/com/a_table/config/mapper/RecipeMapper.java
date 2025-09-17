@@ -9,6 +9,7 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 
@@ -105,5 +106,28 @@ public class RecipeMapper {
         return recipeEntityList.stream()
                 .map(this::entityToDto)
                 .toList();
+    }
+
+
+    public void concat(Recipe recipe, RecipeEntity existingRecipeEntity) {
+        if (recipe.getName() != null) {
+            existingRecipeEntity.setName(recipe.getName());
+        }
+        if (recipe.getNbPerson() != null) {
+            existingRecipeEntity.setNbPerson(recipe.getNbPerson());
+        }
+        if (recipe.getCategory() != null) {
+            existingRecipeEntity.setCategory(recipe.getCategory());
+        }
+        if (recipe.getPreparationTime() != null) {
+            existingRecipeEntity.setPreparationTime(recipe.getPreparationTime());
+        }
+        if (recipe.getCookingTime() != null) {
+            existingRecipeEntity.setCookingTime(recipe.getCookingTime());
+        }
+        if (recipe.getNote() != null) {
+            existingRecipeEntity.setNote(recipe.getNote());
+        }
+
     }
 }
