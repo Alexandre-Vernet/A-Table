@@ -9,12 +9,12 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 
 @Component
 public class RecipeMapper {
+
     public Recipe entityToDto(RecipeEntity recipeEntity) {
         return Recipe.builder()
                 .id(recipeEntity.getId())

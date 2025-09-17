@@ -1,17 +1,18 @@
 package com.a_table.service;
 
+import com.a_table.config.mapper.UserMapper;
 import com.a_table.dto.User;
 import com.a_table.exception.RequireAuthException;
 import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserRecipeCount;
 import com.a_table.model.UserRecipeCountProjection;
 import com.a_table.repository.UserRepository;
-import com.a_table.utils.MappingService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Base64;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Resource
-    MappingService mappingService;
+    UserMapper userMapper;
 
 
     public User getCurrentUser() {
@@ -35,7 +36,7 @@ public class UserService {
 
         String email = authentication.getName();
         return userRepository.findByEmail(email)
-                .map(entity -> mappingService.map(entity, User.class))
+                .map(entity -> userMapper.entityToDto(entity))
                 .map(user -> User.builder()
                         .id(user.getId())
                         .email(user.getEmail())
