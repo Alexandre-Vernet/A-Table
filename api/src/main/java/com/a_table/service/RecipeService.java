@@ -40,16 +40,11 @@ public class RecipeService {
             recipe.setUser(user);
         });
 
-        entities = this.getRecipeListImage(entities);
-
         return recipeMapper.entityToDtoList(entities);
     }
 
     public Recipe getRecipe(Long id) {
         RecipeEntity recipeEntity = recipeRepository.findById(id).orElseThrow(RecipeNotFoundException::new);
-        if (recipeEntity.getImage() != null && recipeEntity.getImage().length > 0) {
-            recipeEntity.setImageBase64(getRecipeImage(recipeEntity));
-        }
         recipeEntity.getSteps().sort(Comparator.comparingInt(RecipeStepEntity::getStepNumber));
         return recipeMapper.entityToDto(recipeEntity);
     }
@@ -95,20 +90,6 @@ public class RecipeService {
 
     public List<Recipe> getRecipesSearch(String search) {
         List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearchIgnoreAccent(search);
-        recipeEntityList = this.getRecipeListImage(recipeEntityList);
         return recipeMapper.entityToDtoList(recipeEntityList);
-    }
-
-
-    private String getRecipeImage(RecipeEntity recipe) {
-        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getImage());
-    }
-
-    private List<RecipeEntity> getRecipeListImage(List<RecipeEntity> recipe) {
-        return recipe.stream().peek(r -> {
-            if (r.getImage() != null && r.getImage().length > 0) {
-                r.setImageBase64(getRecipeImage(r));
-            }
-        }).toList();
     }
 }

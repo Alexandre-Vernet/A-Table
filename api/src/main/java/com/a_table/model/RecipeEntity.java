@@ -46,8 +46,6 @@ public class RecipeEntity {
 
     private byte[] image;
 
-    private String imageBase64;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     UserEntity user;

@@ -10,6 +10,7 @@ import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.List;
 
 
@@ -25,7 +26,7 @@ public class RecipeMapper {
                 .preparationTime(recipeEntity.getPreparationTime())
                 .cookingTime(recipeEntity.getCookingTime())
                 .note(recipeEntity.getNote())
-                .image(recipeEntity.getImageBase64())
+                .image(recipeEntity.getImage() != null ? "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipeEntity.getImage()) : null)
                 .user(
                         User.builder()
                                 .id(recipeEntity.getUser().getId())
@@ -60,7 +61,7 @@ public class RecipeMapper {
     }
 
     public RecipeEntity dtoToEntity(Recipe recipe) {
-        return RecipeEntity.builder()
+        RecipeEntity recipeEntity = RecipeEntity.builder()
                 .id(recipe.getId())
                 .name(recipe.getName())
                 .nbPerson(recipe.getNbPerson())
@@ -68,7 +69,7 @@ public class RecipeMapper {
                 .preparationTime(recipe.getPreparationTime())
                 .cookingTime(recipe.getCookingTime())
                 .note(recipe.getNote())
-                .imageBase64(recipe.getImage())
+                .image(recipe.getImageBytes())
                 .user(
                         UserEntity.builder()
                                 .id(recipe.getUser().getId())
@@ -76,30 +77,34 @@ public class RecipeMapper {
                                 .firstName(recipe.getUser().getFirstName())
                                 .build()
                 )
-                .ingredients(
-                        recipe.getIngredients().stream()
-                                .map(ingredient ->
-                                        IngredientEntity.builder()
-                                                .id(ingredient.getId())
-                                                .name(ingredient.getName())
-                                                .quantity(ingredient.getQuantity())
-                                                .unit(ingredient.getUnit())
-                                                .build()
-                                )
-                                .toList()
-                )
-                .steps(
-                        recipe.getSteps().stream()
-                                .map(step ->
-                                        RecipeStepEntity.builder()
-                                                .id(step.getId())
-                                                .stepNumber(step.getStepNumber())
-                                                .description(step.getDescription())
-                                                .build()
-                                )
-                                .toList()
-                )
                 .build();
+
+        List<IngredientEntity> ingredients = recipe.getIngredients().stream()
+                .map(ingredient ->
+                        IngredientEntity.builder()
+                                .id(ingredient.getId())
+                                .name(ingredient.getName())
+                                .quantity(ingredient.getQuantity())
+                                .unit(ingredient.getUnit())
+                                .recipe(recipeEntity)
+                                .build()
+                )
+                .toList();
+        recipeEntity.setIngredients(ingredients);
+
+        List<RecipeStepEntity> steps = recipe.getSteps().stream()
+                .map(step ->
+                        RecipeStepEntity.builder()
+                                .id(step.getId())
+                                .stepNumber(step.getStepNumber())
+                                .description(step.getDescription())
+                                .recipe(recipeEntity)
+                                .build()
+                )
+                .toList();
+        recipeEntity.setSteps(steps);
+
+        return recipeEntity;
     }
 
     public List<Recipe> entityToDtoList(List<RecipeEntity> recipeEntityList) {
