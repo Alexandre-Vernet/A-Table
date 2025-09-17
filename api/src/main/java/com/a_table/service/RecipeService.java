@@ -9,7 +9,6 @@ import com.a_table.exception.RecipeCantBeDeleted;
 import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
-import com.a_table.model.UserEntity;
 import com.a_table.repository.RecipeRepository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -34,12 +33,6 @@ public class RecipeService {
 
     public List<Recipe> getRecipes() {
         List<RecipeEntity> entities = recipeRepository.findAll();
-        entities.forEach(recipe -> {
-            UserEntity user = new UserEntity();
-            user.setId(recipe.getUser().getId());
-            recipe.setUser(user);
-        });
-
         return recipeMapper.entityToDtoList(entities);
     }
 
