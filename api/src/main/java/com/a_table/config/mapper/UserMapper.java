@@ -20,6 +20,7 @@ public class UserMapper {
         return UserEntity.builder()
                 .id(user.getId())
                 .email(user.getEmail())
+                .password(user.getPassword())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .build();

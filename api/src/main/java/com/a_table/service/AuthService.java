@@ -61,13 +61,6 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         UserEntity userEntity = userRepository.save(userMapper.dtoToEntity(user));
 
-        User userCreated = User.builder()
-                .id(userEntity.getId())
-                .email(userEntity.getEmail())
-                .firstName(userEntity.getFirstName())
-                .lastName(userEntity.getLastName())
-                .build();
-
-        return userCreated;
+        return userMapper.entityToDto(userEntity);
     }
 }
