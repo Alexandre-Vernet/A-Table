@@ -1,6 +1,5 @@
 package com.a_table.dto;
 
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -41,7 +40,6 @@ public class Recipe {
 
     private String image;
 
-    @Transient
     private byte[] imageBytes;
 
 

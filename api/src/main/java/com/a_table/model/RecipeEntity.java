@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,7 +46,6 @@ public class RecipeEntity {
 
     private byte[] image;
 
-    @Transient
     private String imageBase64;
 
     @ManyToOne(fetch = FetchType.LAZY)
