@@ -37,6 +37,15 @@ export class RecipeService {
     }
 
     deleteRecipe(recipe: Recipe) {
-        return this.http.delete<Recipe>(`${ this.recipeUrl }/${recipe.id}`);
+        return this.http.delete<Recipe>(`${ this.recipeUrl }/${ recipe.id }`);
+    }
+
+
+    getRecipesUser(userId: number, page: number = 0, size: number = 10) {
+        return this.http.get<PaginatedResponse<Recipe>>(`${ this.recipeUrl }/user-recipes/${ userId }`, {
+            params: {
+                page, size
+            }
+        });
     }
 }

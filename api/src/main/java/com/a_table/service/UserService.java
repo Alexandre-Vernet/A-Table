@@ -4,14 +4,14 @@ import com.a_table.config.mapper.UserMapper;
 import com.a_table.dto.User;
 import com.a_table.exception.RequireAuthException;
 import com.a_table.exception.UserNotFoundException;
-import com.a_table.model.UserRecipeCount;
-import com.a_table.model.UserRecipeCountProjection;
+import com.a_table.model.UserEntity;
 import com.a_table.repository.UserRepository;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @Service
@@ -23,7 +23,6 @@ public class UserService {
 
     @Resource
     UserMapper userMapper;
-
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,12 +43,8 @@ public class UserService {
                 .orElseThrow(RequireAuthException::new);
     }
 
-    public UserRecipeCount getUser(Long id) {
-        Optional<UserRecipeCountProjection> userRecipeCountProjection = Optional.ofNullable(userRepository.findUserAndRecipeCountById(id).orElseThrow(UserNotFoundException::new));
-        if (userRecipeCountProjection.isPresent()) {
-            return new UserRecipeCount(userMapper.entityToDto(userRecipeCountProjection.get().getUser()), userRecipeCountProjection.get().getRecipeCount());
-        }
-
-        return null;
+    public User getUser(Long id) {
+        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+        return userMapper.entityToDto(userEntity.get());
     }
 }

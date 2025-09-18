@@ -15,9 +15,9 @@
             </a>
         }
 
-        @if (pagination) {
-            <p-paginator (onPageChange)="goToPage($event)" [rows]="pagination.pageSize"
-                         [totalRecords]="pagination.totalElements" [rowsPerPageOptions]="[5, 10, 20, 30]"/>
+        @if (recipes && recipes.totalElements > recipes.content.length) {
+            <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
+                         [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
         }
     </div>
 

@@ -7,6 +7,7 @@ import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 import { SearchRecipe } from "../search-recipe/search-recipe";
 import { Button } from "primeng/button";
 import { Paginator, PaginatorState } from 'primeng/paginator';
+import { PaginatedResponse } from '../../dto/PaginatedResponse';
 
 @Component({
     selector: 'app-list-recipes',
@@ -26,16 +27,16 @@ import { Paginator, PaginatorState } from 'primeng/paginator';
 })
 export class ListRecipes implements OnInit {
 
-    recipes: Recipe[] = [];
     filterRecipes: Recipe[] = [];
 
-    pagination = {
+    recipes: PaginatedResponse<Recipe> = {
+        content: [],
         pageNumber: 0,
-        pageSize: 10,
+        pageSize: 20,
         totalElements: 0,
         totalPages: 0,
         last: false,
-    }
+    };
 
     showButtonAddRecipe = true;
     private lastScrollPosition: number;
@@ -50,13 +51,12 @@ export class ListRecipes implements OnInit {
     }
 
     private getRecipes(page: number) {
-        this.recipeService.getRecipes(page, this.pagination.pageSize)
+        this.recipeService.getRecipes(page, this.recipes.pageSize)
             .subscribe({
                 next: (response) => {
                     window.scroll(0, 0);
-                    this.recipes = response.content;
+                    this.recipes = { ...response };
                     this.filterRecipes = response.content;
-                    this.pagination = { ...response };
                 }
             })
     }
@@ -66,7 +66,7 @@ export class ListRecipes implements OnInit {
     }
 
     resetFilter() {
-        this.filterRecipes = this.recipes;
+        this.filterRecipes = this.recipes.content;
     }
 
     @HostListener('window:scroll', [])
@@ -86,8 +86,8 @@ export class ListRecipes implements OnInit {
     }
 
     goToPage(event: PaginatorState) {
-        this.pagination.pageSize = event.rows;
-        if (event.page >= 0 && event.page < this.pagination.totalPages) {
+        this.recipes.pageSize = event.rows;
+        if (event.page >= 0 && event.page < this.recipes.totalPages) {
             this.getRecipes(event.page);
             this.resetFilter();
         }

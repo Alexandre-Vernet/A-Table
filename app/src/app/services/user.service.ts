@@ -29,7 +29,7 @@ export class UserService {
     }
 
     getUser(userId: number) {
-        return this.http.get<{ user: User, recipeCount: number }>(`${ this.userUrl }/${ userId }`);
+        return this.http.get<User>(`${ this.userUrl }/${ userId }`)
     }
 
     updateUser(user: User) {
