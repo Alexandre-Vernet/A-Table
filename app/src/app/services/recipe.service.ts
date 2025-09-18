@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../dto/Recipe';
 import { environment } from '../../environments/environment';
+import { PaginatedResponse } from '../dto/PaginatedResponse';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,12 @@ export class RecipeService {
     ) {
     }
 
-    getRecipes() {
-        return this.http.get<Recipe[]>(`${ this.recipeUrl }/`);
+    getRecipes(page: number = 0, size: number = 10) {
+        return this.http.get<PaginatedResponse<Recipe>>(`${ this.recipeUrl }/`, {
+            params: {
+                page, size
+            }
+        });
     }
 
     getRecipe(id: number) {

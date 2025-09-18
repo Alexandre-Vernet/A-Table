@@ -10,7 +10,11 @@ import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
+import com.a_table.utils.PaginatedResponse;
 import jakarta.annotation.Resource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +35,18 @@ public class RecipeService {
     @Resource
     RecipeMapper recipeMapper;
 
-    public List<Recipe> getRecipes() {
-        List<RecipeEntity> entities = recipeRepository.findAll();
-        return recipeMapper.entityToDtoList(entities);
+    public PaginatedResponse<Recipe> getRecipes(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+
+        return new PaginatedResponse<>(
+                recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
+                recipeEntityPage.getNumber(),
+                recipeEntityPage.getSize(),
+                recipeEntityPage.getTotalElements(),
+                recipeEntityPage.getTotalPages(),
+                recipeEntityPage.isLast()
+        );
     }
 
     public Recipe getRecipe(Long id) {

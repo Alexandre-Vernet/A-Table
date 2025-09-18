@@ -2,6 +2,7 @@ package com.a_table.controller;
 
 import com.a_table.dto.Recipe;
 import com.a_table.service.RecipeService;
+import com.a_table.utils.PaginatedResponse;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,8 +25,8 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/")
-    List<Recipe> getRecipes() {
-        return recipeService.getRecipes();
+    PaginatedResponse<Recipe> getRecipes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return recipeService.getRecipes(page, size);
     }
 
     @GetMapping("/search/{search}")

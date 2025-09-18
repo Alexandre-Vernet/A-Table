@@ -14,16 +14,21 @@
                 <span class="text-lg">{{ recipe.category | titlecase }}</span>
             </a>
         }
+
+        @if (pagination) {
+            <p-paginator (onPageChange)="goToPage($event)" [rows]="pagination.pageSize"
+                         [totalRecords]="pagination.totalElements" [rowsPerPageOptions]="[5, 10, 20, 30]"/>
+        }
     </div>
-</div>
 
 
-<div class="btn-add-recipe-wrapper" [ngClass]="{
+    <div class="btn-add-recipe-wrapper" [ngClass]="{
     'hide-button': !showButtonAddRecipe
   }">
-    <p-button
-        [routerLink]="['/', 'recipe', 'create-recipe']"
-        icon="pi pi-plus"
-        [rounded]="true">
-    </p-button>
+        <p-button
+            [routerLink]="['/', 'recipe', 'create-recipe']"
+            icon="pi pi-plus"
+            [rounded]="true">
+        </p-button>
+    </div>
 </div>
