@@ -6,6 +6,8 @@ import { NgClass, TitleCasePipe } from "@angular/common";
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 import { SearchRecipe } from "../search-recipe/search-recipe";
 import { Button } from "primeng/button";
+import { Paginator, PaginatorState } from 'primeng/paginator';
+import { PaginatedResponse } from '../../dto/PaginatedResponse';
 
 @Component({
     selector: 'app-list-recipes',
@@ -17,15 +19,24 @@ import { Button } from "primeng/button";
         TimeConvertPipe,
         SearchRecipe,
         Button,
-        NgClass
+        NgClass,
+        Paginator
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None
 })
 export class ListRecipes implements OnInit {
 
-    recipes: Recipe[] = [];
     filterRecipes: Recipe[] = [];
+
+    recipes: PaginatedResponse<Recipe> = {
+        content: [],
+        pageNumber: 0,
+        pageSize: 20,
+        totalElements: 0,
+        totalPages: 0,
+        last: false,
+    };
 
     showButtonAddRecipe = true;
     private lastScrollPosition: number;
@@ -36,11 +47,16 @@ export class ListRecipes implements OnInit {
     }
 
     ngOnInit() {
-        this.recipeService.getRecipes()
+        this.getRecipes(0);
+    }
+
+    private getRecipes(page: number) {
+        this.recipeService.getRecipes(page, this.recipes.pageSize)
             .subscribe({
-                next: (recipes) => {
-                    this.recipes = recipes;
-                    this.filterRecipes = recipes;
+                next: (response) => {
+                    window.scroll(0, 0);
+                    this.recipes = { ...response };
+                    this.filterRecipes = response.content;
                 }
             })
     }
@@ -50,7 +66,7 @@ export class ListRecipes implements OnInit {
     }
 
     resetFilter() {
-        this.filterRecipes = this.recipes;
+        this.filterRecipes = this.recipes.content;
     }
 
     @HostListener('window:scroll', [])
@@ -67,5 +83,13 @@ export class ListRecipes implements OnInit {
         }
 
         this.lastScrollPosition = currentScrollPosition;
+    }
+
+    goToPage(event: PaginatorState) {
+        this.recipes.pageSize = event.rows;
+        if (event.page >= 0 && event.page < this.recipes.totalPages) {
+            this.getRecipes(event.page);
+            this.resetFilter();
+        }
     }
 }

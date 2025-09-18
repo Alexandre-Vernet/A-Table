@@ -1,40 +1,73 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
+import { PaginatedResponse } from '../../dto/PaginatedResponse';
+import { Recipe } from '../../dto/Recipe';
+import { Paginator, PaginatorState } from 'primeng/paginator';
+import { RecipeService } from '../../services/recipe.service';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
-        RouterLink
+        RouterLink,
+        Paginator
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss'
 })
 export class UserProfile implements OnInit {
 
-    data: { user: User, recipeCount: number };
+    user: User;
+    recipes: PaginatedResponse<Recipe> = {
+        content: [],
+        pageNumber: 0,
+        pageSize: 20,
+        totalElements: 0,
+        totalPages: 0,
+        last: false,
+    };
 
     constructor(
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly userService: UserService,
+        private readonly recipeService: RecipeService,
         private readonly alertService: AlertService
     ) {
     }
 
     ngOnInit() {
-        this.route.params
-            .pipe(switchMap((param: { id: number }) => this.userService.getUser(param.id)))
+        const userId = this.route.snapshot.params['id'];
+        this.userService.getUser(userId)
             .subscribe({
-                next: (data => this.data = data),
+                next: (user) => {
+                    this.user = user;
+                    this.getRecipesUser();
+                },
                 error: (err => {
                     this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette page');
                     this.router.navigate(['/']);
                 })
             });
+    }
+
+    private getRecipesUser(page: number = 0) {
+        this.recipeService.getRecipesUser(this.user.id, page, this.recipes.pageSize)
+            .subscribe({
+                next: (recipes) => {
+                    this.recipes = recipes;
+                }
+            })
+    }
+
+
+    goToPage(event: PaginatorState) {
+        this.recipes.pageSize = event.rows;
+        if (event.page >= 0 && event.page < this.recipes.totalPages) {
+            this.getRecipesUser(event.page);
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.a_table.controller;
 
 import com.a_table.dto.User;
-import com.a_table.model.UserRecipeCount;
 import com.a_table.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    UserRecipeCount getUser(@PathVariable Long id) {
+    User getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
