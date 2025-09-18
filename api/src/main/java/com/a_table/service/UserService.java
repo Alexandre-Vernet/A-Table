@@ -47,7 +47,7 @@ public class UserService {
     public UserRecipeCount getUser(Long id) {
         Optional<UserRecipeCountProjection> userRecipeCountProjection = Optional.ofNullable(userRepository.findUserAndRecipeCountById(id).orElseThrow(UserNotFoundException::new));
         if (userRecipeCountProjection.isPresent()) {
-            return new UserRecipeCount(userRecipeCountProjection.get().getUser(), userRecipeCountProjection.get().getRecipeCount());
+            return new UserRecipeCount(userMapper.entityToDto(userRecipeCountProjection.get().getUser()), userRecipeCountProjection.get().getRecipeCount());
         }
 
         return null;
