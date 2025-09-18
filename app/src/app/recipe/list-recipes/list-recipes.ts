@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../dto/Recipe';
 import { RouterLink } from '@angular/router';
@@ -19,7 +19,8 @@ import { Button } from "primeng/button";
         Button,
         NgClass
     ],
-    standalone: true
+    standalone: true,
+    encapsulation: ViewEncapsulation.None
 })
 export class ListRecipes implements OnInit {
 
