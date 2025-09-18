@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
-import { switchMap } from 'rxjs';
 import { Recipe } from '../../dto/Recipe';
 import { TitleCasePipe } from '@angular/common';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
@@ -50,8 +49,8 @@ export class ViewRecipe implements OnInit {
     }
 
     ngOnInit() {
-        this.route.params
-            .pipe(switchMap((param: { id: number }) => this.recipeService.getRecipe(param.id)))
+        const recipeId = this.route.snapshot.params['id'];
+        this.recipeService.getRecipe(recipeId)
             .subscribe({
                 next: (recipe => {
                     this.recipe = recipe;
