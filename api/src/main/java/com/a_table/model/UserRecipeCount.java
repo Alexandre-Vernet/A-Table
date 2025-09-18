@@ -1,5 +1,6 @@
 package com.a_table.model;
 
+import com.a_table.dto.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRecipeCount {
-    UserEntity user;
+    User user;
     Long recipeCount;
 }
