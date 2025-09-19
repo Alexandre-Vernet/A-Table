@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
 import { ingredientValidator } from '../../validators/ingredient.validator';
 import { parseIngredient } from '../../utils/parseIngredient';
+import { categories } from '../categories';
 
 @Component({
     selector: 'app-create-recipe',
@@ -34,14 +35,7 @@ import { parseIngredient } from '../../utils/parseIngredient';
     styleUrl: './create-recipe.scss'
 })
 export class CreateRecipe {
-
-    categories = [
-        { name: 'Entrée', code: 'entrée' },
-        { name: 'Plat', code: 'plat' },
-        { name: 'Dessert', code: 'dessert' },
-        { name: 'Petit déjeuner', code: 'petit déjeuner' },
-        { name: 'Autre', code: 'autre' },
-    ];
+    categories = categories;
 
     placeholderSteps = "Battre les oeufs et le sucre dans un saladier\n" +
         "\n" +
@@ -56,7 +50,7 @@ export class CreateRecipe {
     formCreateRecipe = new FormGroup({
         name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
         nbPerson: new FormControl(4, [Validators.required, Validators.min(1), Validators.max(50)]),
-        category: new FormControl(<{ name: string, code: string }>this.categories[1], [Validators.required]),
+        category: new FormControl(this.categories[1], [Validators.required]),
         preparationTime: new FormControl(null, [Validators.min(1), Validators.max(999)]),
         cookingTime: new FormControl(null, [Validators.min(0), Validators.max(999)]),
         image: new FormControl(null),
@@ -128,7 +122,7 @@ export class CreateRecipe {
 
         const recipe: Recipe = {
             name,
-            category: category.code,
+            category: category.name,
             nbPerson,
             preparationTime,
             cookingTime,

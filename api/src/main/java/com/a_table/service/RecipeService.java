@@ -13,6 +13,7 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.PaginatedResponse;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
@@ -40,9 +41,15 @@ public class RecipeService {
     @Resource
     UserMapper userMapper;
 
-    public PaginatedResponse<Recipe> getRecipes(int page, int size) {
+    public PaginatedResponse<Recipe> getRecipes(int page, int size, @Nullable() String category) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+
+        Page<RecipeEntity> recipeEntityPage;
+        if (category != null) {
+            recipeEntityPage = recipeRepository.findAllByCategoryIgnoreCase(category, pageable);
+        } else {
+            recipeEntityPage = recipeRepository.findAll(pageable);
+        }
 
         return new PaginatedResponse<>(
                 recipeMapper.entityToDtoList(recipeEntityPage.getContent()),

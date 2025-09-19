@@ -1,5 +1,7 @@
 <app-search-recipe (searchRecipes)="searchRecipes($event)" (resetFilter)="resetFilter()"></app-search-recipe>
 
+<app-filter-recipe (category)="filterCategory($event)"></app-filter-recipe>
+
 <div class="list-recipes">
     <div class="flex flex-column gap-5 m-3 p-3">
         @for (recipe of filterRecipes; track recipe.id) {

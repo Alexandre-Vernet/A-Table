@@ -8,6 +8,7 @@ import { SearchRecipe } from "../search-recipe/search-recipe";
 import { Button } from "primeng/button";
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { PaginatedResponse } from '../../dto/PaginatedResponse';
+import { FilterRecipe } from '../filter-recipe/filter-recipe';
 
 @Component({
     selector: 'app-list-recipes',
@@ -20,7 +21,8 @@ import { PaginatedResponse } from '../../dto/PaginatedResponse';
         SearchRecipe,
         Button,
         NgClass,
-        Paginator
+        Paginator,
+        FilterRecipe
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None
@@ -50,15 +52,15 @@ export class ListRecipes implements OnInit {
         this.getRecipes(0);
     }
 
-    private getRecipes(page: number) {
-        this.recipeService.getRecipes(page, this.recipes.pageSize)
+    private getRecipes(page: number, category?: string) {
+        this.recipeService.getRecipes(page, this.recipes.pageSize, category)
             .subscribe({
                 next: (response) => {
                     window.scroll(0, 0);
                     this.recipes = { ...response };
                     this.filterRecipes = response.content;
                 }
-            })
+            });
     }
 
     searchRecipes(filterRecipes: Recipe[]) {
@@ -91,5 +93,9 @@ export class ListRecipes implements OnInit {
             this.getRecipes(event.page);
             this.resetFilter();
         }
+    }
+
+    filterCategory(category: string) {
+        this.getRecipes(0, category);
     }
 }
