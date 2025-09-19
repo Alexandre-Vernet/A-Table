@@ -4,10 +4,11 @@ import { AlertComponent } from "./shared/alert/alert.component";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { PrimeNG } from "primeng/config";
 import { environment } from "../environments/environment";
+import { Navbar } from './navbar/navbar';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, AlertComponent],
+    imports: [RouterOutlet, AlertComponent, Navbar],
     templateUrl: './app.html',
     styleUrl: './app.scss',
 })
