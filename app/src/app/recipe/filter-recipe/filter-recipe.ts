@@ -1,6 +1,6 @@
 import { Component, Output } from '@angular/core';
 import { Select, SelectChangeEvent } from 'primeng/select';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { categories } from '../categories';
 
 @Component({
@@ -13,7 +13,7 @@ import { categories } from '../categories';
 })
 export class FilterRecipe {
 
-    @Output() category = new BehaviorSubject<string>('');
+    @Output() category = new Subject<string>();
 
     categories = categories;
 
