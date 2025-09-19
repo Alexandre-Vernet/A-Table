@@ -15,8 +15,8 @@ import com.a_table.repository.RecipeRepository;
 import com.a_table.utils.PaginatedResponse;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +69,7 @@ public class RecipeService {
         }
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByUser(userMapper.dtoToEntity(user), pageable);
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);
 
         return new PaginatedResponse<>(
                 recipeMapper.entityToDtoList(recipeEntityPage.getContent()),

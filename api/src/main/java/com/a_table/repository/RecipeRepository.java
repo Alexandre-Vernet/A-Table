@@ -18,7 +18,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     """, nativeQuery = true)
     List<RecipeEntity> findAllBySearchIgnoreAccent(@Param("search") String search);
 
-    Page<RecipeEntity> findAllByUser(UserEntity user, Pageable pageable);
+    Page<RecipeEntity> findByUser(UserEntity user, Pageable pageable);
 
     Page<RecipeEntity> findAllByCategoryIgnoreCase(@Param("category") String category, Pageable pageable);
 }
