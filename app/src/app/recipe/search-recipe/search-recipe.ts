@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, Output, ViewChild } from '@angular/core'
 import { InputText } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { RecipeService } from '../../services/recipe.service';
-import { BehaviorSubject, delay, distinctUntilChanged, filter, map, Subject, switchMap } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, Subject, switchMap } from 'rxjs';
 import { Recipe } from '../../dto/Recipe';
 import { FormsModule } from '@angular/forms';
 
@@ -22,7 +22,7 @@ export class SearchRecipe implements OnInit {
     @Output() resetFilter = new Subject<void>();
 
     search = '';
-    search$ = new BehaviorSubject<string>('');
+    search$ = new Subject<string>();
 
     @ViewChild("inputSearch") inputSearch: ElementRef;
 
