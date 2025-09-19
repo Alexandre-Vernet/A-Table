@@ -15,9 +15,15 @@ export class FilterRecipe {
 
     @Output() category = new BehaviorSubject<string>('');
 
-    categories= categories;
+    categories = categories;
 
     filterCategory($event: SelectChangeEvent) {
-        this.category.next($event.value.name);
+        if ($event?.value?.name) {
+            this.category.next($event.value.name);
+        }
+    }
+
+    resetFilter() {
+        this.category.next(null);
     }
 }

@@ -30,6 +30,7 @@ import { FilterRecipe } from '../filter-recipe/filter-recipe';
 export class ListRecipes implements OnInit {
 
     filterRecipes: Recipe[] = [];
+    filterCategory = '';
 
     recipes: PaginatedResponse<Recipe> = {
         content: [],
@@ -52,8 +53,8 @@ export class ListRecipes implements OnInit {
         this.getRecipes(0);
     }
 
-    private getRecipes(page: number, category?: string) {
-        this.recipeService.getRecipes(page, this.recipes.pageSize, category)
+    private getRecipes(page: number) {
+        this.recipeService.getRecipes(page, this.recipes.pageSize, this.filterCategory)
             .subscribe({
                 next: (response) => {
                     window.scroll(0, 0);
@@ -95,7 +96,8 @@ export class ListRecipes implements OnInit {
         }
     }
 
-    filterCategory(category: string) {
-        this.getRecipes(0, category);
+    filter(category: string) {
+        this.filterCategory = category;
+        this.getRecipes(0);
     }
 }
