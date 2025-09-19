@@ -93,6 +93,13 @@ public class RecipeService {
             throw new InvalidCategoryException();
         }
 
+        recipe.setName(recipe.getName().trim());
+        if (recipe.getNote() != null) {
+            recipe.setNote(recipe.getNote().trim());
+        }
+
+        recipe.getSteps().forEach(step -> step.setDescription(step.getDescription().trim()));
+
         User user = userService.getCurrentUser();
 
         if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
