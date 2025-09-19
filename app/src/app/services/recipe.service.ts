@@ -16,12 +16,18 @@ export class RecipeService {
     ) {
     }
 
-    getRecipes(page: number = 0, size: number = 10) {
-        return this.http.get<PaginatedResponse<Recipe>>(`${ this.recipeUrl }/`, {
-            params: {
-                page, size
-            }
-        });
+    getRecipes(page: number = 0, size: number = 10, category?: string) {
+        const params: {
+            page: number,
+            size: number,
+            category?: string
+        } = { page, size };
+
+        if (category && category.trim() !== '') {
+            params.category = category;
+        }
+
+        return this.http.get<PaginatedResponse<Recipe>>(`${ this.recipeUrl }/`, { params });
     }
 
     getRecipe(id: number) {
