@@ -1,8 +1,6 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.Ingredient;
 import com.a_table.dto.Recipe;
-import com.a_table.dto.RecipeStep;
 import com.a_table.dto.User;
 import com.a_table.model.IngredientEntity;
 import com.a_table.model.RecipeEntity;
@@ -33,29 +31,6 @@ public class RecipeMapper {
                                 .lastName(recipeEntity.getUser().getLastName())
                                 .firstName(recipeEntity.getUser().getFirstName())
                                 .build()
-                )
-                .ingredients(
-                        recipeEntity.getIngredients().stream()
-                                .map(ingredient ->
-                                        Ingredient.builder()
-                                                .id(ingredient.getId())
-                                                .name(ingredient.getName())
-                                                .quantity(ingredient.getQuantity())
-                                                .unit(ingredient.getUnit())
-                                                .build()
-                                )
-                                .toList()
-                )
-                .steps(
-                        recipeEntity.getSteps().stream()
-                                .map(step ->
-                                        RecipeStep.builder()
-                                                .id(step.getId())
-                                                .stepNumber(step.getStepNumber())
-                                                .description(step.getDescription())
-                                                .build()
-                                )
-                                .toList()
                 )
                 .build();
     }
