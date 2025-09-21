@@ -44,7 +44,7 @@ export class Navbar implements OnInit {
                         {
                             label: 'Mon compte',
                             icon: 'pi pi-user',
-                            command: () => this.router.navigate(['user-profile', user?.id])
+                            command: () => this.router.navigate(['user', 'user-profile', user?.id])
                         },
                         {
                             label: 'Se déconnecter',

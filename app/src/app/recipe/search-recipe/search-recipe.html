@@ -1,6 +1,15 @@
-<div class="search mt-2">
-    <p-floatlabel variant="in">
-        <input #inputSearch pInputText id="in_label" autocomplete="off" [(ngModel)]="search" (ngModelChange)="onSearchChange()" (keydown.escape)="clearSearch()"/>
-        <label for="in_label">Rechercher</label>
-    </p-floatlabel>
+<div class="card flex justify-center">
+    <p-select
+        [options]="users"
+        [(ngModel)]="search"
+        (input)="onSearchChange()"
+        placeholder="Rechercher un utilisateur ou une recette"
+        (onChange)="viewUserProfile($event.value)"
+        [showClear]="true"
+        (onClear)="clearSearch()"
+        [editable]="true"
+        optionLabel="displayName"
+        emptyMessage="Aucune recette ou utilisateur n'a été trouvé"
+        class="w-full md:w-56">
+    </p-select>
 </div>

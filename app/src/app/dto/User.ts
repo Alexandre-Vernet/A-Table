@@ -6,6 +6,7 @@ export interface User {
   password: string;
   firstName?: string;
   lastName?: string;
+  displayName?: string;
   confirmPassword?: string;
   createdAt?: Date;
   updatedAt?: Date;

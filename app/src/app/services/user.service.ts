@@ -69,4 +69,10 @@ export class UserService {
         this.user.next(null);
         localStorage.removeItem('token');
     }
+
+    searchUser(search: string) {
+        return this.http.get<User[]>(`${ this.userUrl }/search`, {
+            params: { search }
+        });
+    }
 }

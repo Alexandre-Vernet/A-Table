@@ -5,6 +5,8 @@ import com.a_table.model.UserEntity;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserMapper {
 
@@ -32,5 +34,10 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .build();
+    }
+
+
+    public List<User> entityToDtoList(List<UserEntity> userEntity) {
+        return userEntity.stream().map(this::entityToDto).toList();
     }
 }

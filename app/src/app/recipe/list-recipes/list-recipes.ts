@@ -7,8 +7,9 @@ import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 import { SearchRecipe } from "../search-recipe/search-recipe";
 import { Button } from "primeng/button";
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { PaginatedResponse } from '../../dto/PaginatedResponse';
+import { Paginate } from '../../dto/Paginate';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-list-recipes',
@@ -29,10 +30,10 @@ import { FilterRecipe } from '../filter-recipe/filter-recipe';
 })
 export class ListRecipes implements OnInit {
 
-    filterRecipes: Recipe[] = [];
-    filterCategory = '';
+    filterCategory: string;
+    search: string;
 
-    recipes: PaginatedResponse<Recipe> = {
+    recipes: Paginate<Recipe> = {
         content: [],
         pageNumber: 0,
         pageSize: 20,
@@ -40,6 +41,8 @@ export class ListRecipes implements OnInit {
         totalPages: 0,
         last: false,
     };
+    searchUser$ = new Subject<void>;
+    hideOverlay$ = new Subject<void>();
 
     showButtonAddRecipe = true;
     private lastScrollPosition: number;
@@ -50,27 +53,29 @@ export class ListRecipes implements OnInit {
     }
 
     ngOnInit() {
-        this.getRecipes(0);
+        this.getRecipes();
     }
 
-    private getRecipes(page: number) {
-        this.recipeService.getRecipes(page, this.recipes.pageSize, this.filterCategory)
+    private getRecipes(page?: number) {
+        this.recipeService.getRecipes(this.search, this.filterCategory, page, this.recipes.pageSize)
             .subscribe({
-                next: (response) => {
-                    window.scroll(0, 0);
-                    this.recipes = { ...response };
-                    this.filterRecipes = response.content;
+                next: (paginateRecipe) => {
+                    if (paginateRecipe.content.length === 0) {
+                        this.searchUser$.next();
+                    } else {
+                        window.scroll(0, 0);
+                        this.hideOverlay$.next();
+                    }
+                    this.recipes = { ...paginateRecipe };
                 }
             });
     }
 
-    searchRecipes(filterRecipes: Recipe[]) {
-        this.filterRecipes = filterRecipes;
+    searchRecipes(search: string) {
+        this.search = search;
+        this.getRecipes();
     }
 
-    resetFilter() {
-        this.filterRecipes = this.recipes.content;
-    }
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
@@ -92,12 +97,11 @@ export class ListRecipes implements OnInit {
         this.recipes.pageSize = event.rows;
         if (event.page >= 0 && event.page < this.recipes.totalPages) {
             this.getRecipes(event.page);
-            this.resetFilter();
         }
     }
 
     filter(category: string) {
         this.filterCategory = category;
-        this.getRecipes(0);
+        this.getRecipes();
     }
 }
