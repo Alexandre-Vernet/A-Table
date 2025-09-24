@@ -8,15 +8,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Query(value = """
             SELECT r.* FROM recipes r
     WHERE unaccent(lower(r.name)) LIKE unaccent(lower(concat('%', :search, '%')))
     """, nativeQuery = true)
-    List<RecipeEntity> findAllBySearchIgnoreAccent(@Param("search") String search);
+    Page<RecipeEntity> findAllBySearchIgnoreAccent(@Param("search") String search, Pageable pageable);
+
+    @Query(value = """
+            SELECT r.* FROM recipes r
+            WHERE unaccent(lower(r.name)) LIKE unaccent(lower(concat('%', :search, '%')))
+            AND unaccent(lower(r.category)) LIKE unaccent(lower(concat('%', :category, '%')))
+    """, nativeQuery = true)
+    Page<RecipeEntity> findAllBySearchAndCategoryIgnoreAccent(@Param("search") String search, @Param("category") String category, Pageable pageable);
 
     Page<RecipeEntity> findByUser(UserEntity user, Pageable pageable);
 

@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { authGuard } from './auth/auth.guard';
 import { UserProfile } from './user/user-profile/user-profile';
+import { SearchUser } from './user/search-user/search-user';
 
 export const routes: Routes = [
     {
@@ -32,8 +33,13 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'user-profile/:id',
-        component: UserProfile
+        path: 'user',
+        children: [
+            {
+                path: 'user-profile/:id',
+                component: UserProfile
+            },
+        ]
     },
     {
         path: 'auth',

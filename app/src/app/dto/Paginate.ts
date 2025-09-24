@@ -1,4 +1,4 @@
-export class PaginatedResponse<T> {
+export class Paginate<T> {
     content: T[];
     pageNumber: number;
     pageSize: number;

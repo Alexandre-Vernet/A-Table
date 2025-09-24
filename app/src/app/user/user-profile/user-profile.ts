@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
-import { PaginatedResponse } from '../../dto/PaginatedResponse';
+import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
@@ -20,7 +20,7 @@ import { RecipeService } from '../../services/recipe.service';
 export class UserProfile implements OnInit {
 
     user: User;
-    recipes: PaginatedResponse<Recipe> = {
+    recipes: Paginate<Recipe> = {
         content: [],
         pageNumber: 0,
         pageSize: 20,

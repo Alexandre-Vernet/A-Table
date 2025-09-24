@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -25,8 +23,11 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/")
-    PaginatedResponse<Recipe> getRecipes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(required = false) String category) {
-        return recipeService.getRecipes(page, size, category);
+    PaginatedResponse<Recipe> getRecipes(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "20") int size,
+                                         @RequestParam(required = false) String category,
+                                         @RequestParam(required = false) String search) {
+        return recipeService.getRecipes(page, size, category, search);
     }
 
     @GetMapping("/user-recipes/{id}")
@@ -34,10 +35,6 @@ public class RecipeController {
         return recipeService.getUserRecipes(id, page, size);
     }
 
-    @GetMapping("/search/{search}")
-    List<Recipe> getRecipesSearch(@PathVariable String search) {
-        return recipeService.getRecipesSearch(search);
-    }
 
     @GetMapping("/{id}")
     Recipe getRecipe(@PathVariable Long id) {

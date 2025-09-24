@@ -1,0 +1,11 @@
+<div class="card flex justify-center">
+    <p-select
+        [options]="users"
+        [(ngModel)]="search"
+        (ngModelChange)="searchUser()"
+        placeholder="Rechercher un utilisateur"
+        (onChange)="viewUserProfile($event.value)"
+        [editable]="true"
+        optionLabel="displayName" class="w-full md:w-56">
+    </p-select>
+</div>

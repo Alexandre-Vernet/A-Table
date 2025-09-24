@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.Comparator;
-import java.util.List;
 
 @Service
 @Transactional
@@ -41,12 +40,16 @@ public class RecipeService {
     @Resource
     UserMapper userMapper;
 
-    public PaginatedResponse<Recipe> getRecipes(int page, int size, @Nullable() String category) {
+    public PaginatedResponse<Recipe> getRecipes(int page, int size, @Nullable() String category, @Nullable String search) {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<RecipeEntity> recipeEntityPage;
-        if (category != null) {
+        if (category != null && search == null) {
             recipeEntityPage = recipeRepository.findAllByCategoryIgnoreCase(category, pageable);
+        } else if (category == null && search != null) {
+            recipeEntityPage = recipeRepository.findAllBySearchIgnoreAccent(search, pageable);
+        } else if (category != null) {
+            recipeEntityPage = recipeRepository.findAllBySearchAndCategoryIgnoreAccent(search, category, pageable);
         } else {
             recipeEntityPage = recipeRepository.findAll(pageable);
         }
@@ -133,8 +136,16 @@ public class RecipeService {
         recipeRepository.delete(recipeEntity);
     }
 
-    public List<Recipe> getRecipesSearch(String search) {
-        List<RecipeEntity> recipeEntityList = recipeRepository.findAllBySearchIgnoreAccent(search);
-        return recipeMapper.entityToDtoList(recipeEntityList);
+    public PaginatedResponse<Recipe> searchRecipes(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllBySearchIgnoreAccent(search, pageable);
+        return new PaginatedResponse<>(
+                recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
+                recipeEntityPage.getNumber(),
+                recipeEntityPage.getSize(),
+                recipeEntityPage.getTotalElements(),
+                recipeEntityPage.getTotalPages(),
+                recipeEntityPage.isLast()
+        );
     }
 }

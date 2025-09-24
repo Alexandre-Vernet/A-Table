@@ -1,55 +1,83 @@
-import { Component, ElementRef, OnInit, Output, ViewChild } from '@angular/core';
-import { InputText } from 'primeng/inputtext';
-import { FloatLabel } from 'primeng/floatlabel';
-import { RecipeService } from '../../services/recipe.service';
-import { BehaviorSubject, delay, distinctUntilChanged, filter, map, Subject, switchMap } from 'rxjs';
-import { Recipe } from '../../dto/Recipe';
+import { Component, DestroyRef, inject, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { Select, SelectChangeEvent } from 'primeng/select';
+import { User } from '../../dto/User';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-search-recipe',
     imports: [
-        InputText,
-        FloatLabel,
-        FormsModule
+        FormsModule,
+        Select
     ],
     templateUrl: './search-recipe.html',
-    styleUrl: './search-recipe.scss'
+    styleUrl: './search-recipe.scss',
 })
 export class SearchRecipe implements OnInit {
 
-    @Output() searchRecipes = new Subject<Recipe[]>();
-    @Output() resetFilter = new Subject<void>();
+    @Input() hideOverlay$ = new Subject<void>();
+    @Input() searchUser$ = new Subject<void>;
+    @Output() searchRecipes$ = new Subject<string>();
+    search: string;
 
-    search = '';
-    search$ = new BehaviorSubject<string>('');
-
-    @ViewChild("inputSearch") inputSearch: ElementRef;
+    users: User[] = [];
 
     constructor(
-        private readonly recipeService: RecipeService
+        private readonly userService: UserService,
+        private readonly router: Router
     ) {
     }
 
     ngOnInit() {
-        this.search$
-            .pipe(
-                distinctUntilChanged(),
-                delay(300),
-                filter((search) => !!search),
-                map(search => search.trim()),
-                switchMap((search) => this.recipeService.searchRecipe(search))
-            )
-            .subscribe(recipes => this.searchRecipes.next(recipes));
+        this.searchUser$
+            .subscribe(() => {
+                this.userService.searchUser(this.search)
+                    .subscribe(users => {
+                        this.showOverlayContent();
+                        this.users = users.map(user => ({
+                            ...user,
+                            displayName: `${ user.firstName } ${ user.lastName }`
+                        }));
+                    });
+            });
+
+        this.hideOverlay$
+            .pipe(takeUntilDestroyed(inject(DestroyRef)))
+            .subscribe(() => this.hideOverlayContent());
     }
 
     onSearchChange() {
-        this.search$.next(this.search);
+        this.searchRecipes$.next(this.search);
     }
 
     clearSearch() {
-        this.search = '';
-        this.inputSearch.nativeElement.blur();
-        this.resetFilter.next();
+        this.search = null;
+        this.searchRecipes$.next(null);
+        this.hideOverlayContent();
+    }
+
+    viewUserProfile(value: SelectChangeEvent) {
+        const user = value as unknown as User;
+        if (user && user.id) {
+            this.router.navigate(['/', 'user', 'user-profile', user.id]);
+        }
+    }
+
+    private showOverlayContent() {
+        const overlayContent = (document.querySelector('.ng-trigger-overlayContentAnimation') as HTMLElement);
+        if (overlayContent) {
+            overlayContent.style.visibility = 'visible';
+        }
+    }
+
+    private hideOverlayContent() {
+        console.log("hide")
+        const overlayContent = (document.querySelector('.ng-trigger-overlayContentAnimation') as HTMLElement);
+        if (overlayContent) {
+            overlayContent.style.visibility = 'hidden';
+        }
     }
 }
