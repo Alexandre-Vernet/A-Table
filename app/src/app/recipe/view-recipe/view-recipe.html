@@ -53,6 +53,7 @@
 
         @if (user?.id === recipe.user.id) {
             <div class="flex justify-center align-items-center gap-2 mt-4">
+                <p-button label="Modifier" severity="info" (click)="updateRecipe()"></p-button>
                 <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
             </div>
         }
