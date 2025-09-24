@@ -46,6 +46,11 @@ export class RecipeService {
         return this.http.post<Recipe>(`${ this.recipeUrl }/`, recipe);
     }
 
+    updateRecipe(recipe: Recipe) {
+        return this.http.put<Recipe>(`${ this.recipeUrl }/${recipe.id}`, recipe);
+    }
+
+
     deleteRecipe(recipe: Recipe) {
         return this.http.delete<Recipe>(`${ this.recipeUrl }/${ recipe.id }`);
     }

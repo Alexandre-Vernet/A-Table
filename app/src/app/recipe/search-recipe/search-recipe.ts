@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { Select, SelectChangeEvent } from 'primeng/select';
@@ -27,7 +27,8 @@ export class SearchRecipe implements OnInit {
 
     constructor(
         private readonly userService: UserService,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly destroyRef: DestroyRef
     ) {
     }
 
@@ -45,7 +46,7 @@ export class SearchRecipe implements OnInit {
             });
 
         this.hideOverlay$
-            .pipe(takeUntilDestroyed(inject(DestroyRef)))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => this.hideOverlayContent());
     }
 
@@ -74,7 +75,6 @@ export class SearchRecipe implements OnInit {
     }
 
     private hideOverlayContent() {
-        console.log("hide")
         const overlayContent = (document.querySelector('.ng-trigger-overlayContentAnimation') as HTMLElement);
         if (overlayContent) {
             overlayContent.style.visibility = 'hidden';

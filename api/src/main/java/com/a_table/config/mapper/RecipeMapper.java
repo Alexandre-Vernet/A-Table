@@ -133,6 +133,10 @@ public class RecipeMapper {
         if (recipe.getNote() != null) {
             existingRecipeEntity.setNote(recipe.getNote());
         }
-
+        if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
+            String base64Image = recipe.getImage().split(",")[1];
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+            existingRecipeEntity.setImage(imageBytes);
+        }
     }
 }
