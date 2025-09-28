@@ -56,11 +56,7 @@ export class CreateRecipe implements OnInit {
         cookingTime: new FormControl(null, [Validators.min(0), Validators.max(999)]),
         image: new FormControl(null),
         note: new FormControl(null, [Validators.minLength(5), Validators.maxLength(200)]),
-        ingredients: new FormArray([
-            new FormGroup({
-                ingredient: new FormControl(null, [Validators.required, ingredientValidator()]),
-            })
-        ]),
+        ingredients: new FormArray([]),
         steps: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.max(50)]),
     });
 
@@ -96,7 +92,7 @@ export class CreateRecipe implements OnInit {
                             if (ingredient.unit) {
                                 ingredientFormated += ' ' + ingredient.unit;
                             }
-                            this.formCreateRecipe.controls.ingredients.push(this.createIngredientsFormGroup(ingredientFormated));
+                            this.addIngredientLine(ingredientFormated);
                         });
 
                         this.formCreateRecipe.patchValue({
@@ -118,6 +114,7 @@ export class CreateRecipe implements OnInit {
                 });
         } else {
             this.formCreateRecipe.controls.category.setValue(this.categories[1]);
+            this.addIngredientLine();
         }
     }
 
@@ -205,9 +202,9 @@ export class CreateRecipe implements OnInit {
         }
     }
 
-    addIngredients(index: number) {
+    changeIngredients(index: number) {
         if (this.formCreateRecipe.controls.ingredients.at(index).valid && this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
-            this.addNewLine();
+            this.addIngredientLine();
         }
     }
 
@@ -219,13 +216,11 @@ export class CreateRecipe implements OnInit {
     }
 
 
-    private addNewLine() {
-        this.formCreateRecipe.controls.ingredients.push(this.createIngredientsFormGroup());
-    }
-
-    private createIngredientsFormGroup(value?: string) {
-        return new FormGroup({
-            ingredient: new FormControl(value ?? null, ingredientValidator()),
-        });
+    private addIngredientLine(value?: string) {
+        this.formCreateRecipe.controls.ingredients.push(
+            new FormGroup({
+                ingredient: new FormControl(value ?? null, ingredientValidator()),
+            })
+        );
     }
 }

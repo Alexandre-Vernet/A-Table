@@ -129,7 +129,7 @@
                         <div class="flex flex-column flex-1 min-w-0">
                             <p-floatlabel variant="on" class="w-full">
                                 <input id="ingredient-{{ i }}" formControlName="ingredient" pInputText
-                                       placeholder="Farine 150 g" (ngModelChange)="addIngredients(i)"
+                                       placeholder="Farine 150 g" (input)="changeIngredients(i)"
                                        autocomplete="off" class="w-full"/>
                                 <label for="ingredient-{{ i }}">Ingrédient</label>
                             </p-floatlabel>
