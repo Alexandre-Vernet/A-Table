@@ -123,7 +123,7 @@
         <div class="flex flex-column gap-1 mb-5">
             <h2 class="text-primary mb-3">Ingrédients</h2>
             <div formArrayName="ingredients" class="flex flex-column gap-3">
-                @for (ingredients of ingredientsControls; let i = $index; let first = $first; track i) {
+                @for (ingredients of ingredientsControls; let i = $index; let first = $first; track ingredients.value) {
                     <div [formGroupName]="i" class="flex flex-row gap-2 w-full">
                         <!-- Ingredient -->
                         <div class="flex flex-column flex-1 min-w-0">
