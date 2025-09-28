@@ -66,6 +66,11 @@ export class ViewRecipe implements OnInit {
             .subscribe(user => this.user = user)
     }
 
+    updateRecipe() {
+        this.router.navigate(['recipe', 'update-recipe', this.recipe.id]);
+
+    }
+
     showDialogDeleteRecipe(recipe: Recipe) {
         this.confirmationService.confirm({
             target: event.target as EventTarget,

@@ -8,14 +8,27 @@ import com.a_table.model.IngredientEntity;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Component
 public class RecipeMapper {
+
+    @Resource
+    IngredientMapper ingredientMapper;
+
+    @Resource
+    RecipeStepMapper recipeStepMapper;
 
     public Recipe entityToDto(RecipeEntity recipeEntity) {
         return Recipe.builder()
@@ -133,6 +146,73 @@ public class RecipeMapper {
         if (recipe.getNote() != null) {
             existingRecipeEntity.setNote(recipe.getNote());
         }
+        if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
+            String base64Image = recipe.getImage().split(",")[1];
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+            existingRecipeEntity.setImage(imageBytes);
+        }
 
+        if (recipe.getIngredients() != null) {
+            if (existingRecipeEntity.getIngredients() == null) {
+                existingRecipeEntity.setIngredients(new ArrayList<>());
+            }
+
+            Map<Long, IngredientEntity> existingById = existingRecipeEntity.getIngredients()
+                    .stream()
+                    .filter(i -> i.getId() != null)
+                    .collect(Collectors.toMap(IngredientEntity::getId, Function.identity(), (a, b) -> a));
+
+
+            Set<Long> incomingIds = recipe.getIngredients().stream()
+                    .map(Ingredient::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            existingRecipeEntity.getIngredients().removeIf(e -> e.getId() != null && !incomingIds.contains(e.getId()));
+
+            for (Ingredient dto : recipe.getIngredients()) {
+                if (dto.getId() != null && existingById.containsKey(dto.getId())) {
+                    IngredientEntity existing = existingById.get(dto.getId());
+                    existing.setName(dto.getName());
+                    existing.setQuantity(dto.getQuantity());
+                    existing.setUnit(dto.getUnit());
+                } else {
+                    IngredientEntity newEntity = ingredientMapper.dtoToEntity(dto);
+                    newEntity.setRecipe(existingRecipeEntity);
+                    existingRecipeEntity.getIngredients().add(newEntity);
+                }
+            }
+        }
+
+        if (recipe.getSteps() != null) {
+            if (existingRecipeEntity.getSteps() == null) {
+                existingRecipeEntity.setIngredients(new ArrayList<>());
+            }
+
+            Map<Long, RecipeStepEntity> existingById = existingRecipeEntity.getSteps()
+                    .stream()
+                    .filter(i -> i.getId() != null)
+                    .collect(Collectors.toMap(RecipeStepEntity::getId, Function.identity(), (a, b) -> a));
+
+
+            Set<Long> incomingIds = recipe.getSteps().stream()
+                    .map(RecipeStep::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            existingRecipeEntity.getSteps().removeIf(e -> e.getId() != null && !incomingIds.contains(e.getId()));
+
+            for (RecipeStep dto : recipe.getSteps()) {
+                if (dto.getId() != null && existingById.containsKey(dto.getId())) {
+                    RecipeStepEntity existing = existingById.get(dto.getId());
+                    existing.setDescription(dto.getDescription());
+                    existing.setStepNumber(dto.getStepNumber());
+                } else {
+                    RecipeStepEntity newEntity = recipeStepMapper.dtoToEntity(dto);
+                    newEntity.setRecipe(existingRecipeEntity);
+                    existingRecipeEntity.getSteps().add(newEntity);
+                }
+            }
+        }
     }
 }

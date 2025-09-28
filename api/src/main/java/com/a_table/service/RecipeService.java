@@ -135,17 +135,4 @@ public class RecipeService {
 
         recipeRepository.delete(recipeEntity);
     }
-
-    public PaginatedResponse<Recipe> searchRecipes(String search, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllBySearchIgnoreAccent(search, pageable);
-        return new PaginatedResponse<>(
-                recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
-                recipeEntityPage.getNumber(),
-                recipeEntityPage.getSize(),
-                recipeEntityPage.getTotalElements(),
-                recipeEntityPage.getTotalPages(),
-                recipeEntityPage.isLast()
-        );
-    }
 }
