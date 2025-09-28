@@ -96,11 +96,17 @@
                 </p-floatlabel>
             </div>
 
-            <div class="flex flex-row gap-2">
-                <p-fileupload #fu mode="basic" [chooseLabel]="updateRecipe?.image ? 'Mettre à jour l\'image' : 'Importer une image'" chooseIcon="pi pi-upload" name="demo[]"
+            <div class="flex flex-column gap-2">
+                @if (formCreateRecipe.controls.image.value) {
+                    <img class="recipe-image" [src]="formCreateRecipe.controls.image.value" alt="recipe">
+                }
+                <p-fileupload mode="basic"
+                              [chooseLabel]="updateRecipe?.image ? 'Mettre à jour l\'image' : 'Importer une image'"
+                              chooseIcon="pi pi-upload" name="demo[]"
                               [url]="environment.uploadUrl()" accept="image/*" maxFileSize="4000000"
                               [auto]="true"
                               (onUpload)="onUpload($event)"/>
+
             </div>
 
             <p-floatlabel variant="on">
@@ -139,14 +145,14 @@
                                         Champ requis
                                     }
                                     @if (ingredients.get('ingredient')?.invalid) {
-                                    Format invalide. Exemples valides:
-                                    <ul class="mt-1 ml-3 list-disc">
-                                        <li>Farine 150 g</li>
-                                        <li>Lait 250 mL</li>
-                                        <li>Oeuf 1</li>
-                                        <li>Huile d'olive 1 c à café</li>
-                                    </ul>
-                                }
+                                        Format invalide. Exemples valides:
+                                        <ul class="mt-1 ml-3 list-disc">
+                                            <li>Farine 150 g</li>
+                                            <li>Lait 250 mL</li>
+                                            <li>Oeuf 1</li>
+                                            <li>Huile d'olive 1 c à café</li>
+                                        </ul>
+                                    }
                                 </p-message>
                             }
                             @if (ingredients.get('ingredient')?.errors?.['invalidFormat']?.['allowedUnits']) {
@@ -186,7 +192,8 @@
         </div>
 
 
-        <p-button type="submit" icon="pi pi-check" [label]="updateRecipe ? 'Mettre à jour' : 'Créer'" [loading]="loading"
+        <p-button type="submit" icon="pi pi-check" [label]="updateRecipe ? 'Mettre à jour' : 'Créer'"
+                  [loading]="loading"
                   [disabled]="!formCreateRecipe.valid || loading"/>
     </form>
 </div>

@@ -103,6 +103,7 @@ export class CreateRecipe implements OnInit {
                             nbPerson: recipe.nbPerson,
                             preparationTime: recipe.preparationTime,
                             cookingTime: recipe.cookingTime,
+                            image: recipe.image,
                             note: recipe.note,
                             steps: recipe.steps.map(s => s.description).join("\n\n")
                         });
