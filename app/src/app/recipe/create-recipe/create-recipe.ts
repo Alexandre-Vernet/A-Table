@@ -162,7 +162,7 @@ export class CreateRecipe implements OnInit {
 
 
         const recipe: Recipe = {
-            id: this.updateRecipe.id,
+            id: this.updateRecipe && this.updateRecipe.id,
             name,
             category: category.name,
             nbPerson,
