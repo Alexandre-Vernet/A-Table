@@ -1,3 +1,15 @@
-<p-select [options]="categories" (onChange)="filterCategory($event)" (onClear)="resetFilter()" optionLabel="name"
-          [showClear]="true"
-          placeholder="Filtrer par catégorie" class="w-full md:w-56"/>
+<div class="card flex justify-center">
+    <p-button type="button" icon="pi pi-filter" (onClick)="op.toggle($event)"/>
+
+    <p-popover #op>
+        <div class="flex flex-column">
+            @for (category of categories; track category.name) {
+                <span class="flex items-center px-2 py-2"
+                      (click)="filterCategory(category.name); op.hide()">
+                    {{ category.name }}
+                </span>
+            }
+            <span class="px-2 py-2" (click)="resetFilter(); op.hide()">Réinitialiser</span>
+        </div>
+    </p-popover>
+</div>
