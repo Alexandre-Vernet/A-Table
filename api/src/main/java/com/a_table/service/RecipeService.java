@@ -133,6 +133,6 @@ public class RecipeService {
             throw new RecipeCantBeDeleted();
         }
 
-        recipeRepository.delete(recipeEntity);
+        recipeRepository.deleteById(recipeEntity.getId());
     }
 }
