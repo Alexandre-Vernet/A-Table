@@ -15,7 +15,7 @@ import { Ripple } from 'primeng/ripple';
         RouterLink
     ],
     templateUrl: './navbar.html',
-    styleUrl: './navbar.scss'
+    styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit {
 
