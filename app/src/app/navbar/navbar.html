@@ -1,3 +1,12 @@
-<div class="card">
-    <p-menubar [model]="items" />
-</div>
+<p-menubar [model]="items">
+    <ng-template #item let-item let-root="root">
+        <a pRipple class="flex items-center p-menubar-item-link">
+            <span>{{ item.label }}</span>
+        </a>
+    </ng-template>
+    <ng-template #end>
+        <a routerLink="/">
+            <img src="/icons/ios/40.png" alt="icon">
+        </a>
+    </ng-template>
+</p-menubar>
