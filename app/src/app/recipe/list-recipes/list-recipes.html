@@ -1,6 +1,8 @@
-<app-search-recipe [hideOverlay$]="hideOverlay$" [searchUser$]="searchUser$" (searchRecipes$)="searchRecipes($event)"></app-search-recipe>
-
-<app-filter-recipe (category)="filter($event)"></app-filter-recipe>
+<div class="flex justify-content-center align-items-center mt-1 gap-4 m-3">
+    <app-search-recipe class="flex-1" [hideOverlay$]="hideOverlay$" [searchUser$]="searchUser$"
+                       (searchRecipes$)="searchRecipes($event)"></app-search-recipe>
+    <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
+</div>
 
 <div class="list-recipes">
     <div class="flex flex-column gap-5 m-3 p-3">

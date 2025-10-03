@@ -66,7 +66,7 @@ export class ListRecipes implements OnInit {
                         window.scroll(0, 0);
                         this.hideOverlay$.next();
                     }
-                    this.recipes = { ...paginateRecipe };
+                    this.recipes = paginateRecipe;
                 }
             });
     }

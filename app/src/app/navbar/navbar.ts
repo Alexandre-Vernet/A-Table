@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Menubar } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../dto/User';
 import { AlertService } from '../services/alert.service';
+import { Ripple } from 'primeng/ripple';
 
 @Component({
     selector: 'app-navbar',
     imports: [
-        Menubar
+        Menubar,
+        Ripple,
+        RouterLink
     ],
     templateUrl: './navbar.html',
     styleUrl: './navbar.scss'
