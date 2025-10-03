@@ -150,7 +150,9 @@ export class CreateRecipe implements OnInit {
 
         const recipeSteps: RecipeStep[] = [];
 
-        const castedSteps = steps.split("\n\n");
+        const castedSteps: string[] = steps.trim()
+            .split("\n\n")
+            .filter((s: string) => s.trim() !== '');
         castedSteps.forEach((step, i) => {
             const recipeStep: RecipeStep = {
                 stepNumber: i + 1,  // Start step to 1
