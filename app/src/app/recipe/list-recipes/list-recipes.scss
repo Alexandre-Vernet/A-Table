@@ -29,3 +29,9 @@
         pointer-events: none;
     }
 }
+
+@media (max-width: 550px) {
+    .recipe {
+        flex-direction: column;
+    }
+}

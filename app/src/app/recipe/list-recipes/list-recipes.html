@@ -5,7 +5,7 @@
 </div>
 
 <div class="list-recipes">
-    <div class="flex flex-column gap-5 m-3 p-3">
+    <div class="recipe flex gap-5 m-3 p-3">
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
                class="flex flex-column text-black-alpha-90 bg-white p-3">
