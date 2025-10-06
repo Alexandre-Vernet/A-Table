@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { AlertComponent } from "./shared/alert/alert.component";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { PrimeNG } from "primeng/config";
 import { environment } from "../environments/environment";
 import { Navbar } from './navbar/navbar';
+import { UserService } from './services/user.service';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-root',
@@ -14,10 +17,15 @@ import { Navbar } from './navbar/navbar';
 })
 export class App implements OnInit {
 
+    showNavbar = true;
+
     constructor(
         private readonly sw: SwPush,
         private readonly swUpdate: SwUpdate,
-        private primeng: PrimeNG,
+        private readonly primeng: PrimeNG,
+        private readonly userService: UserService,
+        private readonly router: Router,
+        private readonly destroyRef: DestroyRef
     ) {
         if (environment.production) {
             // Force refresh PWA
@@ -46,5 +54,12 @@ export class App implements OnInit {
 
     ngOnInit() {
         this.primeng.ripple.set(true);
+        this.router.events
+            .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                filter(e => e instanceof NavigationStart),
+            )
+            .subscribe(event => this.showNavbar = !event.url.includes('auth'))
+        this.userService.getCurrentUser().subscribe();
     }
 }
