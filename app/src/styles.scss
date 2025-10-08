@@ -1,3 +1,4 @@
+@use "colors" as colors;
 @import "primeicons/primeicons.css";
 
 * {
@@ -26,4 +27,9 @@ html, body {
         max-height: 250px;
         max-width: 250px;
     }
+}
+
+
+.text-secondary {
+    color: colors.$green;
 }
