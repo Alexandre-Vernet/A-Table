@@ -1,19 +1,19 @@
 import {
     ApplicationConfig,
+    isDevMode,
     provideBrowserGlobalErrorListeners,
-    provideZoneChangeDetection,
-    isDevMode
+    provideZoneChangeDetection
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { MessageService } from "primeng/api";
 import { authInterceptor } from './auth/auth.interceptor';
+import { CustomPreset } from './CustomPreset';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(withInterceptors([authInterceptor])),
         providePrimeNG({
             theme: {
-                preset: Aura
+                preset: CustomPreset
             }
         }),
         provideServiceWorker('ngsw-worker.js', {
