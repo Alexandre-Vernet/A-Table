@@ -1,52 +1,47 @@
-<div class="auth-container">
-    <div class="screen">
-        <div class="screen__content">
-            <p-message *ngIf="alert?.message" [severity]="alert?.severity">{{ alert?.message }}</p-message>
-
-            <form [formGroup]="formSignIn" (ngSubmit)="signIn()" class="login">
-                <div>
-                    <div class="login__field">
-<!--                        <fa-icon class="login__icon" [icon]="faIcons.faUser"></fa-icon>-->
-                        <input formControlName="email" type="text" class="login__input" placeholder="Email">
-                    </div>
-                    <p-message *ngIf="formSignIn.controls.email.touched && formSignIn.controls.email.errors?.['email']"
-                               severity="error" variant="simple" size="small">
+<section>
+    <div class="login-container">
+        <div class="illustration">
+            <img src="/icons/ios/1024.png" alt="Chef Hat">
+        </div>
+        <h1>À Table !</h1>
+        <form [formGroup]="formSignIn" (ngSubmit)="signIn()">
+            <div>
+                <div class="login-field">
+                    <input formControlName="email" type="text" class="login-input" placeholder="Email">
+                </div>
+                @if (formSignIn.controls.email.touched && formSignIn.controls.email.errors?.['email']) {
+                    <p-message
+                        severity="error" variant="simple" size="small">
                         L'email n'est pas valide
                     </p-message>
-                    <p-message *ngIf="formSignIn.hasError('invalidCredential')" severity="error" variant="simple"
+                }
+                @if (formSignIn.hasError('invalidCredential')) {
+                    <p-message severity="error" variant="simple"
                                size="small">
                         {{ formSignIn.getError('invalidCredential') }}
                     </p-message>
-                </div>
-                <div class="login__field">
-<!--                    <fa-icon class="login__icon" [icon]="faIcons.faLock"></fa-icon>-->
-                    <input formControlName="password" type="password" class="login__input" placeholder="Mot de passe">
-                </div>
-                <button class="button login__submit" [ngClass]="{
+                }
+
+            </div>
+            <div class="login-field">
+                <input formControlName="password" type="password" class="login-input" placeholder="Mot de passe">
+            </div>
+            <button class="button login-submit" [ngClass]="{
                     'disabled': formSignIn.invalid
                     }"
-                        [disabled]="formSignIn.invalid">
-                    <span class="button__text">Connexion</span>
-<!--                    <fa-icon class="button__icon" [icon]="faIcons.faChevronRight"></fa-icon>-->
-                </button>
-            </form>
-            <div class="register">
+                    [disabled]="formSignIn.invalid">
+                <span class="button-text">Connexion</span>
+            </button>
+        </form>
+        <div class="signup-link">
                 <span (click)="showDialogForgotPassword = true">
                     <h3>Mot de passe oublié</h3>
                 </span>
-                <a routerLink="/auth/register">
-                    <h3>Pas encore inscrit ? Créez un compte ici</h3>
-                </a>
-
-            </div>
-        </div>
-        <div class="screen__background">
-            <span class="screen__background__shape screen__background__shape4"></span>
-            <span class="screen__background__shape screen__background__shape3"></span>
-            <span class="screen__background__shape screen__background__shape2"></span>
-            <span class="screen__background__shape screen__background__shape1"></span>
+            <a routerLink="/auth/register">
+                <h3>Pas encore inscrit ? Créez un compte ici</h3>
+            </a>
         </div>
     </div>
-</div>
+</section>
 
 <app-forgot-password [(showDialogForgotPassword)]="showDialogForgotPassword"></app-forgot-password>

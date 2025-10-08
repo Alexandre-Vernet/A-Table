@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { NgClass, NgIf } from '@angular/common';
-// import { faChevronRight, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
 import { Message } from 'primeng/message';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
-import { Alert } from '../../dto/Alert';
 import { User } from '../../dto/User';
 
 @Component({
@@ -17,7 +14,6 @@ import { User } from '../../dto/User';
     imports: [
         ReactiveFormsModule,
         RouterLink,
-        NgIf,
         NgClass,
         Message,
         ForgotPasswordComponent
@@ -25,21 +21,12 @@ import { User } from '../../dto/User';
 })
 export class LoginComponent {
 
-    // faIcons = {
-    //     faUser,
-    //     faLock,
-    //     faChevronRight
-    // };
-
     formSignIn = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required])
     });
 
-
     showDialogForgotPassword: boolean;
-
-    alert: Alert;
 
     constructor(
         private readonly authService: AuthService,
@@ -61,7 +48,9 @@ export class LoginComponent {
         this.authService.login(user)
             .subscribe({
                 next: () => this.router.navigateByUrl('/'),
-                error: (err) => this.formSignIn.setErrors({ [err.error.errorCode]: err.error.message })
+                error: () => this.formSignIn.setErrors({
+                    invalidCredential: 'Email ou mot de passe invalide'
+                })
             });
     }
 }
