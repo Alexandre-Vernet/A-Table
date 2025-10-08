@@ -7,6 +7,7 @@ import { NgClass, NgIf } from '@angular/common';
 // import { faChevronRight, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Message } from 'primeng/message';
 import { User } from '../../dto/User';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-register',
@@ -64,6 +65,9 @@ export class RegisterComponent {
             lastName
         };
         this.authService.register(user)
+            .pipe(
+                switchMap(() => this.authService.login(user))
+            )
             .subscribe({
                 next: () => this.router.navigateByUrl('/'),
                 error: (err) => this.formSignUp.setErrors({ [err.error.errorCode]: err.error.message })

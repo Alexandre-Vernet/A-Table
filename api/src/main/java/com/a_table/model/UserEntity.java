@@ -43,6 +43,7 @@ public class UserEntity implements UserDetails {
 
     private String lastName;
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RecipeEntity> recipes = new ArrayList<>();
 
