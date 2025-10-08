@@ -16,11 +16,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = """
                 SELECT r.* FROM users r
-                WHERE lower(r.last_name) LIKE lower(concat('%', :search, '%'))
-                OR lower(r.first_name) LIKE lower(concat('%', :search, '%'))
-                OR lower(r.email) LIKE lower(concat('%', :search, '%'))
-                OR lower(concat(r.first_name, ' ', r.last_name)) LIKE lower(concat('%', :search, '%'))
-                OR lower(concat(r.last_name, ' ', r.first_name)) LIKE lower(concat('%', :search, '%'))
+                WHERE unaccent(lower(r.last_name)) LIKE unaccent(lower(concat('%', :search, '%')))
+                OR unaccent(lower(r.first_name)) LIKE unaccent(lower(concat('%', :search, '%')))
+                OR unaccent(lower(r.email)) LIKE unaccent(lower(concat('%', :search, '%')))
+                OR unaccent(lower(concat(r.first_name, ' ', r.last_name))) LIKE unaccent(lower(concat('%', :search, '%')))
+                OR unaccent(lower(concat(r.last_name, ' ', r.first_name))) LIKE unaccent(lower(concat('%', :search, '%')))
             """, nativeQuery = true)
     List<UserEntity> findAllBySearchIgnoreAccent(@Param("search") String search);
 

@@ -6,7 +6,6 @@ import com.a_table.exception.RequireAuthException;
 import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.UserRepository;
-import com.a_table.utils.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,7 +50,7 @@ public class UserService {
     }
 
     public List<User> getRecipesSearch(String search) {
-        List<UserEntity> userEntityList = userRepository.findAllBySearchIgnoreAccent(StringUtils.removeAccents(search));
+        List<UserEntity> userEntityList = userRepository.findAllBySearchIgnoreAccent(search);
         return userMapper.entityToDtoList(userEntityList);
     }
 }
