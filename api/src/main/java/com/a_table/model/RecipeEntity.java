@@ -50,9 +50,11 @@ public class RecipeEntity {
     @JoinColumn(name = "user_id")
     UserEntity user;
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<IngredientEntity> ingredients = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RecipeStepEntity> steps = new ArrayList<>();
 }
