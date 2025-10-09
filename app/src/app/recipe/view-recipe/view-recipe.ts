@@ -11,6 +11,8 @@ import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
+import { RecipeSavedService } from '../../services/recipe-saved.service';
+import { catchError, combineLatest, of, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-view-recipe',
@@ -38,10 +40,13 @@ export class ViewRecipe implements OnInit {
 
     user: User;
 
+    isRecipeSaved = false;
+
     constructor(
         private readonly route: ActivatedRoute,
         private readonly router: Router,
         private readonly recipeService: RecipeService,
+        private readonly recipeSaved: RecipeSavedService,
         private readonly alertService: AlertService,
         private readonly confirmationService: ConfirmationService,
         private readonly userService: UserService
@@ -50,25 +55,34 @@ export class ViewRecipe implements OnInit {
 
     ngOnInit() {
         const recipeId = this.route.snapshot.params['id'];
-        this.recipeService.getRecipe(recipeId)
+
+        combineLatest([
+            this.recipeService.getRecipe(recipeId)
+                .pipe(
+                    switchMap(recipe => {
+                        this.recipe = recipe;
+                        this.filterRecipe = { ...recipe };
+                        return this.recipeSaved.isRecipeSaved(recipe)
+                            .pipe(catchError(() => of(null)));
+                    })
+                ),
+            this.userService.getCurrentUser()
+                .pipe(catchError(() => of(null)))
+        ])
             .subscribe({
-                next: (recipe => {
-                    this.recipe = recipe;
-                    this.filterRecipe = { ...recipe };
-                }),
+                next: ([isRecipeSaved, user]) => {
+                    this.isRecipeSaved = isRecipeSaved;
+                    this.user = user;
+                },
                 error: (err => {
                     this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette recette');
                     this.router.navigate(['/']);
                 })
             });
-
-        this.userService.getCurrentUser()
-            .subscribe(user => this.user = user)
     }
 
     updateRecipe() {
         this.router.navigate(['recipe', 'update-recipe', this.recipe.id]);
-
     }
 
     showDialogDeleteRecipe(recipe: Recipe) {
@@ -129,5 +143,26 @@ export class ViewRecipe implements OnInit {
                 quantity: Math.round((ingredient.quantity * nbPersons) / this.recipe.nbPerson)
             }))
         };
+    }
+
+    saveRecipe(recipe: Recipe) {
+        this.recipeSaved.toggleRecipeSaved(recipe)
+            .subscribe({
+                next: () => {
+                    this.isRecipeSaved = !this.isRecipeSaved;
+                    if (this.isRecipeSaved) {
+                        this.alertService.showSuccess('La recette a bien été ajoutée à vos favoris');
+                    } else {
+                        this.alertService.showSuccess('La recette a bien été supprimée de vos favoris');
+                    }
+                },
+                error: () => {
+                    if (this.isRecipeSaved) {
+                        this.alertService.showError('Impossible de supprimer la recette de vos favoris');
+                    } else {
+                        this.alertService.showError('Impossible d\'ajouter la recette en favoris');
+                    }
+                }
+            });
     }
 }

@@ -59,6 +59,8 @@
                 <p-button label="Modifier" severity="info" (click)="updateRecipe()"></p-button>
                 <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
             </div>
+            <i [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)" style="color: slateblue; font-size: 2rem"></i>
+
         }
 
 
