@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { User } from '../dto/User';
-import { BehaviorSubject, of, tap } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from './alert.service';
 
@@ -11,9 +11,6 @@ import { AlertService } from './alert.service';
 export class UserService {
 
     userUrl = environment.userUrl();
-
-    private user = new BehaviorSubject<User>(null);
-    user$ = this.user.asObservable();
 
     constructor(
         private readonly http: HttpClient,
@@ -26,7 +23,6 @@ export class UserService {
             return this.http.get<User>(`${ this.userUrl }/me`)
                 .pipe(
                     tap(user => user ? this.alertService.clear() : null),
-                    tap(user => this.user.next(user)),
                 );
         }
         return of(null);
@@ -66,7 +62,6 @@ export class UserService {
 
 
     signOut() {
-        this.user.next(null);
         localStorage.removeItem('token');
     }
 

@@ -38,7 +38,7 @@ export class Navbar implements OnInit {
             },
         ];
 
-        this.userService.user$.subscribe({
+        this.userService.getCurrentUser().subscribe({
             next: (user) => {
                 if (user) {
                     this.user = user;
