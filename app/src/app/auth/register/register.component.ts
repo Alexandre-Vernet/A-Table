@@ -44,7 +44,7 @@ export class RegisterComponent {
         } = this.formSignUp.value;
 
         if (password !== confirmPassword) {
-            this.formSignUp.setErrors({ passwordNotMatch: 'Passwords does not match' });
+            this.formSignUp.setErrors({ passwordNotMatch: true });
             return;
         }
 
@@ -61,7 +61,9 @@ export class RegisterComponent {
             )
             .subscribe({
                 next: () => this.router.navigateByUrl('/'),
-                error: (err) => this.formSignUp.setErrors({ [err.error.errorCode]: err.error.message })
+                error: (err) => this.formSignUp.setErrors({
+                        error: err?.error?.message ?? 'Une erreur s\'est produite'
+                    })
             });
     }
 }
