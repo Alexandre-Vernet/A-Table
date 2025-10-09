@@ -7,12 +7,14 @@ import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
+import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
         RouterLink,
-        Paginator
+        Paginator,
+        TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss'

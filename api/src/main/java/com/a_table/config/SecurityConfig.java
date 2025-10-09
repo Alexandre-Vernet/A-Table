@@ -32,7 +32,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/recipe/**").authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "/api/recipe/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/api/recipe-user").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/recipe-saved").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/user-recipes").authenticated()
                                 .anyRequest().permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

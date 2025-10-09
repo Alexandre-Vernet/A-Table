@@ -11,7 +11,7 @@
                class="flex flex-column text-black-alpha-90 bg-white p-3">
                 <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'recipe.jpeg'"
                      alt="recipe">
-                <h2 class="text-lg mt-2">{{ recipe.name }}</h2>
+                <h2 class="text-lg mt-2">{{ recipe.name | truncateRecipeName }}</h2>
                 @if (recipe.cookingTime && recipe.preparationTime) {
                     <span class="text-lg">{{ recipe.cookingTime + recipe.preparationTime | timeConvert }}</span>
                 }
