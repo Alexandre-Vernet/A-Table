@@ -23,6 +23,12 @@
                         {{ formSignUp.getError('invalidCredential') }}
                     </p-message>
                 }
+                @if (formSignUp.hasError('error')) {
+                    <p-message severity="error" variant="simple"
+                               size="small">
+                        {{ formSignUp.getError('error') }}
+                    </p-message>
+                }
             </div>
             <div class="login-field">
                 <input formControlName="password" type="password" class="login-input" placeholder="Mot de passe">
@@ -44,10 +50,10 @@
                        placeholder="Confirmer le mot de passe">
             </div>
             <button class="button login-submit" [ngClass]="{
-                    'disabled': formSignUp.invalid
+                    'disabled': formSignUp.invalid || formSignUp.controls.password.value !==  formSignUp.controls.confirmPassword.value
                     }"
-                    [disabled]="formSignUp.invalid">
-                <span class="button-text">Connexion</span>
+                    [disabled]="formSignUp.invalid || formSignUp.controls.password.value !==  formSignUp.controls.confirmPassword.value">
+                <span class="button-text">Inscription</span>
             </button>
         </form>
         <div class="signup-link">
