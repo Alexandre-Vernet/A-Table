@@ -2,7 +2,6 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { AlertComponent } from "./shared/alert/alert.component";
 import { SwPush, SwUpdate } from "@angular/service-worker";
-import { PrimeNG } from "primeng/config";
 import { environment } from "../environments/environment";
 import { Navbar } from './navbar/navbar';
 import { UserService } from './services/user.service';
@@ -22,7 +21,6 @@ export class App implements OnInit {
     constructor(
         private readonly sw: SwPush,
         private readonly swUpdate: SwUpdate,
-        private readonly primeng: PrimeNG,
         private readonly userService: UserService,
         private readonly router: Router,
         private readonly destroyRef: DestroyRef
@@ -53,7 +51,6 @@ export class App implements OnInit {
     }
 
     ngOnInit() {
-        this.primeng.ripple.set(true);
         this.router.events
             .pipe(
                 takeUntilDestroyed(this.destroyRef),

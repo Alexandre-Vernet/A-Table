@@ -5,14 +5,21 @@ import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
 import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
-import { Paginator, PaginatorState } from 'primeng/paginator';
+import { PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
+import { FilterRecipeCategoryPipe } from '../../pipes/filter-recipe-category-pipe';
+import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
+import { Categories } from '../../recipe/categories';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
         RouterLink,
-        Paginator
+        FilterRecipeCategoryPipe,
+        AccordionHeader,
+        AccordionContent,
+        AccordionPanel,
+        Accordion
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss'
@@ -28,6 +35,9 @@ export class UserProfile implements OnInit {
         totalPages: 0,
         last: false,
     };
+
+    protected readonly Categories = Categories;
+
 
     constructor(
         private readonly router: Router,
@@ -69,5 +79,4 @@ export class UserProfile implements OnInit {
             this.getRecipesUser(event.page);
         }
     }
-
 }
