@@ -7,12 +7,15 @@ import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
+import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
         RouterLink,
-        Paginator
+        Paginator,
+        TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss'
@@ -41,11 +44,13 @@ export class UserProfile implements OnInit {
     ngOnInit() {
         const userId = this.route.snapshot.params['id'];
         this.userService.getUser(userId)
-            .subscribe({
-                next: (user) => {
+            .pipe(
+                tap((user) => {
                     this.user = user;
                     this.getRecipesUser();
-                },
+                })
+            )
+            .subscribe({
                 error: (err => {
                     this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette page');
                     this.router.navigate(['/']);

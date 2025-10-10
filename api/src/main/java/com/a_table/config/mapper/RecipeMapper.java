@@ -84,11 +84,12 @@ public class RecipeMapper {
                 .note(recipe.getNote())
                 .image(recipe.getImageBytes())
                 .user(
+                        recipe.getUser() != null ?
                         UserEntity.builder()
                                 .id(recipe.getUser().getId())
                                 .lastName(recipe.getUser().getLastName())
                                 .firstName(recipe.getUser().getFirstName())
-                                .build()
+                                .build() : null
                 )
                 .build();
 

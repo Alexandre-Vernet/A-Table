@@ -8,7 +8,6 @@ import com.a_table.dto.User;
 import com.a_table.exception.InvalidCategoryException;
 import com.a_table.exception.RecipeCantBeDeleted;
 import com.a_table.exception.RecipeNotFoundException;
-import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
@@ -66,10 +65,6 @@ public class RecipeService {
 
     public PaginatedResponse<Recipe> getUserRecipes(Long id, int page, int size) {
         User user = userService.getUser(id);
-
-        if (user == null) {
-            throw new UserNotFoundException();
-        }
 
         Pageable pageable = PageRequest.of(page, size);
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);

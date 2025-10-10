@@ -5,4 +5,5 @@ export const environment = {
     authUrl: () => `${ environment.API_URL }/auth`,
     userUrl: () => `${ environment.API_URL }/users`,
     uploadUrl: () => `${ environment.API_URL }/upload`,
+    recipeSavedUrl: () => `${ environment.API_URL }/recipe-saved`,
 };

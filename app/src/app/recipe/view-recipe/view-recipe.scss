@@ -1,3 +1,5 @@
+@use "../../../colors" as colors;
+
 .step-number {
     background-color: var(--p-primary-color);
     border-radius: 50%;
@@ -13,4 +15,20 @@
 .recipe-image-container {
     display: flex;
     justify-content: center;
+}
+
+.edit-recipe {
+    color: colors.$green;
+}
+
+.bookmark {
+    top: 27.5%;
+    right: 0;
+    margin: 10px;
+    border-radius: 50%;
+    background-color: colors.$cream;
+    padding: 10px;
+    position: absolute;
+    font-size: 2rem;
+    color: colors.$green;
 }
