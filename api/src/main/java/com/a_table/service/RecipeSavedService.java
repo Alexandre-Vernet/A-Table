@@ -7,9 +7,15 @@ import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeSavedEntity;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.RecipeSavedRepository;
+import com.a_table.utils.Paginate;
 import jakarta.annotation.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,6 +33,25 @@ public class RecipeSavedService {
     @Resource
     UserMapper userMapper;
 
+    public Paginate<Recipe> getSavedRecipes(int page, int size) {
+        UserEntity userEntity = userMapper.dtoToEntity(userService.getCurrentUser());
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<RecipeSavedEntity> recipeSavedEntityPage = recipeSavedRepository.findByUser(userEntity, pageable);
+        List<Recipe> recipeList = recipeSavedEntityPage.stream()
+                .map(RecipeSavedEntity::getRecipe)
+                .map(recipeMapper::entityToDto)
+                .toList();
+
+        return new Paginate<>(
+                recipeList,
+                recipeSavedEntityPage.getNumber(),
+                recipeSavedEntityPage.getSize(),
+                recipeSavedEntityPage.getTotalElements(),
+                recipeSavedEntityPage.getTotalPages(),
+                recipeSavedEntityPage.isLast()
+        );
+    }
 
     public boolean isRecipeSaved(Recipe recipe) {
         return getRecipeSavedEntity(recipe) != null;

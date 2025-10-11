@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { authGuard } from './auth/auth.guard';
 import { UserProfile } from './user/user-profile/user-profile';
+import { RecipesSaved } from './recipe/recipes-saved/recipes-saved';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,11 @@ export const routes: Routes = [
             {
                 path: 'update-recipe/:id',
                 component: CreateRecipe,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'recipe-saved',
+                component: RecipesSaved,
                 canActivate: [authGuard]
             },
             {

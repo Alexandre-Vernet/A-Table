@@ -1,6 +1,13 @@
+@use "../../colors" as colors;
+
 .navbar {
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 10;
+}
+
+
+.navbar-icon {
+    color: colors.$orange;
 }

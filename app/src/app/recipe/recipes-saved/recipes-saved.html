@@ -1,0 +1,22 @@
+@if (recipes.content.length > 0) {
+    <div class="m-2 pb-5">
+        <h2 class="text-primary mb-4">Recettes enregistrée</h2>
+        <div class="grid-container">
+            @for (recipe of recipes.content; track recipe.id) {
+                <div
+                    class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                    [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                    <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                         alt="recipe">
+                    <span>{{ recipe.name | truncateRecipeName }}</span>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@if (recipes && recipes.totalElements > recipes.content.length) {
+    <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
+                 [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
+}
