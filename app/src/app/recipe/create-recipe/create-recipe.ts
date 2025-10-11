@@ -183,7 +183,7 @@ export class CreateRecipe implements OnInit {
                 .subscribe({
                     next: (recipe) => {
                         this.alertService.showSuccess('Votre recette a bien été mise à jour');
-                        // this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
+                        this.router.navigate(['/', 'recipe', 'view-recipe', recipe.id]);
                         this.loading = false;
                     },
                     error: (err) => {
