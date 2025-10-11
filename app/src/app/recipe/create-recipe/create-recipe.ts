@@ -36,7 +36,9 @@ import { categories } from '../categories';
 })
 export class CreateRecipe implements OnInit {
 
-    categories = categories;
+    categories = categories.map(category => ({
+        name: category
+    }));
 
     placeholderSteps = "Battre les oeufs et le sucre dans un saladier\n" +
         "\n" +
