@@ -112,7 +112,7 @@
 
             <div class="flex flex-column gap-2">
                 @if (formCreateRecipe.controls.image.value) {
-                    <img class="recipe-image" [src]="formCreateRecipe.controls.image.value" alt="recipe">
+                    <img class="recipe-image-grid" [src]="formCreateRecipe.controls.image.value" alt="recipe">
                 }
                 <p-fileupload mode="basic"
                               [chooseLabel]="updateRecipe?.image ? 'Mettre à jour l\'image' : 'Importer une image'"

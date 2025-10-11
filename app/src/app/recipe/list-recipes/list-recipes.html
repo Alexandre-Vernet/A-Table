@@ -9,7 +9,7 @@
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
                class="flex flex-column text-black-alpha-90 bg-white p-3">
-                <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'recipe.jpeg'"
+                <img class="recipe-image-grid border-round-xl" loading="lazy" [src]="recipe.image ?? 'recipe.jpeg'"
                      alt="recipe">
                 <div class="flex flex-column gap-2">
                     <h2 class="text-lg mt-2">{{ recipe.name | truncateRecipeName }}</h2>

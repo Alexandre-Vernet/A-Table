@@ -16,20 +16,13 @@ html, body {
 }
 
 
-.recipe-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-@media (min-width: 600px) {
-    .recipe-image {
-        max-height: 250px;
-        max-width: 250px;
-    }
-}
-
-
 .text-secondary {
     color: colors.$green;
+}
+
+
+.recipe-image-grid {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
 }

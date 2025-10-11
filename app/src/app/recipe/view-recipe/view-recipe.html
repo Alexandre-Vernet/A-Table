@@ -3,7 +3,7 @@
         <img class="recipe-image" [src]="recipe.image ?? 'recipe.jpeg'" alt="recipe">
 
         @if (user?.id) {
-            <i class="bookmark" [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)"></i>
+            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)"></i>
         }
     </div>
 
@@ -11,7 +11,7 @@
         <div class="flex flex-1 justify-content-center align-items-center gap-2">
             <h1 class="text-secondary text-center">{{ recipe.name }}</h1>
             @if (user?.id === recipe.user.id) {
-                <i class="pi pi-pencil edit-recipe" (click)="updateRecipe()"></i>
+                <i class="pi pi-pencil edit-recipe cursor-pointer" (click)="updateRecipe()"></i>
             }
         </div>
 
@@ -52,7 +52,7 @@
             <i class="pi pi-user text-primary text-lg"></i>
             <span>
                 <span>Ajouté par </span>
-                <span class="text-primary font-bold">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
+                <span class="text-primary font-bold cursor-pointer">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
             </span>
         </div>
 
