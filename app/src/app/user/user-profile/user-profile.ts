@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
@@ -22,7 +22,8 @@ import { Categories } from '../../recipe/categories';
         Accordion
     ],
     templateUrl: './user-profile.html',
-    styleUrl: './user-profile.scss'
+    styleUrl: './user-profile.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class UserProfile implements OnInit {
 
