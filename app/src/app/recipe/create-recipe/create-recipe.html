@@ -32,7 +32,7 @@
             <div class="flex flex-row gap-4">
                 <p-floatlabel variant="on" class="flex-1">
                     <p-select id="category" inputId="category" formControlName="category" [options]="categories"
-                              optionLabel="name" class="w-full"/>
+                               class="w-full"/>
                     <label for="category">Catégorie</label>
                     @if (formCreateRecipe.controls.category.touched) {
                         <p-message severity="error" size="small" variant="simple">
