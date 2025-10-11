@@ -11,20 +11,120 @@
             </div>
         </div>
 
+        @if (recipes.totalElements > 0) {
+            <p-accordion value="0">
+                @if ((recipes.content | filterRecipeCategory : Categories.entree).length > 0) {
+                    <p-accordion-panel value="0">
+                        <p-accordion-header>
+                            <h2>Entrée</h2>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div class="grid-container">
+                                @for (recipe of recipes.content | filterRecipeCategory : Categories.entree; track recipe.id) {
+                                    <div
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                             alt="recipe">
+                                        <span>{{ recipe.name }}</span>
+                                    </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
 
-        <div class="container mt-5">
-            @for (recipe of recipes.content; track recipe.id) {
-                <div [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]" class="text-center flex flex-column justify-center align-items-center gap-1">
-                    <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
-                         alt="recipe">
-                    <span>{{ recipe.name | truncateRecipeName }}</span>
-                </div>
-            }
-        </div>
-        @if (recipes && recipes.totalElements > recipes.content.length) {
-            <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
-                         [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
+                @if ((recipes.content | filterRecipeCategory : Categories.plat).length > 0) {
+                    <p-accordion-panel value="1">
+                        <p-accordion-header>
+                            <h2>Plats</h2>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div class="grid-container">
+                                @for (recipe of recipes.content | filterRecipeCategory : Categories.plat; track recipe.id) {
+                                    <div
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                             alt="recipe">
+                                        <span>{{ recipe.name }}</span>
+                                    </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
+
+                @if ((recipes.content | filterRecipeCategory : Categories.dessert).length > 0) {
+                    <p-accordion-panel value="2">
+                        <p-accordion-header>
+                            <h2>Desserts</h2>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div class="grid-container">
+                                @for (recipe of recipes.content | filterRecipeCategory : Categories.dessert; track recipe.id) {
+                                    <div
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                             alt="recipe">
+                                        <span>{{ recipe.name | truncateRecipeName }}</span>
+                                    </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
+
+                @if ((recipes.content | filterRecipeCategory : Categories.petitDejeuner).length > 0) {
+                    <p-accordion-panel value="3">
+                        <p-accordion-header>
+                            <h2>Petits déjeuners</h2>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div class="grid-container">
+                                @for (recipe of recipes.content | filterRecipeCategory : Categories.petitDejeuner; track recipe.id) {
+                                    <div
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                             alt="recipe">
+                                        <span>{{ recipe.name }}</span>
+                                    </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
+
+                @if ((recipes.content | filterRecipeCategory : Categories.autre).length > 0) {
+                    <p-accordion-panel value="4">
+                        <p-accordion-header>
+                            <h2>Autre</h2>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div class="grid-container">
+                                @for (recipe of recipes.content | filterRecipeCategory : Categories.autre; track recipe.id) {
+                                    <div
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
+                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                             alt="recipe">
+                                        <span>{{ recipe.name }}</span>
+                                    </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
+            </p-accordion>
         }
+
+
+        <!--                @if (recipes && recipes.totalElements > recipes.content.length) {-->
+        <!--                    <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"-->
+        <!--                                 [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>-->
+        <!--                }-->
     </div>
 }
 

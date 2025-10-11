@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
@@ -9,16 +9,25 @@ import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
 import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { tap } from 'rxjs';
+import { FilterRecipeCategoryPipe } from '../../pipes/filter-recipe-category-pipe';
+import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
+import { Categories } from '../../recipe/categories';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
         RouterLink,
+        FilterRecipeCategoryPipe,
+        AccordionHeader,
+        AccordionContent,
+        AccordionPanel,
+        Accordion,
         Paginator,
         TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
-    styleUrl: './user-profile.scss'
+    styleUrl: './user-profile.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class UserProfile implements OnInit {
 
@@ -31,6 +40,9 @@ export class UserProfile implements OnInit {
         totalPages: 0,
         last: false,
     };
+
+    protected readonly Categories = Categories;
+
 
     constructor(
         private readonly router: Router,
@@ -74,5 +86,4 @@ export class UserProfile implements OnInit {
             this.getRecipesUser(event.page);
         }
     }
-
 }

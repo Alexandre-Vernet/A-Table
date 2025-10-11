@@ -1,6 +1,7 @@
 @if (alert) {
     <p-message closable="true"
                (onClose)="alert = null"
+               class="alert"
                [severity]="alert?.severity">{{ alert?.message }}
     </p-message>
 

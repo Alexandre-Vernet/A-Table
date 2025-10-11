@@ -1,3 +1,5 @@
+@use "../../../colors" as colors;
+
 .icon {
     font-size: 4em;
     border-radius: 50%;
@@ -9,8 +11,13 @@
     object-fit: cover;
 }
 
-.container {
+.grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+}
+
+
+.p-accordionpanel-active h2 {
+    color: colors.$orange;
 }
