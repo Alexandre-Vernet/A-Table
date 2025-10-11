@@ -11,11 +11,20 @@
                class="flex flex-column text-black-alpha-90 bg-white p-3">
                 <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'recipe.jpeg'"
                      alt="recipe">
-                <h2 class="text-lg mt-2">{{ recipe.name }}</h2>
-                @if (recipe.cookingTime && recipe.preparationTime) {
-                    <span class="text-lg">{{ recipe.cookingTime + recipe.preparationTime | timeConvert }}</span>
-                }
-                <span class="text-lg">{{ recipe.category | titlecase }}</span>
+                <div class="flex flex-column gap-2">
+                    <h2 class="text-lg mt-2">{{ recipe.name }}</h2>
+                    <div class="flex justify-center align-items-center gap-2">
+                        <i class="pi pi-tag text-primary text-lg"></i>
+                        <span>{{ recipe.category | titlecase }}</span>
+                    </div>
+
+                    @if (recipe.cookingTime && recipe.preparationTime) {
+                        <div class="flex justify-center align-items-center gap-2">
+                            <i class="pi pi-hourglass text-primary text-lg"></i>
+                            <span>{{ recipe.cookingTime + recipe.preparationTime | timeConvert }}</span>
+                        </div>
+                    }
+                </div>
             </a>
         }
 
