@@ -7,10 +7,11 @@ import { Navbar } from './navbar/navbar';
 import { UserService } from './services/user.service';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, AlertComponent, Navbar],
+    imports: [RouterOutlet, AlertComponent, Navbar, NgClass],
     templateUrl: './app.html',
     styleUrl: './app.scss',
 })

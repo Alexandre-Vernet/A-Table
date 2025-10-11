@@ -2,6 +2,8 @@
 @if (showNavbar) {
     <app-navbar></app-navbar>
 }
-<div class="mt-8">
+<div [ngClass]="{
+    'mt-8': showNavbar
+}">
     <router-outlet></router-outlet>
 </div>
