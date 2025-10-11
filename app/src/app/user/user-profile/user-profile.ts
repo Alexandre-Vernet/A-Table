@@ -5,7 +5,7 @@ import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
 import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
-import { Paginator, PaginatorState } from 'primeng/paginator';
+import { PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
 import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { tap } from 'rxjs';
@@ -22,7 +22,6 @@ import { Categories } from '../../recipe/categories';
         AccordionContent,
         AccordionPanel,
         Accordion,
-        Paginator,
         TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
@@ -40,6 +39,8 @@ export class UserProfile implements OnInit {
         totalPages: 0,
         last: false,
     };
+
+    firstAvailablePanel: string;
 
     protected readonly Categories = Categories;
 
@@ -75,6 +76,16 @@ export class UserProfile implements OnInit {
             .subscribe({
                 next: (recipes) => {
                     this.recipes = recipes;
+                    const panels = [
+                        { key: '0', data: this.recipes.content.filter(r => r.category === Categories.entree) },
+                        { key: '1', data: this.recipes.content.filter(r => r.category === Categories.plat) },
+                        { key: '2', data: this.recipes.content.filter(r => r.category === Categories.dessert) },
+                        { key: '3', data: this.recipes.content.filter(r => r.category === Categories.petitDejeuner) },
+                        { key: '4', data: this.recipes.content.filter(r => r.category === Categories.autre) },
+                    ];
+
+                    const firstNonEmpty = panels.find(p => p.data.length > 0);
+                    this.firstAvailablePanel = firstNonEmpty ? firstNonEmpty.key : null;
                 }
             })
     }
