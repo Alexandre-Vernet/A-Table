@@ -4,8 +4,8 @@
     <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
 </div>
 
-<div class="list-recipes">
-    <div class="recipe flex gap-5 m-3 p-3">
+<div class="container">
+    <div class="recipes mb-5">
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
                class="flex flex-column text-black-alpha-90 bg-white p-3">
@@ -27,13 +27,12 @@
                 </div>
             </a>
         }
-
-        @if (recipes && recipes.totalElements > recipes.content.length) {
-            <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
-                         [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
-        }
     </div>
 
+    @if (recipes && recipes.totalElements > recipes.content.length) {
+        <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
+                     [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
+    }
 
     <div class="btn-add-recipe-wrapper" [ngClass]="{
     'hide-button': !showButtonAddRecipe
