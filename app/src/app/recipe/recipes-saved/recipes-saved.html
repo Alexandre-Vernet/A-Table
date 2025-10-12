@@ -4,7 +4,7 @@
         <div class="grid-container">
             @for (recipe of recipes.content; track recipe.id) {
                 <div
-                    class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                    class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                     [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                     <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                          alt="recipe">

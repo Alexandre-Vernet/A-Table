@@ -19,10 +19,10 @@
                             <h2>Entrée</h2>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="grid-container">
+                            <div class="recipes-grid">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.entree; track recipe.id) {
                                     <div
-                                        class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                                        class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                                         <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
@@ -40,10 +40,10 @@
                             <h2>Plats</h2>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="grid-container">
+                            <div class="recipes-grid">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.plat; track recipe.id) {
                                     <div
-                                        class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                                        class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                                         <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
@@ -61,10 +61,10 @@
                             <h2>Desserts</h2>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="grid-container">
+                            <div class="recipes-grid">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.dessert; track recipe.id) {
                                     <div
-                                        class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                                        class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                                         <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
@@ -82,10 +82,10 @@
                             <h2>Petits déjeuners</h2>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="grid-container">
+                            <div class="recipes-grid">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.petitDejeuner; track recipe.id) {
                                     <div
-                                        class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                                        class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                                         <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
@@ -103,10 +103,10 @@
                             <h2>Autre</h2>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="grid-container">
+                            <div class="recipes-grid">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.autre; track recipe.id) {
                                     <div
-                                        class="recipes text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
+                                        class="recipes-grid text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
                                         <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
