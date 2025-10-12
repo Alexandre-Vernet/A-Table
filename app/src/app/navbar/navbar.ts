@@ -52,7 +52,7 @@ export class Navbar implements OnInit {
                         {
                             label: 'Mes recettes sauvegardées',
                             icon: 'pi pi-heart',
-                            command: () => this.router.navigate(['recipe', 'recipe-saved'])
+                            command: () => this.router.navigate(['recipe', 'recipes-saved'])
                         },
                         {
                             label: 'Se déconnecter',
