@@ -7,6 +7,8 @@ import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
 import { PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
+import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
+import { tap } from 'rxjs';
 import { FilterRecipeCategoryPipe } from '../../pipes/filter-recipe-category-pipe';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
 import { Categories } from '../../recipe/categories';
@@ -19,7 +21,8 @@ import { Categories } from '../../recipe/categories';
         AccordionHeader,
         AccordionContent,
         AccordionPanel,
-        Accordion
+        Accordion,
+        TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss',
@@ -37,6 +40,8 @@ export class UserProfile implements OnInit {
         last: false,
     };
 
+    firstAvailablePanel: string;
+
     protected readonly Categories = Categories;
 
 
@@ -52,11 +57,13 @@ export class UserProfile implements OnInit {
     ngOnInit() {
         const userId = this.route.snapshot.params['id'];
         this.userService.getUser(userId)
-            .subscribe({
-                next: (user) => {
+            .pipe(
+                tap((user) => {
                     this.user = user;
                     this.getRecipesUser();
-                },
+                })
+            )
+            .subscribe({
                 error: (err => {
                     this.alertService.showError(err?.error?.message ?? 'Impossible d\'accéder à cette page');
                     this.router.navigate(['/']);
@@ -69,6 +76,16 @@ export class UserProfile implements OnInit {
             .subscribe({
                 next: (recipes) => {
                     this.recipes = recipes;
+                    const panels = [
+                        { key: '0', data: this.recipes.content.filter(r => r.category === Categories.entree) },
+                        { key: '1', data: this.recipes.content.filter(r => r.category === Categories.plat) },
+                        { key: '2', data: this.recipes.content.filter(r => r.category === Categories.dessert) },
+                        { key: '3', data: this.recipes.content.filter(r => r.category === Categories.petitDejeuner) },
+                        { key: '4', data: this.recipes.content.filter(r => r.category === Categories.autre) },
+                    ];
+
+                    const firstNonEmpty = panels.find(p => p.data.length > 0);
+                    this.firstAvailablePanel = firstNonEmpty ? firstNonEmpty.key : null;
                 }
             })
     }

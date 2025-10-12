@@ -12,7 +12,7 @@
         </div>
 
         @if (recipes.totalElements > 0) {
-            <p-accordion value="0">
+            <p-accordion [value]="firstAvailablePanel">
                 @if ((recipes.content | filterRecipeCategory : Categories.entree).length > 0) {
                     <p-accordion-panel value="0">
                         <p-accordion-header>
@@ -22,9 +22,9 @@
                             <div class="grid-container">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.entree; track recipe.id) {
                                     <div
-                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                        <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
                                         <span>{{ recipe.name }}</span>
                                     </div>
@@ -43,9 +43,9 @@
                             <div class="grid-container">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.plat; track recipe.id) {
                                     <div
-                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                        <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
                                         <span>{{ recipe.name }}</span>
                                     </div>
@@ -64,11 +64,11 @@
                             <div class="grid-container">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.dessert; track recipe.id) {
                                     <div
-                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                        <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
-                                        <span>{{ recipe.name }}</span>
+                                        <span>{{ recipe.name | truncateRecipeName }}</span>
                                     </div>
                                 }
                             </div>
@@ -85,9 +85,9 @@
                             <div class="grid-container">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.petitDejeuner; track recipe.id) {
                                     <div
-                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                        <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
                                         <span>{{ recipe.name }}</span>
                                     </div>
@@ -106,9 +106,9 @@
                             <div class="grid-container">
                                 @for (recipe of recipes.content | filterRecipeCategory : Categories.autre; track recipe.id) {
                                     <div
-                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1"
+                                        class="recipe text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                                         [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                                        <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                                        <img class="recipe-image-grid border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
                                              alt="recipe">
                                         <span>{{ recipe.name }}</span>
                                     </div>

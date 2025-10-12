@@ -38,16 +38,21 @@ export class Navbar implements OnInit {
             },
         ];
 
-        this.userService.user$.subscribe({
+        this.userService.getCurrentUser().subscribe({
             next: (user) => {
                 if (user) {
                     this.user = user;
                     this.items = [
                         ...baseItems,
                         {
-                            label: 'Mon compte',
+                            label: 'Mes recettes créées',
                             icon: 'pi pi-user',
                             command: () => this.router.navigate(['user', 'user-profile', user?.id])
+                        },
+                        {
+                            label: 'Mes recettes sauvegardées',
+                            icon: 'pi pi-heart',
+                            command: () => this.router.navigate(['recipe', 'recipe-saved'])
                         },
                         {
                             label: 'Se déconnecter',

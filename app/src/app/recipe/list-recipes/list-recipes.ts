@@ -10,6 +10,7 @@ import { Paginator, PaginatorState } from 'primeng/paginator';
 import { Paginate } from '../../dto/Paginate';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Subject } from 'rxjs';
+import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 
 @Component({
     selector: 'app-list-recipes',
@@ -23,7 +24,8 @@ import { Subject } from 'rxjs';
         Button,
         NgClass,
         Paginator,
-        FilterRecipe
+        FilterRecipe,
+        TruncateRecipeNamePipe
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None

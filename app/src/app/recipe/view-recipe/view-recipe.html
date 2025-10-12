@@ -1,10 +1,19 @@
 @if (recipe && filterRecipe) {
     <div class="recipe-image-container">
         <img class="recipe-image" [src]="recipe.image ?? 'recipe.jpeg'" alt="recipe">
+
+        @if (user?.id) {
+            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)"></i>
+        }
     </div>
 
     <div class="ml-3">
-        <h1 class="text-secondary text-center">{{ recipe.name }}</h1>
+        <div class="flex flex-1 justify-content-center align-items-center gap-2">
+            <h1 class="text-secondary text-center">{{ recipe.name }}</h1>
+            @if (user?.id === recipe.user.id) {
+                <i class="pi pi-pencil edit-recipe cursor-pointer" (click)="updateRecipe()"></i>
+            }
+        </div>
 
         <div class="flex justify-center align-items-center gap-2 mt-4">
             <i class="pi pi-tag text-primary text-lg"></i>
@@ -43,7 +52,7 @@
             <i class="pi pi-user text-primary text-lg"></i>
             <span>
                 <span>Ajouté par </span>
-                <span class="text-primary font-bold">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
+                <span class="text-primary font-bold cursor-pointer">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
             </span>
         </div>
 
@@ -51,13 +60,6 @@
             <div class="flex justify-center align-items-center gap-2 mt-4">
                 <i class="pi pi-pencil text-primary text-lg"></i>
                 {{ recipe.note }}
-            </div>
-        }
-
-        @if (user?.id === recipe.user.id) {
-            <div class="flex justify-center align-items-center gap-2 mt-4">
-                <p-button label="Modifier" severity="info" (click)="updateRecipe()"></p-button>
-                <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
             </div>
         }
 
@@ -98,6 +100,12 @@
             </p-tabpanels>
         </p-tabs>
     </div>
+
+    @if (user?.id === recipe.user.id) {
+        <div class="flex justify-content-center align-items-center">
+            <p-button label="Supprimer" severity="danger" (click)="showDialogDeleteRecipe(recipe)"></p-button>
+        </div>
+    }
 }
 
 

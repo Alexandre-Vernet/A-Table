@@ -2,7 +2,7 @@ package com.a_table.controller;
 
 import com.a_table.dto.Recipe;
 import com.a_table.service.RecipeService;
-import com.a_table.utils.PaginatedResponse;
+import com.a_table.utils.Paginate;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,15 +23,15 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/")
-    PaginatedResponse<Recipe> getRecipes(@RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "20") int size,
-                                         @RequestParam(required = false) String category,
-                                         @RequestParam(required = false) String search) {
+    Paginate<Recipe> getRecipes(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "20") int size,
+                                @RequestParam(required = false) String category,
+                                @RequestParam(required = false) String search) {
         return recipeService.getRecipes(page, size, category, search);
     }
 
     @GetMapping("/user-recipes/{id}")
-    PaginatedResponse<Recipe> getUserRecipes(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+    Paginate<Recipe> getUserRecipes(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
         return recipeService.getUserRecipes(id, page, size);
     }
 

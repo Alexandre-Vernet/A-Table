@@ -8,11 +8,10 @@ import com.a_table.dto.User;
 import com.a_table.exception.InvalidCategoryException;
 import com.a_table.exception.RecipeCantBeDeleted;
 import com.a_table.exception.RecipeNotFoundException;
-import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
-import com.a_table.utils.PaginatedResponse;
+import com.a_table.utils.Paginate;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -40,7 +39,7 @@ public class RecipeService {
     @Resource
     UserMapper userMapper;
 
-    public PaginatedResponse<Recipe> getRecipes(int page, int size, @Nullable() String category, @Nullable String search) {
+    public Paginate<Recipe> getRecipes(int page, int size, @Nullable() String category, @Nullable String search) {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<RecipeEntity> recipeEntityPage;
@@ -54,7 +53,7 @@ public class RecipeService {
             recipeEntityPage = recipeRepository.findAll(pageable);
         }
 
-        return new PaginatedResponse<>(
+        return new Paginate<>(
                 recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
                 recipeEntityPage.getNumber(),
                 recipeEntityPage.getSize(),
@@ -64,17 +63,13 @@ public class RecipeService {
         );
     }
 
-    public PaginatedResponse<Recipe> getUserRecipes(Long id, int page, int size) {
+    public Paginate<Recipe> getUserRecipes(Long id, int page, int size) {
         User user = userService.getUser(id);
-
-        if (user == null) {
-            throw new UserNotFoundException();
-        }
 
         Pageable pageable = PageRequest.of(page, size);
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);
 
-        return new PaginatedResponse<>(
+        return new Paginate<>(
                 recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
                 recipeEntityPage.getNumber(),
                 recipeEntityPage.getSize(),
