@@ -9,7 +9,7 @@
 
     <div class="ml-3">
         <div class="flex flex-1 justify-content-center align-items-center gap-2">
-            <h1 class="text-secondary text-center">{{ recipe.name }}</h1>
+            <h1 class="text-secondary text-center mt-3">{{ recipe.name }}</h1>
             @if (user?.id === recipe.user.id) {
                 <i class="pi pi-pencil edit-recipe cursor-pointer" (click)="updateRecipe()"></i>
             }
