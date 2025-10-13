@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional
 public class RecipeSavedService {
@@ -33,23 +31,28 @@ public class RecipeSavedService {
     @Resource
     UserMapper userMapper;
 
-    public Paginate<Recipe> getSavedRecipes(int page, int size) {
-        UserEntity userEntity = userMapper.dtoToEntity(userService.getCurrentUser());
+    public Paginate<Recipe> getSavedRecipes(int page, int size, String category, String search) {
         Pageable pageable = PageRequest.of(page, size);
+        Page<RecipeEntity> recipeEntityPage;
 
-        Page<RecipeSavedEntity> recipeSavedEntityPage = recipeSavedRepository.findByUser(userEntity, pageable);
-        List<Recipe> recipeList = recipeSavedEntityPage.stream()
-                .map(RecipeSavedEntity::getRecipe)
-                .map(recipeMapper::entityToDto)
-                .toList();
+        UserEntity userEntity = userMapper.dtoToEntity(userService.getCurrentUser());
+        if (category != null && search == null) {
+            recipeEntityPage = recipeSavedRepository.findByUserAndCategory(userEntity.getId(), category, pageable);
+        } else if (category == null && search != null) {
+            recipeEntityPage = recipeSavedRepository.findByUserAndSearch(userEntity.getId(), search, pageable);
+        } else if (category != null) {
+            recipeEntityPage = recipeSavedRepository.findAllBySearchAndCategoryIgnoreAccent(userEntity.getId(), search, category, pageable);
+        } else {
+            recipeEntityPage = recipeSavedRepository.findByUser(userEntity.getId(), pageable);
+        }
 
         return new Paginate<>(
-                recipeList,
-                recipeSavedEntityPage.getNumber(),
-                recipeSavedEntityPage.getSize(),
-                recipeSavedEntityPage.getTotalElements(),
-                recipeSavedEntityPage.getTotalPages(),
-                recipeSavedEntityPage.isLast()
+                recipeMapper.entityToDtoList(recipeEntityPage.getContent()),
+                recipeEntityPage.getNumber(),
+                recipeEntityPage.getSize(),
+                recipeEntityPage.getTotalElements(),
+                recipeEntityPage.getTotalPages(),
+                recipeEntityPage.isLast()
         );
     }
 

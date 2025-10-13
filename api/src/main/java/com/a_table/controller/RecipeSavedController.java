@@ -19,8 +19,12 @@ public class RecipeSavedController {
     RecipeSavedService recipeSavedService;
 
     @GetMapping("/")
-    public Paginate<Recipe> getSavedRecipes(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        return recipeSavedService.getSavedRecipes(page, size);
+    public Paginate<Recipe> getSavedRecipes(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "20") int size,
+                                            @RequestParam(required = false) String category,
+                                            @RequestParam(required = false) String search
+    ) {
+        return recipeSavedService.getSavedRecipes(page, size, category, search);
     }
 
     @PostMapping("/is-recipe-saved")

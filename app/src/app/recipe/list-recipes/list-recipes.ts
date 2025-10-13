@@ -11,6 +11,7 @@ import { Paginate } from '../../dto/Paginate';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Subject } from 'rxjs';
 import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
+import { Filter } from '../../dto/Filter';
 
 @Component({
     selector: 'app-list-recipes',
@@ -59,7 +60,14 @@ export class ListRecipes implements OnInit {
     }
 
     private getRecipes(page?: number) {
-        this.recipeService.getRecipes(this.search, this.filterCategory, page, this.recipes.pageSize)
+        const filter: Filter = {
+            page,
+            size: this.recipes.pageSize,
+            category: this.filterCategory,
+            search: this.search
+        };
+
+        this.recipeService.getRecipes(filter)
             .subscribe({
                 next: (paginateRecipe) => {
                     if (paginateRecipe.content.length === 0) {
