@@ -1,4 +1,4 @@
-@use "colors" as colors;
+@use "colors" as *;
 @import "primeicons/primeicons.css";
 
 * {
@@ -17,7 +17,7 @@ html, body {
 
 
 .text-secondary {
-    color: colors.$green;
+    color: $green;
 }
 
 a {

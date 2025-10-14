@@ -1,4 +1,4 @@
-@use "../../../colors" as colors;
+@use "../../../colors" as *;
 
 .step-number {
     background-color: var(--p-primary-color);
@@ -24,7 +24,7 @@
 }
 
 .edit-recipe {
-    color: colors.$green;
+    color: $green;
 }
 
 .bookmark {
@@ -32,11 +32,11 @@
     right: 0;
     margin: 10px;
     border-radius: 50%;
-    background-color: colors.$cream;
+    background-color: $cream;
     padding: 9px;
     position: absolute;
     font-size: 1.4rem;
-    color: colors.$orange;
+    color: $orange;
     outline: none;
 }
 

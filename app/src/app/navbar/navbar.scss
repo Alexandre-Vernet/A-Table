@@ -1,4 +1,4 @@
-@use "../../colors" as colors;
+@use "../../colors" as *;
 
 .navbar {
     position: fixed;
@@ -9,5 +9,5 @@
 
 
 .navbar-icon {
-    color: colors.$orange;
+    color: $orange;
 }
