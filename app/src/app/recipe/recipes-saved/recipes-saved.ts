@@ -79,7 +79,7 @@ export class RecipesSaved implements OnInit {
             page,
             size: this.recipes.pageSize,
             category: this.filterCategory,
-            search: this.search.value
+            search: this.search.value.trim()
         };
 
         this.recipeSaved.getSavedRecipes(filter)
