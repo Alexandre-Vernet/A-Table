@@ -1,17 +1,17 @@
 @use "sass:color";
-@use "../../colors" as colors;
+@use "../../colors" as *;
 
 section {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, colors.$cream, adjust-color(colors.$orange, $lightness: 30%));
+    background: linear-gradient(135deg, $cream, adjust-color($orange, $lightness: 30%));
     padding: 2rem;
 }
 
 .login-container {
-    background: colors.$white;
+    background: $white;
     padding: 2.5rem 2rem;
     border-radius: 20px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -27,14 +27,14 @@ section {
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: colors.$cream;
+            background: $cream;
             padding: 0.5rem;
         }
     }
 
     h1 {
         font-family: 'Pacifico', cursive;
-        color: colors.$orange;
+        color: $orange;
         font-size: 2rem;
         margin-bottom: 1.5rem;
     }
@@ -55,15 +55,15 @@ section {
         width: 100%;
         padding: 12px 15px;
         border-radius: 10px;
-        border: 1px solid color.adjust(colors.$orange, $lightness: 20%);
+        border: 1px solid color.adjust($orange, $lightness: 20%);
         font-size: 1rem;
-        background-color: colors.$cream;
+        background-color: $cream;
         transition: border-color 0.3s ease;
 
         &:focus {
             outline: none;
-            border-color: colors.$orange;
-            box-shadow: 0 0 5px rgba(colors.$orange, 0.3);
+            border-color: $orange;
+            box-shadow: 0 0 5px rgba($orange, 0.3);
         }
     }
 
@@ -73,13 +73,13 @@ section {
         border: none;
         border-radius: 10px;
         font-size: 1rem;
-        color: colors.$white;
-        background: linear-gradient(to right,colors.$orange,colors.$dark-orange);
+        color: $white;
+        background: linear-gradient(to right,$orange,$dark-orange);
         cursor: pointer;
         transition: background 0.3s ease, transform 0.2s;
 
         &:hover:not(.disabled) {
-            background: linear-gradient(to right, color.adjust(colors.$orange, $lightness: -5%), colors.$dark-orange);
+            background: linear-gradient(to right, color.adjust($orange, $lightness: -5%), $dark-orange);
             transform: scale(1.02);
         }
 
@@ -105,20 +105,20 @@ section {
 
         h3 {
             font-size: 0.95rem;
-            color: colors.$green;
+            color: $green;
             cursor: pointer;
             transition: color 0.3s;
 
             &:hover {
-                color: color.adjust(colors.$green, $lightness: 10%);
+                color: color.adjust($green, $lightness: 10%);
             }
         }
 
         a h3 {
-            color: colors.$orange;
+            color: $orange;
 
             &:hover {
-                color: colors.$dark-orange;
+                color: $dark-orange;
                 text-decoration: underline;
             }
         }
