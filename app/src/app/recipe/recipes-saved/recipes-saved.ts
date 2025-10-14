@@ -8,7 +8,7 @@ import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { delay, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Filter } from '../../dto/Filter';
@@ -56,7 +56,7 @@ export class RecipesSaved implements OnInit {
         this.search.valueChanges
             .pipe(
                 distinctUntilChanged(),
-                delay(300),
+                debounceTime(300),
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe(() => this.getSavedRecipes())
