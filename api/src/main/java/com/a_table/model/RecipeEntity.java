@@ -57,4 +57,8 @@ public class RecipeEntity {
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RecipeStepEntity> steps = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "recipe")
+    List<RecipeSavedEntity> recipeSaved = new ArrayList<>();
 }

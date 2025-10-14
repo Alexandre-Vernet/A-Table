@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Recipe } from '../dto/Recipe';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Filter } from '../dto/Filter';
 import { Paginate } from '../dto/Paginate';
+import { buildRecipeParams } from '../utils/buildRecipeParams';
 
 @Injectable({
     providedIn: 'root'
@@ -16,12 +18,9 @@ export class RecipeSavedService {
     ) {
     }
 
-    getSavedRecipes(page: number = 0, size: number = 20) {
-        return this.http.get<Paginate<Recipe>>(`${ this.recipeSavedUrl }/`, {
-            params: {
-                page, size
-            }
-        });
+    getSavedRecipes(filter: Filter) {
+        const params = buildRecipeParams(filter);
+        return this.http.get<Paginate<Recipe>>(`${ this.recipeSavedUrl }/`, { params });
     }
 
     isRecipeSaved(recipe: Recipe) {

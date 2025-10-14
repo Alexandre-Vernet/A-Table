@@ -1,6 +1,14 @@
-@if (recipes.content.length > 0) {
-    <div class="m-2 pb-5">
-        <h2 class="text-primary mb-4">Recettes sauvegardées</h2>
+<div class="m-2 pb-5">
+    <h2 class="text-primary mb-4">Recettes sauvegardées</h2>
+    <div class="flex justify-content-center align-items-center mt-1 mb-5 gap-4">
+        <p-floatlabel variant="in">
+            <input pSize="small" pInputText id="in_label" [formControl]="search" autocomplete="off"/>
+            <label for="in_label">Rechercher</label>
+        </p-floatlabel>
+        <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
+    </div>
+
+    @if (recipes.content.length > 0) {
         <div class="recipes-grid">
             @for (recipe of recipes.content; track recipe.id) {
                 <div
@@ -12,9 +20,8 @@
                 </div>
             }
         </div>
-    </div>
-}
-
+    }
+</div>
 
 @if (recipes && recipes.totalElements > recipes.content.length) {
     <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"

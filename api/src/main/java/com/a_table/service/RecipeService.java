@@ -41,8 +41,8 @@ public class RecipeService {
 
     public Paginate<Recipe> getRecipes(int page, int size, @Nullable() String category, @Nullable String search) {
         Pageable pageable = PageRequest.of(page, size);
-
         Page<RecipeEntity> recipeEntityPage;
+
         if (category != null && search == null) {
             recipeEntityPage = recipeRepository.findAllByCategoryIgnoreCase(category, pageable);
         } else if (category == null && search != null) {

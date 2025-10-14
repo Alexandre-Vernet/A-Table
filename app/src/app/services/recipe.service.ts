@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../dto/Recipe';
 import { environment } from '../../environments/environment';
 import { Paginate } from '../dto/Paginate';
+import { Filter } from '../dto/Filter';
+import { buildRecipeParams } from '../utils/buildRecipeParams';
 
 @Injectable({
     providedIn: 'root'
@@ -16,25 +18,8 @@ export class RecipeService {
     ) {
     }
 
-    getRecipes(search?: string, category?: string, page?: number, size?: number) {
-        const params: {
-            page: number,
-            size: number,
-            category?: string
-            search?: string
-        } = {
-            page: page ?? 0,
-            size: size ?? 10
-        };
-
-        if (category && category.trim() !== '') {
-            params.category = category;
-        }
-
-        if (search && search.trim() !== '') {
-            params.search = search;
-        }
-
+    getRecipes(filter: Filter) {
+        const params = buildRecipeParams(filter);
         return this.http.get<Paginate<Recipe>>(`${ this.recipeUrl }/`, { params });
     }
 
