@@ -18,6 +18,8 @@ CREATE SEQUENCE IF NOT EXISTS recipes_user_id_seq START WITH 1 INCREMENT BY 1;
 
 CREATE SEQUENCE IF NOT EXISTS users_id_seq START WITH 1 INCREMENT BY 1;
 
+CREATE EXTENSION unaccent;
+
 CREATE TABLE ingredients
 (
     id        BIGINT DEFAULT nextval('ingredients_id_seq')        NOT NULL,
