@@ -4,7 +4,6 @@ import { AlertComponent } from "./shared/alert/alert.component";
 import { SwPush, SwUpdate } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import { Navbar } from './navbar/navbar';
-import { UserService } from './services/user.service';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgClass } from '@angular/common';
@@ -22,7 +21,6 @@ export class App implements OnInit {
     constructor(
         private readonly sw: SwPush,
         private readonly swUpdate: SwUpdate,
-        private readonly userService: UserService,
         private readonly router: Router,
         private readonly destroyRef: DestroyRef
     ) {
@@ -58,6 +56,5 @@ export class App implements OnInit {
                 filter(e => e instanceof NavigationStart),
             )
             .subscribe(event => this.showNavbar = !event.url.includes('auth'))
-        this.userService.getCurrentUser().subscribe();
     }
 }

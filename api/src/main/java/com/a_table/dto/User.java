@@ -23,4 +23,6 @@ public class User {
     String lastName;
 
     List<Recipe> recipes = new ArrayList<>();
+
+    Boolean status;
 }

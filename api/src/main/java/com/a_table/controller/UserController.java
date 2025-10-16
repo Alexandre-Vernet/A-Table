@@ -33,4 +33,9 @@ public class UserController {
     List<User> getUsersSearch(@RequestParam String search) {
         return userService.getRecipesSearch(search);
     }
+
+    @GetMapping("/deactivate")
+    void deactivateAccount() {
+        userService.deactivateAccount();
+    }
 }

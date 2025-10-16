@@ -2,7 +2,7 @@ package com.a_table.service;
 
 import com.a_table.config.mapper.UserMapper;
 import com.a_table.dto.User;
-import com.a_table.exception.RequireAuthException;
+import com.a_table.exception.AccountDeactivateException;
 import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.UserRepository;
@@ -25,24 +25,33 @@ public class UserService {
     @Resource
     UserMapper userMapper;
 
-    public User getCurrentUser() {
+    private UserEntity getCurrentUserEntity() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new SecurityException("Utilisateur non authentifié");
         }
 
-        String email = authentication.getName();
-        return userRepository.findByEmail(email)
-                .map(entity -> userMapper.entityToDto(entity))
-                .map(user -> User.builder()
-                        .id(user.getId())
-                        .email(user.getEmail())
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .build())
-                .orElseThrow(RequireAuthException::new);
+        UserEntity userEntity = (UserEntity) authentication.getPrincipal();
+        if (!userEntity.getStatus()) {
+            throw new AccountDeactivateException();
+        }
+
+        return userEntity;
     }
+
+    public User getCurrentUser() {
+        UserEntity userEntity = getCurrentUserEntity();
+
+        return User.builder()
+                .id(userEntity.getId())
+                .email(userEntity.getEmail())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .status(userEntity.getStatus())
+                .build();
+    }
+
 
     public User getUser(Long id) {
         Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
@@ -52,5 +61,11 @@ public class UserService {
     public List<User> getRecipesSearch(String search) {
         List<UserEntity> userEntityList = userRepository.findAllBySearchIgnoreAccent(search);
         return userMapper.entityToDtoList(userEntityList);
+    }
+
+    public void deactivateAccount() {
+        UserEntity userEntity = getCurrentUserEntity();
+        userEntity.setStatus(false);
+        userRepository.save(userEntity);
     }
 }
