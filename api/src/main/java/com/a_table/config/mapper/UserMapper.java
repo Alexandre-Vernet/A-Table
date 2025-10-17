@@ -23,7 +23,9 @@ public class UserMapper {
                         userEntity.getRecipes().stream()
                                 .map(recipe -> recipeMapper.entityToDto(recipe))
                                 .toList()
-                ).build();
+                )
+                .status(userEntity.getStatus())
+                .build();
     }
 
     public UserEntity dtoToEntity(User user) {
@@ -33,6 +35,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
+                .status(user.getStatus())
                 .build();
     }
 

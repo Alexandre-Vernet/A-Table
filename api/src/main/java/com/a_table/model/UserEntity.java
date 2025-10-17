@@ -47,6 +47,8 @@ public class UserEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RecipeEntity> recipes = new ArrayList<>();
 
+    private Boolean status;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

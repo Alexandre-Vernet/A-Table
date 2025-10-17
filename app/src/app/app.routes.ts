@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { authGuard } from './auth/auth.guard';
 import { UserProfile } from './user/user-profile/user-profile';
 import { RecipesSaved } from './recipe/recipes-saved/recipes-saved';
+import { SettingsComponent } from './auth/settings/settings.component';
 
 export const routes: Routes = [
     {
@@ -48,6 +49,11 @@ export const routes: Routes = [
             {
                 path: 'user-profile/:id',
                 component: UserProfile
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent,
+                canActivate: [authGuard]
             },
         ]
     },
