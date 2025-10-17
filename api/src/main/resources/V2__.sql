@@ -28,12 +28,7 @@ ALTER TABLE flyway_schema_history
 ALTER TABLE flyway_schema_history
     ADD version VARCHAR(50);
 
-ALTER TABLE users
-    ADD status BOOLEAN DEFAULT TRUE NOT NULL;
-
 ALTER TABLE flyway_schema_history
     ADD CONSTRAINT flyway_schema_history_pk PRIMARY KEY (installed_rank);
 
 CREATE INDEX flyway_schema_history_s_idx ON flyway_schema_history (success);
-
-CREATE INDEX recipes_name_ignore_accent_idx ON recipes (name);
