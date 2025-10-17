@@ -33,7 +33,7 @@ export class UserService {
     }
 
     updateUser(user: User) {
-        return this.http.put<User>(`${ this.userUrl }`, { user });
+        return this.http.patch<User>(`${ this.userUrl }/`, user);
     }
 
     sendEmailForgotPassword(email: string) {

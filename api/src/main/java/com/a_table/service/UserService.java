@@ -9,6 +9,7 @@ import com.a_table.repository.UserRepository;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,10 @@ public class UserService {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    BCryptPasswordEncoder passwordEncoder;
+
 
     private UserEntity getCurrentUserEntity() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -67,5 +72,23 @@ public class UserService {
         UserEntity userEntity = getCurrentUserEntity();
         userEntity.setStatus(false);
         userRepository.save(userEntity);
+    }
+
+    public void update(User user) {
+        UserEntity currentUserEntity = getCurrentUserEntity();
+
+        if (user.getFirstName() != null && !user.getFirstName().equals(currentUserEntity.getFirstName())) {
+            currentUserEntity.setFirstName(user.getFirstName());
+        }
+
+        if (user.getLastName() != null && !user.getLastName().equals(currentUserEntity.getLastName())) {
+            currentUserEntity.setLastName(user.getLastName());
+        }
+
+        if (user.getPassword() != null && !user.getPassword().equals(currentUserEntity.getPassword())) {
+            currentUserEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        userRepository.save(currentUserEntity);
     }
 }

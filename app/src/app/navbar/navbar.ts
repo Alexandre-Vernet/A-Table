@@ -57,9 +57,7 @@ export class Navbar implements OnInit {
                         {
                             label: 'Paramètres',
                             icon: 'pi pi-cog',
-                            command: () => {
-
-                            }
+                            command: () => this.router.navigate(['user', 'settings'])
                         },
                         {
                             label: 'Se déconnecter',
