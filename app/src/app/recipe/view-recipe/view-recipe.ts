@@ -66,7 +66,7 @@ export class ViewRecipe implements OnInit {
                             .pipe(catchError(() => of(null)));
                     })
                 ),
-            this.userService.getCurrentUser()
+            this.userService.user$
                 .pipe(catchError(() => of(null)))
         ])
             .subscribe({

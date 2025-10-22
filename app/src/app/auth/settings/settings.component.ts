@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getCurrentUser()
+        this.userService.user$
             .subscribe(user => this.formSignUp.patchValue({
                 firstName: user.firstName,
                 lastName: user.lastName,

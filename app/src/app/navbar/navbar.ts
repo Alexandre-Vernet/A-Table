@@ -38,59 +38,59 @@ export class Navbar implements OnInit {
             },
         ];
 
-        this.userService.getCurrentUser().subscribe({
-            next: (user) => {
-                if (user) {
-                    this.user = user;
-                    this.items = [
-                        ...baseItems,
-                        {
-                            label: 'Mes recettes créées',
-                            icon: 'pi pi-user',
-                            command: () => this.router.navigate(['user', 'user-profile', user?.id])
-                        },
-                        {
-                            label: 'Mes recettes sauvegardées',
-                            icon: 'pi pi-heart',
-                            command: () => this.router.navigate(['recipe', 'recipes-saved'])
-                        },
-                        {
-                            label: 'Paramètres',
-                            icon: 'pi pi-cog',
-                            command: () => this.router.navigate(['user', 'settings'])
-                        },
-                        {
-                            label: 'Se déconnecter',
-                            icon: 'pi pi-sign-out',
-                            command: () => {
-                                this.alertService.showSuccess('Vous avez été déconnecté');
-                                this.router.navigate(['/']);
-                                this.userService.signOut();
+        this.userService.user$
+            .subscribe({
+                next: (user) => {
+                    if (user) {
+                        this.user = user;
+                        this.items = [
+                            ...baseItems,
+                            {
+                                label: 'Mes recettes créées',
+                                icon: 'pi pi-user',
+                                command: () => this.router.navigate(['user', 'user-profile', user?.id])
+                            },
+                            {
+                                label: 'Mes recettes sauvegardées',
+                                icon: 'pi pi-heart',
+                                command: () => this.router.navigate(['recipe', 'recipes-saved'])
+                            },
+                            {
+                                label: 'Paramètres',
+                                icon: 'pi pi-cog',
+                                command: () => this.router.navigate(['user', 'settings'])
+                            },
+                            {
+                                label: 'Se déconnecter',
+                                icon: 'pi pi-sign-out',
+                                command: () => {
+                                    this.alertService.showSuccess('Vous avez été déconnecté');
+                                    this.items = baseItems;
+                                    this.userService.signOut();
+                                    this.router.navigate(['/']);
+                                }
                             }
-                        }
-                    ];
-                } else {
-                    this.items = [
-                        ...baseItems,
-                        {
-                            label: 'Se connecter',
-                            icon: 'pi pi-sign-in',
-                            command: () => this.router.navigate(['auth', 'login'])
-                        }
-                    ];
-                }
-            },
-            error: () => {
-                this.items = [
+                        ];
+                    } else {
+                        this.items = [
+                            ...baseItems,
+                            {
+                                label: 'Se connecter',
+                                icon: 'pi pi-sign-in',
+                                command: () => this.router.navigate(['auth', 'login'])
+                            }
+                        ];
+                    }
+                },
+                error: () => this.items = [
                     ...baseItems,
                     {
                         label: 'Se connecter',
                         icon: 'pi pi-sign-in',
                         command: () => this.router.navigate(['auth', 'login'])
                     }
-                ];
-            }
-        });
+                ]
+            });
     }
 
 }
