@@ -1,8 +1,8 @@
 <div class="m-3">
     <form [formGroup]="formSignUp" (ngSubmit)="updateUser()">
-        <div class="flex flex-column gap-4">
+        <div class="flex flex-column gap-3">
             <h3 class="text-primary">Informations personnelles</h3>
-            <div class="flex justify-content-center align-items-center gap-2">
+            <div class="flex align-items-center gap-2 flex-wrap">
                 <p-floatlabel variant="on">
                     <input pInputText id="first_name" formControlName="firstName" autocomplete="off"/>
                     <label for="first_name">Prénom</label>
@@ -14,9 +14,9 @@
             </div>
         </div>
 
-        <div class="flex flex-column mt-3 mb-8">
-            <h3 class="text-primary mb-4">Changer le mot de passe</h3>
-            <div class="flex justify-content-center align-items-center gap-2">
+        <div class="flex flex-column mt-4 mb-6 gap-3">
+            <h3 class="text-primary">Changer le mot de passe</h3>
+            <div class="flex align-items-center gap-2 flex-wrap">
                 <p-floatlabel variant="on">
                     <p-password id="password" formControlName="password" autocomplete="off"/>
                     <label for="password">Mot de passe</label>

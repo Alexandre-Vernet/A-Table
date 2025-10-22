@@ -85,7 +85,7 @@ public class UserService {
             currentUserEntity.setLastName(user.getLastName());
         }
 
-        if (user.getPassword() != null && !user.getPassword().equals(currentUserEntity.getPassword())) {
+        if (user.getPassword() != null) {
             currentUserEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
