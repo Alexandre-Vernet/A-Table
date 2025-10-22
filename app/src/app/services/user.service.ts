@@ -33,7 +33,7 @@ export class UserService {
     }
 
     updateUser(user: User) {
-        return this.http.put<User>(`${ this.userUrl }`, { user });
+        return this.http.patch<User>(`${ this.userUrl }/`, user);
     }
 
     sendEmailForgotPassword(email: string) {
@@ -56,8 +56,8 @@ export class UserService {
         return this.http.post<User>(`${ this.userUrl }/verify-token`, { token });
     }
 
-    deleteAccount() {
-        return this.http.delete<void>(`${ this.userUrl }`);
+    deactivateAccount() {
+        return this.http.get<void>(`${ this.userUrl }/deactivate`);
     }
 
 

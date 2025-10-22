@@ -25,7 +25,7 @@ export class AlertComponent implements OnInit, OnDestroy {
                 this.alert = alert;
                 window.scroll(0, 0);
 
-                if (alert?.severity === 'success') {
+                if (alert?.severity === 'success' || alert?.severity === 'info') {
                     setTimeout(() => this.alertService.clear(), 4000);
                 }
             });

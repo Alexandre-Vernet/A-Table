@@ -55,6 +55,11 @@ export class Navbar implements OnInit {
                             command: () => this.router.navigate(['recipe', 'recipes-saved'])
                         },
                         {
+                            label: 'Paramètres',
+                            icon: 'pi pi-cog',
+                            command: () => this.router.navigate(['user', 'settings'])
+                        },
+                        {
                             label: 'Se déconnecter',
                             icon: 'pi pi-sign-out',
                             command: () => {

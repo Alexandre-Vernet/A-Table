@@ -1,0 +1,47 @@
+<div class="m-3">
+    <form [formGroup]="formSignUp" (ngSubmit)="updateUser()">
+        <div class="flex flex-column gap-3">
+            <h3 class="text-primary">Informations personnelles</h3>
+            <div class="flex align-items-center gap-2 flex-wrap">
+                <p-floatlabel variant="on">
+                    <input pInputText id="first_name" formControlName="firstName" autocomplete="off"/>
+                    <label for="first_name">Prénom</label>
+                </p-floatlabel>
+                <p-floatlabel variant="on">
+                    <input pInputText id="last_name" formControlName="lastName" autocomplete="off"/>
+                    <label for="last_name">Nom</label>
+                </p-floatlabel>
+            </div>
+        </div>
+
+        <div class="flex flex-column mt-4 mb-6 gap-3">
+            <h3 class="text-primary">Changer le mot de passe</h3>
+            <div class="flex align-items-center gap-2 flex-wrap">
+                <p-floatlabel variant="on">
+                    <p-password id="password" formControlName="password" autocomplete="off"/>
+                    <label for="password">Mot de passe</label>
+                    @if (formSignUp.hasError('passwordNotMatch') || formSignUp.controls.password.value?.trim() !== formSignUp.controls.confirmPassword.value?.trim()) {
+                        <p-message severity="error" variant="simple" size="small">
+                            Les mots de passe ne correspondent pas
+                        </p-message>
+                    }
+                </p-floatlabel>
+                <p-floatlabel variant="on">
+                    <p-password id="confirm_password" formControlName="confirmPassword" autocomplete="off"/>
+                    <label for="confirm_password">Confirmer mot de passe</label>
+                </p-floatlabel>
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <p-button label="Désactiver mon compte" severity="danger"
+                      (click)="confirmDeactivateAccount($event)"></p-button>
+            <p-button label="Mettre à jour"
+                      [disabled]="formSignUp.invalid || formSignUp.controls.password.value?.trim() !== formSignUp.controls.confirmPassword.value?.trim()"
+                      severity="info" (click)="updateUser()"></p-button>
+        </div>
+    </form>
+</div>
+
+
+<p-confirmdialog/>

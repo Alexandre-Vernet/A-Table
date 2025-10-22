@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RecipeNotFoundException.class)
     public ResponseEntity<?> handleRecipeNotFoundException(RecipeNotFoundException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "RECIPE_NOT_FOUND"),
                 HttpStatus.NOT_FOUND
         );
     }
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidCategoryException.class)
     public ResponseEntity<?> handleBadCategory(InvalidCategoryException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "INVALID_CATEGORY"),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<?> handleBadCategory(UserAlreadyExistException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "USER_ALREADY_EXIST"),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RecipeCantBeDeleted.class)
     public ResponseEntity<?> handleBadCategory(RecipeCantBeDeleted ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "IMPOSSIBLE_DELETE_RECIPE"),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleBadCategory(UserNotFoundException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "USER_DOESNT_EXIST"),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -52,16 +52,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(JwtTokenExpiredException.class)
     public ResponseEntity<?> handleBadCategory(JwtTokenExpiredException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "TOKEN_EXPIRE"),
                 HttpStatus.BAD_REQUEST
         );
     }
 
-    @ExceptionHandler(RequireAuthException.class)
-    public ResponseEntity<?> handleBadCategory(RequireAuthException ex) {
+    @ExceptionHandler(AccountDeactivateException.class)
+    public ResponseEntity<?> handleBadCategory(AccountDeactivateException ex) {
         return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED.value()),
-                HttpStatus.UNAUTHORIZED
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "ACCOUNT_DEACTIVATE"),
+                HttpStatus.BAD_REQUEST
         );
     }
 }

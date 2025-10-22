@@ -16,6 +16,10 @@ export class AlertService {
         this.alertSubject.next({ severity: 'error', message });
     }
 
+    showInfo(message: string) {
+        this.alertSubject.next({ severity: 'info', message });
+    }
+
     clear() {
         this.alertSubject.next(null);
     }
