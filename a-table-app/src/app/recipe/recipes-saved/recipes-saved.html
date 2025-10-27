@@ -14,7 +14,7 @@
                 <div
                     class="text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
                     [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                    <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'recipe.jpeg'"
+                    <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'no-preview.png'"
                          alt="recipe">
                     <span>{{ recipe.name | truncateRecipeName }}</span>
                 </div>
