@@ -13,6 +13,8 @@ services:
     depends_on:
       - a-table-db
     environment:
+      - spring.application.name=
+      - server.servlet.context-path=
       - spring.datasource.url=
       - spring.datasource.username=
       - spring.datasource.password=
@@ -21,12 +23,17 @@ services:
       - spring.jpa.hibernate.ddl-auto=
       - spring.jpa.show-sql=
       - spring.jpa.properties.hibernate.format_sql=
-      - spring.jpa.properties.hibernate.dialect=
       - spring.jpa.open-in-view=
       - server.port=80
       - server.address=0.0.0.0
       - server.error.include-stacktrace=never
-
+      - allowed.origin=
+      - security.jwt.secret-key=
+      - security.jwt.expiration-time=
+      - spring.servlet.multipart.max-file-size=
+      - spring.servlet.multipart.max-request-size=
+      - spring.flyway.enabled=true
+      - spring.flyway.locations=classpath:db/migration
     networks:
       - a-table-network
     ports:
