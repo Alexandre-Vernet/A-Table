@@ -2,8 +2,8 @@ FROM maven:3.8.3-openjdk-17 AS build
 
 WORKDIR /app
 
-COPY api/pom.xml .
-COPY api/. .
+COPY a-table-api/pom.xml .
+COPY a-table-api/. .
 
 RUN mvn dependency:go-offline
 

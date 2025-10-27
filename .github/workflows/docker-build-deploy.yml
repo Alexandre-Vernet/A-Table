@@ -2,11 +2,11 @@ name: Docker build images, push to DockerHub and redeploy containers
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
 
 env:
-  APP_NAME: app
-  API_NAME: api
+  APP_NAME: a-table-app
+  API_NAME: a-table-api
   DOCKERHUB_REPOSITORY_NAME: a-table
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
