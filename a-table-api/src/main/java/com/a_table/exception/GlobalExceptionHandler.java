@@ -64,4 +64,12 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<?> handleBadCategory(SecurityException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "AUTHENTICATION_NEEDED"),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 }

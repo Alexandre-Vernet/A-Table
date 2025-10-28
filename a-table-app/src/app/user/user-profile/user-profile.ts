@@ -12,7 +12,6 @@ import { tap } from 'rxjs';
 import { FilterRecipeCategoryPipe } from '../../pipes/filter-recipe-category-pipe';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
 import { Categories } from '../../recipe/categories';
-import { Button } from 'primeng/button';
 
 @Component({
     selector: 'app-user-profile',
@@ -23,8 +22,7 @@ import { Button } from 'primeng/button';
         AccordionContent,
         AccordionPanel,
         Accordion,
-        TruncateRecipeNamePipe,
-        Button
+        TruncateRecipeNamePipe
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss',
