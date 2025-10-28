@@ -1,6 +1,6 @@
 @if (recipe && filterRecipe) {
     <div class="recipe-image-container">
-        <img class="recipe-image" [src]="recipe.image ?? 'recipe.jpeg'" alt="recipe">
+        <img class="recipe-image" [src]="recipe.image ?? 'no-preview.png'" alt="recipe">
 
         @if (user?.id) {
             <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)"></i>
