@@ -7,7 +7,6 @@ import { Navbar } from './navbar/navbar';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgClass } from '@angular/common';
-import { UserService } from './services/user.service';
 
 @Component({
     selector: 'app-root',
@@ -24,7 +23,6 @@ export class App implements OnInit {
         private readonly swUpdate: SwUpdate,
         private readonly router: Router,
         private readonly destroyRef: DestroyRef,
-        private readonly userService: UserService
     ) {
         if (environment.production) {
             // Force refresh PWA
@@ -52,10 +50,6 @@ export class App implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getCurrentUser()
-            .subscribe();
-
-
         this.router.events
             .pipe(
                 takeUntilDestroyed(this.destroyRef),

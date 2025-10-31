@@ -9,7 +9,7 @@ export const authGuard = () => {
     const alertService = inject(AlertService);
     const router = inject(Router);
 
-    return userService.user$
+    return userService.getCurrentUser()
         .pipe(
             switchMap(user => {
                 if (!user) {
