@@ -52,9 +52,7 @@ export class App implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getCurrentUser()
-            .subscribe();
-
+        this.userService.getCurrentUser().subscribe();
 
         this.router.events
             .pipe(

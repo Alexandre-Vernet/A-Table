@@ -140,57 +140,77 @@
         </div>
 
         <!--Ingredients-->
-        <div class="flex flex-column gap-1 mb-5">
+        <div class="mb-5">
             <h2 class="text-primary mb-3">Ingrédients</h2>
-            <div formArrayName="ingredients" class="flex flex-column gap-3">
-                @for (ingredients of ingredientsControls; let i = $index; let first = $first; track ingredients.value) {
-                    <div [formGroupName]="i" class="flex flex-row gap-2 w-full">
-                        <!-- Ingredient -->
-                        <div class="flex flex-column flex-1 min-w-0">
-                            <p-floatlabel variant="on" class="w-full">
-                                <input id="ingredient-{{ i }}" formControlName="ingredient" pInputText
-                                       placeholder="Farine 150 g" (input)="changeIngredients(i)"
-                                       autocomplete="off" class="w-full"/>
-                                <label for="ingredient-{{ i }}">Ingrédient</label>
-                            </p-floatlabel>
-                            @if (ingredients.get('ingredient')?.touched || ingredients.get('ingredient')?.dirty) {
-                                <p-message severity="error" size="small" variant="simple" class="w-full">
-                                    @if (ingredients.get('ingredient')?.hasError('required')) {
-                                        Champ requis
-                                    }
-                                    @if (ingredients.get('ingredient')?.invalid) {
-                                        Format invalide. Exemples valides:
-                                        <ul class="mt-1 ml-3 list-disc">
-                                            <li>Farine 150 g</li>
-                                            <li>Lait 250 mL</li>
-                                            <li>Oeuf 1</li>
-                                            <li>Huile d'olive 1 c à café</li>
-                                        </ul>
-                                    }
-                                </p-message>
-                            }
-                            @if (ingredients.get('ingredient')?.errors?.['invalidFormat']?.['allowedUnits']) {
-                                <div class="mt-2">
-                                    <strong>Unités autorisées:</strong>
-                                    <div class="flex flex-wrap gap-1 mt-1">
-                                        @for (unit of ingredients.get('ingredient')?.errors?.['invalidFormat']?.['allowedUnits']; track unit) {
-                                            <span class="px-2 py-1 bg-gray-100 rounded">{{ unit }}</span>
+
+            <div formArrayName="ingredients">
+                <p-table [value]="ingredients.controls">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>
+                                Ingrédient
+                                <i class="pi pi-asterisk asterisk"></i>
+                            </th>
+                            <th>Quantité</th>
+                            <th>Unité</th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-row let-i="rowIndex">
+                        <tr [formGroupName]="i">
+                            <!-- Name -->
+                            <td pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input formControlName="name" pInputText class="w-full"/>
+                                        @if (row.get('name')?.hasError('duplicate')) {
+                                            <p-message severity="error" variant="simple" size="small">
+                                                Cet ingrédient a déjà été ajouté
+                                            </p-message>
                                         }
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ row.value.name || '-' }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
 
-                        <!-- Bouton suppression -->
-                        @if (!first) {
-                            <div class="flex align-items-center">
-                                <i class="pi pi-minus-circle text-primary text-lg cursor-pointer"
-                                   (click)="removeIngredient(i)"></i>
-                            </div>
-                        }
-                    </div>
+                            <!-- Quantity -->
+                            <td pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-input-number formControlName="quantity" class="w-full"/>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ row.value.quantity || '-' }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
 
-                }
+                            <!-- Unit -->
+                            <td pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <p-select formControlName="unit" [options]="units" class="w-full"
+                                                  appendTo="body"/>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{ row.value.unit || '-' }}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+
+                            <!-- Remove -->
+                            <td>
+                                <p-button size="small" icon="pi pi-times" (click)="removeIngredient(i)"></p-button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="mt-2">
+                <p-button label="Ajouter un ingrédient" (click)="addIngredient()"></p-button>
             </div>
         </div>
 
