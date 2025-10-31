@@ -37,12 +37,10 @@ export class UserService {
                         this.alertService.clear();
                         this.user.next(user);
                     } else {
-                        console.log("zedzazdzad")
                         this.signOut();
                     }
                 }),
                 catchError(() => {
-                    console.log("zedzazdzad")
                     this.signOut();
                     return of(null);
                 })
