@@ -14,9 +14,9 @@ import { AlertService } from '../../services/alert.service';
 import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { ingredientValidator } from '../../validators/ingredient.validator';
-import { parseIngredient } from '../../utils/parseIngredient';
 import { categories } from '../categories';
+import { Ingredient } from '../../dto/Ingredient';
+import { TableModule } from 'primeng/table';
 
 @Component({
     selector: 'app-create-recipe',
@@ -29,7 +29,8 @@ import { categories } from '../categories';
         Select,
         Button,
         Message,
-        FileUpload
+        FileUpload,
+        TableModule
     ],
     templateUrl: './create-recipe.html',
     styleUrl: './create-recipe.scss'
@@ -66,7 +67,27 @@ export class CreateRecipe implements OnInit {
 
     loading: boolean = false;
 
+    units = [
+        'g', 'kg',
+        'L', 'mL', 'cL',
+        'sachet',
+        'cuillère à café', 'cuillère à soupe',
+        'verre',
+        'pincée',
+        'branche',
+        'boîte',
+        'brique',
+        'unité',
+        'tranche',
+        'gousse',
+        'feuille',
+    ];
+
     protected readonly environment = environment;
+
+    get ingredients() {
+        return (this.formCreateRecipe.get('ingredients') as FormArray);
+    }
 
     get ingredientsControls() {
         return (this.formCreateRecipe.get('ingredients') as FormArray).controls;
@@ -90,11 +111,13 @@ export class CreateRecipe implements OnInit {
                         this.formCreateRecipe.controls.ingredients.clear();
 
                         recipe.ingredients.forEach(ingredient => {
-                            let ingredientFormated = `${ ingredient.name } ${ ingredient.quantity }`;
-                            if (ingredient.unit) {
-                                ingredientFormated += ' ' + ingredient.unit;
-                            }
-                            this.addIngredientLine(ingredientFormated);
+                            this.formCreateRecipe.controls.ingredients.push(
+                                new FormGroup({
+                                    name: new FormControl(ingredient.name),
+                                    quantity: new FormControl(ingredient?.quantity),
+                                    unit: new FormControl(ingredient?.unit),
+                                })
+                            );
                         });
 
                         this.formCreateRecipe.patchValue({
@@ -117,7 +140,7 @@ export class CreateRecipe implements OnInit {
                 });
         } else {
             this.formCreateRecipe.controls.category.setValue(this.categories[1]);
-            this.addIngredientLine();
+            this.addIngredient();
         }
     }
 
@@ -145,9 +168,16 @@ export class CreateRecipe implements OnInit {
             steps
         } = this.formCreateRecipe.getRawValue();
 
-        const parsedIngredients = ingredients
-            .filter(i => i.ingredient)
-            .map(i => parseIngredient(i.ingredient));
+        const parsedIngredients: Ingredient[] = [];
+        ingredients.forEach((i: Ingredient) => {
+            const ingredient: Ingredient = {
+                name: `${ i.name.charAt(0).toUpperCase() }${ i.name.slice(1) }`,
+                quantity: i.quantity,
+                unit: i.unit
+            };
+
+            parsedIngredients.push(ingredient);
+        });
 
 
         const recipeSteps: RecipeStep[] = [];
@@ -167,7 +197,7 @@ export class CreateRecipe implements OnInit {
 
         const recipe: Recipe = {
             id: this.updateRecipe && this.updateRecipe.id,
-            name,
+            name: `${ name.charAt(0).toUpperCase() }${ name.slice(1) }`,
             category: category.name,
             nbPerson,
             preparationTime,
@@ -207,25 +237,21 @@ export class CreateRecipe implements OnInit {
         }
     }
 
-    changeIngredients(index: number) {
-        if (this.formCreateRecipe.controls.ingredients.at(index).valid && this.formCreateRecipe.controls.ingredients.value[index + 1] === undefined) {
-            this.addIngredientLine();
-        }
+    addIngredient() {
+        this.formCreateRecipe.controls.ingredients.push(
+            new FormGroup({
+                name: new FormControl(null, Validators.required),
+                quantity: new FormControl(null),
+                unit: new FormControl(null),
+            })
+        );
     }
-
 
     removeIngredient(index: number) {
         if (this.formCreateRecipe.controls.ingredients.length > 1) {
             this.ingredientsControls.splice(index, 1);
+        } else {
+            this.formCreateRecipe.controls.ingredients.reset();
         }
-    }
-
-
-    private addIngredientLine(value?: string) {
-        this.formCreateRecipe.controls.ingredients.push(
-            new FormGroup({
-                ingredient: new FormControl(value ?? null, ingredientValidator()),
-            })
-        );
     }
 }
