@@ -3,7 +3,7 @@
         <img class="recipe-image" [src]="recipe.image ?? 'no-preview.png'" alt="recipe">
 
         @if (user?.id) {
-            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" (click)="saveRecipe(recipe)"></i>
+            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-heart-fill' : 'pi pi-heart'" (click)="saveRecipe(recipe)"></i>
         }
     </div>
 
