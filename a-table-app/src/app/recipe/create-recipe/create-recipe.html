@@ -164,6 +164,11 @@
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <input formControlName="name" pInputText class="w-full"/>
+                                        @if (row.get('name')?.hasError('duplicate')) {
+                                            <p-message severity="error" variant="simple" size="small">
+                                                Cet ingrédient a déjà été ajouté
+                                            </p-message>
+                                        }
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{ row.value.name || '-' }}

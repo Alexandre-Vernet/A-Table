@@ -17,6 +17,7 @@ import { environment } from '../../../environments/environment';
 import { categories } from '../categories';
 import { Ingredient } from '../../dto/Ingredient';
 import { TableModule } from 'primeng/table';
+import { duplicateIngredientsValidator } from '../../validators/duplicate-ingredients.validator';
 
 @Component({
     selector: 'app-create-recipe',
@@ -240,10 +241,10 @@ export class CreateRecipe implements OnInit {
     addIngredient() {
         this.formCreateRecipe.controls.ingredients.push(
             new FormGroup({
-                name: new FormControl(null, Validators.required),
+                name: new FormControl(null, [Validators.required, duplicateIngredientsValidator]),
                 quantity: new FormControl(null),
                 unit: new FormControl(null),
-            })
+            }),
         );
     }
 
