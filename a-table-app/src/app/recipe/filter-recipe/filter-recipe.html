@@ -1,5 +1,5 @@
 <div class="card flex justify-center">
-    <p-button type="button" icon="pi pi-filter" (onClick)="op.toggle($event)"/>
+    <p-button [label]="label" type="button" icon="pi pi-filter" (onClick)="op.toggle($event)"/>
 
     <p-popover #op>
         <div class="flex flex-column">

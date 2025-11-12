@@ -32,8 +32,11 @@ public class RecipeController {
     }
 
     @GetMapping("/user-recipes/{id}")
-    Paginate<Recipe> getUserRecipes(@PathVariable Long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        return recipeService.getUserRecipes(id, page, size);
+    Paginate<Recipe> getUserRecipes(@PathVariable Long id,
+                                    @RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "20") int size,
+                                    @RequestParam(required = false) String category) {
+        return recipeService.getUserRecipes(id, page, size,category);
     }
 
 

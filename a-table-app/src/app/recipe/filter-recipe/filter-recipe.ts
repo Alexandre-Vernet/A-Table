@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { categories } from '../categories';
 import { Popover } from 'primeng/popover';
@@ -15,6 +15,7 @@ import { Button } from 'primeng/button';
 })
 export class FilterRecipe {
 
+    @Input() label: string;
     @Output() category = new Subject<string>();
 
     categories = categories;

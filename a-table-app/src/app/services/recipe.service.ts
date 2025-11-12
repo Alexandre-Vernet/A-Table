@@ -39,11 +39,8 @@ export class RecipeService {
         return this.http.delete<Recipe>(`${ this.recipeUrl }/${ recipe.id }`);
     }
 
-    getRecipesUser(userId: number, page: number = 0, size: number = 10) {
-        return this.http.get<Paginate<Recipe>>(`${ this.recipeUrl }/user-recipes/${ userId }`, {
-            params: {
-                page, size
-            }
-        });
+    getRecipesUser(userId: number, filter: Filter) {
+        const params = buildRecipeParams(filter);
+        return this.http.get<Paginate<Recipe>>(`${ this.recipeUrl }/user-recipes/${ userId }`, { params });
     }
 }
