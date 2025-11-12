@@ -63,11 +63,17 @@ public class RecipeService {
         );
     }
 
-    public Paginate<Recipe> getUserRecipes(Long id, int page, int size) {
+    public Paginate<Recipe> getUserRecipes(Long id, int page, int size, String category) {
         User user = userService.getUser(id);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<RecipeEntity> recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);
+        Page<RecipeEntity> recipeEntityPage;
+
+        if (category != null) {
+            recipeEntityPage = recipeRepository.findByUserAndCategory(userMapper.dtoToEntity(user),category, pageable);
+        } else {
+            recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);
+        }
 
         return new Paginate<>(
                 recipeMapper.entityToDtoList(recipeEntityPage.getContent()),

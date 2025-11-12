@@ -5,24 +5,24 @@ import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
 import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
-import { PaginatorState } from 'primeng/paginator';
+import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
 import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { tap } from 'rxjs';
-import { FilterRecipeCategoryPipe } from '../../pipes/filter-recipe-category-pipe';
-import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
-import { Categories } from '../../recipe/categories';
+import { TimeConvertPipe } from '../../pipes/time-convert-pipe';
+import { TitleCasePipe } from '@angular/common';
+import { FilterRecipe } from '../../recipe/filter-recipe/filter-recipe';
+import { Filter } from '../../dto/Filter';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
         RouterLink,
-        FilterRecipeCategoryPipe,
-        AccordionHeader,
-        AccordionContent,
-        AccordionPanel,
-        Accordion,
-        TruncateRecipeNamePipe
+        TruncateRecipeNamePipe,
+        Paginator,
+        TimeConvertPipe,
+        TitleCasePipe,
+        FilterRecipe
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss',
@@ -40,10 +40,7 @@ export class UserProfile implements OnInit {
         last: false,
     };
 
-    firstAvailablePanel: string;
-
-    protected readonly Categories = Categories;
-
+    filterCategory: string;
 
     constructor(
         private readonly router: Router,
@@ -71,30 +68,32 @@ export class UserProfile implements OnInit {
             });
     }
 
-    private getRecipesUser(page: number = 0) {
-        this.recipeService.getRecipesUser(this.user.id, page, this.recipes.pageSize)
-            .subscribe({
-                next: (recipes) => {
-                    this.recipes = recipes;
-                    const panels = [
-                        { key: '0', data: this.recipes.content.filter(r => r.category === Categories.entree) },
-                        { key: '1', data: this.recipes.content.filter(r => r.category === Categories.plat) },
-                        { key: '2', data: this.recipes.content.filter(r => r.category === Categories.dessert) },
-                        { key: '3', data: this.recipes.content.filter(r => r.category === Categories.petitDejeuner) },
-                        { key: '4', data: this.recipes.content.filter(r => r.category === Categories.autre) },
-                    ];
+    filter(category: string) {
+        this.filterCategory = category;
+        this.getRecipesUser();
+    }
 
-                    const firstNonEmpty = panels.find(p => p.data.length > 0);
-                    this.firstAvailablePanel = firstNonEmpty ? firstNonEmpty.key : null;
-                }
-            })
+    goToPage(event: PaginatorState) {
+        window.scroll(0, 0);
+        this.recipes.pageSize = event.rows;
+        const page = event.page;
+        if (page >= 0 && page < this.recipes.totalPages) {
+            this.getRecipesUser(page);
+        }
     }
 
 
-    goToPage(event: PaginatorState) {
-        this.recipes.pageSize = event.rows;
-        if (event.page >= 0 && event.page < this.recipes.totalPages) {
-            this.getRecipesUser(event.page);
-        }
+    private getRecipesUser(page: number = 0) {
+        const filter: Filter = {
+            page,
+            size: this.recipes.pageSize,
+            category: this.filterCategory,
+        };
+        this.recipeService.getRecipesUser(this.user.id, filter)
+            .subscribe({
+                next: (recipes) => {
+                    this.recipes = recipes;
+                }
+            })
     }
 }

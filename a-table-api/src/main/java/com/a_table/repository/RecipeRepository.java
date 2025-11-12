@@ -26,6 +26,8 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     Page<RecipeEntity> findByUser(UserEntity user, Pageable pageable);
 
+    Page<RecipeEntity> findByUserAndCategory(UserEntity user, String category, Pageable pageable);
+
     Page<RecipeEntity> findAllByCategoryIgnoreCase(@Param("category") String category, Pageable pageable);
 
     @Modifying
