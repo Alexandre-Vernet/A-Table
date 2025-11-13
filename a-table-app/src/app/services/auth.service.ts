@@ -31,4 +31,17 @@ export class AuthService {
     register(user: User) {
         return this.http.post<User>(`${ this.authUrl }/register`, user);
     }
+
+
+    sendEmailForgotPassword(email: string) {
+        return this.http.post<{ token: string }>(`${ this.authUrl }/send-email-reset-password`, email);
+    }
+
+    updatePassword(userId: number, password: string) {
+        return this.http.patch(`${ this.authUrl }/reset-password/${ userId }`, password);
+    }
+
+    verifyToken(token: string) {
+        return this.http.post<User>(`${ this.authUrl }/verify-token`, token);
+    }
 }

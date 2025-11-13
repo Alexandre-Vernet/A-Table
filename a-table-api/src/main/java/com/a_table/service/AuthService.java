@@ -5,6 +5,7 @@ import com.a_table.dto.AuthResponse;
 import com.a_table.dto.LoginRequest;
 import com.a_table.dto.User;
 import com.a_table.exception.UserAlreadyExistException;
+import com.a_table.exception.UserNotFoundException;
 import com.a_table.model.UserEntity;
 import com.a_table.repository.UserRepository;
 import jakarta.annotation.Resource;
@@ -15,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -66,5 +70,28 @@ public class AuthService {
         UserEntity userEntity = userRepository.save(userMapper.dtoToEntity(user));
 
         return userMapper.entityToDto(userEntity);
+    }
+
+    public User getUserByEmail(String email) {
+        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
+        return userMapper.entityToDto(userEntity.get());
+    }
+
+    public Map<String, String> sendEmailForgotPassword(String email) {
+        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
+
+        UserDetails userDetails = UserEntity.builder()
+                .id(userEntity.get().getId())
+                .email(userEntity.get().getEmail())
+                .build();
+
+        String token = jwtService.generateToken(userDetails);
+        return Map.of("token", token);
+    }
+
+
+    public void updatePassword(Long id, String newPassword) {
+        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+        userEntity.ifPresent(entity -> entity.setPassword(passwordEncoder.encode(newPassword)));
     }
 }
