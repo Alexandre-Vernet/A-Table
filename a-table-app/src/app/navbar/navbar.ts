@@ -92,5 +92,4 @@ export class Navbar implements OnInit {
                 ]
             });
     }
-
 }
