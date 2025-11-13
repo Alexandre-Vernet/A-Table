@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -73,16 +72,16 @@ public class AuthService {
     }
 
     public User getUserByEmail(String email) {
-        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
-        return userMapper.entityToDto(userEntity.get());
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return userMapper.entityToDto(userEntity);
     }
 
     public Map<String, String> sendEmailForgotPassword(String email) {
-        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
 
         UserDetails userDetails = UserEntity.builder()
-                .id(userEntity.get().getId())
-                .email(userEntity.get().getEmail())
+                .id(userEntity.getId())
+                .email(userEntity.getEmail())
                 .build();
 
         String token = jwtService.generateToken(userDetails);
@@ -91,7 +90,7 @@ public class AuthService {
 
 
     public void updatePassword(Long id, String newPassword) {
-        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
-        userEntity.ifPresent(entity -> entity.setPassword(passwordEncoder.encode(newPassword)));
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        userEntity.setPassword(passwordEncoder.encode(newPassword));
     }
 }
