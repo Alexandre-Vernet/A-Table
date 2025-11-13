@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Message } from 'primeng/message';
 import { Password } from 'primeng/password';
 import { User } from '../../dto/User';
-import { UserService } from '../../services/user.service';
+import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -17,7 +18,6 @@ import { UserService } from '../../services/user.service';
     imports: [
         ReactiveFormsModule,
         NgClass,
-        NgIf,
         Button,
         Dialog,
         FloatLabel,
@@ -37,23 +37,20 @@ export class ResetPasswordComponent implements OnInit {
     isLoading = false;
 
     constructor(
-        private readonly userService: UserService,
+        private readonly authService: AuthService,
         private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly alertService: AlertService
     ) {
     }
 
     ngOnInit() {
         const token = this.activatedRoute.snapshot.queryParamMap.get('token');
-        this.verifyToken(token);
-    }
-
-    private verifyToken(token: string) {
-        this.userService.verifyToken(token)
+        this.authService.verifyToken(token)
             .subscribe({
                 next: (user) => this.user = user,
                 error: () => {
-                    // TODO Add pop-up : invalid token
+                    this.alertService.showError('Le lien de réinitialisation du mot de passe est invalide ou a expiré.');
                     this.redirectToSignIn();
                 }
             });
@@ -64,27 +61,28 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     submitForm() {
-        if (this.formResetPassword.valid) {
-            this.isLoading = true;
-            const { newPassword, confirmPassword } = this.formResetPassword.value;
-            if (newPassword !== confirmPassword) {
-                this.formResetPassword.setErrors({ error: 'Passwords do not match' });
-                return;
-            }
-            this.resetPassword();
+        if (!this.formResetPassword.valid) {
+            return;
         }
-        return;
+        this.isLoading = true;
+        const { newPassword, confirmPassword } = this.formResetPassword.value;
+        if (newPassword !== confirmPassword) {
+            this.formResetPassword.setErrors({ error: 'Passwords do not match' });
+            return;
+        }
+        this.resetPassword();
     }
 
     resetPassword() {
         const userId = this.user.id;
         const password = this.formResetPassword.controls.newPassword.value;
 
-        this.userService.updatePassword(userId, password)
+        this.authService.updatePassword(userId, password)
             .subscribe({
                 next: () => {
+                    this.alertService.showSuccess('Votre mot de passe a bien été changé')
                     this.formResetPassword.reset();
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/auth/login']);
                 },
                 error: (err) => {
                     this.formResetPassword.setErrors({ error: err.error.message ?? 'Une erreur s\'est produite' });
