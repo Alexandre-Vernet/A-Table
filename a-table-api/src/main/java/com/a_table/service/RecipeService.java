@@ -11,6 +11,7 @@ import com.a_table.exception.RecipeNotFoundException;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.repository.RecipeRepository;
+import com.a_table.utils.ImageUtils;
 import com.a_table.utils.Paginate;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.Comparator;
-
 @Service
 @Transactional
 public class RecipeService {
@@ -109,7 +109,8 @@ public class RecipeService {
         if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
             String base64Image = recipe.getImage().split(",")[1];
             byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            recipe.setImageBytes(imageBytes);
+            byte[] jpegBytes = ImageUtils.convertPngToJpeg(imageBytes);
+            recipe.setImageBytes(jpegBytes);
         }
 
         recipe.setUser(user);
