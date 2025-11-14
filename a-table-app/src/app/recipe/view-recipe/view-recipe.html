@@ -3,7 +3,8 @@
         <img class="recipe-image" [src]="recipe.image ?? 'no-preview.png'" alt="recipe">
 
         @if (user?.id) {
-            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-heart-fill' : 'pi pi-heart'" (click)="saveRecipe(recipe)"></i>
+            <i class="bookmark cursor-pointer" [class]="isRecipeSaved ? 'pi pi-heart-fill' : 'pi pi-heart'"
+               (click)="saveRecipe(recipe)"></i>
         }
     </div>
 
@@ -20,20 +21,24 @@
             <span>{{ recipe.category | titlecase }}</span>
         </div>
 
-        @if (recipe.cookingTime && recipe.preparationTime) {
+        @if (recipe.cookingTime || recipe.preparationTime) {
             <div class="flex justify-center align-items-center gap-2 mt-4">
                 <div>
                     <i class="pi pi-hourglass text-primary text-lg"></i>
                 </div>
                 <div>
-                    <div>
-                        <span>Temps de préparation : </span>
-                        <span>{{ recipe.preparationTime | timeConvert }}</span>
-                    </div>
-                    <div>
-                        <span>Temps de cuisson : </span>
-                        <span>{{ recipe.cookingTime | timeConvert }}</span>
-                    </div>
+                    @if (recipe.preparationTime) {
+                        <div>
+                            <span>Temps de préparation : </span>
+                            <span>{{ recipe.preparationTime | timeConvert }}</span>
+                        </div>
+                    }
+                    @if (recipe.cookingTime) {
+                        <div>
+                            <span>Temps de cuisson : </span>
+                            <span>{{ recipe.cookingTime | timeConvert }}</span>
+                        </div>
+                    }
                 </div>
             </div>
         }
@@ -52,7 +57,8 @@
             <i class="pi pi-user text-primary text-lg"></i>
             <span>
                 <span>Ajouté par </span>
-                <span class="text-primary font-bold cursor-pointer">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
+                <span
+                    class="text-primary font-bold cursor-pointer">{{ recipe.user.firstName }} {{ recipe.user.lastName }}</span>
             </span>
         </div>
 

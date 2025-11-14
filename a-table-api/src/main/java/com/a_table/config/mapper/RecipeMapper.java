@@ -8,6 +8,7 @@ import com.a_table.model.IngredientEntity;
 import com.a_table.model.RecipeEntity;
 import com.a_table.model.RecipeStepEntity;
 import com.a_table.model.UserEntity;
+import com.a_table.utils.ImageUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -85,11 +86,11 @@ public class RecipeMapper {
                 .image(recipe.getImageBytes())
                 .user(
                         recipe.getUser() != null ?
-                        UserEntity.builder()
-                                .id(recipe.getUser().getId())
-                                .lastName(recipe.getUser().getLastName())
-                                .firstName(recipe.getUser().getFirstName())
-                                .build() : null
+                                UserEntity.builder()
+                                        .id(recipe.getUser().getId())
+                                        .lastName(recipe.getUser().getLastName())
+                                        .firstName(recipe.getUser().getFirstName())
+                                        .build() : null
                 )
                 .build();
 
@@ -138,19 +139,28 @@ public class RecipeMapper {
         if (recipe.getCategory() != null) {
             existingRecipeEntity.setCategory(recipe.getCategory());
         }
+
         if (recipe.getPreparationTime() != null) {
             existingRecipeEntity.setPreparationTime(recipe.getPreparationTime());
+        } else {
+            existingRecipeEntity.setPreparationTime(null);
         }
+
         if (recipe.getCookingTime() != null) {
             existingRecipeEntity.setCookingTime(recipe.getCookingTime());
+        } else {
+            existingRecipeEntity.setCookingTime(null);
         }
+
         if (recipe.getNote() != null) {
             existingRecipeEntity.setNote(recipe.getNote());
         }
         if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
             String base64Image = recipe.getImage().split(",")[1];
             byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            existingRecipeEntity.setImage(imageBytes);
+            existingRecipeEntity.setImage(ImageUtils.convertPngToJpeg(imageBytes));
+        } else {
+            existingRecipeEntity.setImage(null);
         }
 
         if (recipe.getIngredients() != null) {

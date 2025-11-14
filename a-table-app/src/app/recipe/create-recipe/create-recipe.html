@@ -78,13 +78,13 @@
             <div class="flex flex-row gap-2 flex-wrap">
                 <p-floatlabel variant="on" class="flex-1">
                     <p-inputNumber class="w-full" id="preparationTime" formControlName="preparationTime"
-                                   autocomplete="off" [min]="1"
+                                   autocomplete="off" [min]="0"
                                    placeholder="15 mn" suffix=" mn"/>
                     <label for="preparationTime">Temps de préparation</label>
                     @if (formCreateRecipe.controls.preparationTime.touched) {
                         <p-message severity="error" size="small" variant="simple">
                             @if (formCreateRecipe.controls.preparationTime.hasError('min')) {
-                                Ce champ doit être supérieur à 1
+                                Ce champ doit être supérieur à 0
                             }
                             @if (formCreateRecipe.controls.preparationTime.hasError('max')) {
                                 Ce champ doit être inférieur à 999
@@ -111,7 +111,7 @@
             </div>
 
             <div class="flex flex-column gap-2">
-                @if (formCreateRecipe.controls.image.value) {
+                @if (formCreateRecipe.getRawValue().image) {
                     <img class="recipe-image" [src]="formCreateRecipe.controls.image.value" alt="recipe">
                 }
                 <p-fileupload mode="basic"
@@ -121,6 +121,9 @@
                               [auto]="true"
                               (onSelect)="onSelectImage($event)"/>
 
+                @if (formCreateRecipe.getRawValue().image) {
+                    <p-button (click)="removeImage()" label="Supprimer l'image" severity="danger"></p-button>
+                }
             </div>
 
             <p-floatlabel variant="on">
