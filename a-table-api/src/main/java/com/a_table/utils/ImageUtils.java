@@ -10,6 +10,9 @@ public class ImageUtils {
     public static byte[] convertPngToJpeg(byte[] pngBytes) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(pngBytes));
+            if (bufferedImage == null) {
+                throw new RuntimeException("Invalid image data");
+            }
 
             BufferedImage rgbImage = new BufferedImage(
                     bufferedImage.getWidth(),
@@ -19,8 +22,6 @@ public class ImageUtils {
             rgbImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            // Écriture en JPEG
             ImageIO.write(rgbImage, "jpg", baos);
 
             return baos.toByteArray();
