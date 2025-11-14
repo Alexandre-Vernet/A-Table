@@ -156,9 +156,7 @@ public class RecipeMapper {
             existingRecipeEntity.setNote(recipe.getNote());
         }
         if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
-            String base64Image = recipe.getImage().split(",")[1];
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            existingRecipeEntity.setImage(ImageUtils.convertPngToJpeg(imageBytes));
+            existingRecipeEntity.setImage(ImageUtils.convertPngToJpeg(recipe.getImage()));
         } else {
             existingRecipeEntity.setImage(null);
         }

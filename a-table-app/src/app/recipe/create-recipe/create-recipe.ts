@@ -220,7 +220,12 @@ export class CreateRecipe implements OnInit {
                         this.loading = false;
                     },
                     error: (err) => {
-                        this.alertService.showError(err?.error?.message ?? 'Erreur lors de la mise à jour de votre recette');
+                        if (err?.error?.code === 'ERROR_CONVERT_IMAGE') {
+                            this.formCreateRecipe.controls.image.setErrors({
+                                ERROR_CONVERT_IMAGE: true
+                            })
+                        }
+                        this.alertService.showError('Erreur lors de la mise à jour de votre recette');
                         this.loading = false;
                     },
                 });
@@ -233,7 +238,12 @@ export class CreateRecipe implements OnInit {
                         this.loading = false;
                     },
                     error: (err) => {
-                        this.alertService.showError(err?.error?.message ?? 'Erreur lors de la création de votre recette');
+                        if (err?.error?.code === 'ERROR_CONVERT_IMAGE') {
+                            this.formCreateRecipe.controls.image.setErrors({
+                                ERROR_CONVERT_IMAGE: true
+                            })
+                        }
+                        this.alertService.showError('Erreur lors de la création de votre recette');
                         this.loading = false;
                     },
                 });

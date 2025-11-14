@@ -72,4 +72,12 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(ImageConvertException.class)
+    public ResponseEntity<?> handleBadCategory(ImageConvertException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "ERROR_CONVERT_IMAGE"),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 }

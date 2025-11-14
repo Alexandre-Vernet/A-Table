@@ -114,6 +114,11 @@
                 @if (formCreateRecipe.getRawValue().image) {
                     <img class="recipe-image" [src]="formCreateRecipe.controls.image.value" alt="recipe">
                 }
+                <p-message severity="error" size="small" variant="simple">
+                    @if (formCreateRecipe.controls.image.hasError('ERROR_CONVERT_IMAGE')) {
+                        Impossible d'enregistrer l'image
+                    }
+                </p-message>
                 <p-fileupload mode="basic"
                               [chooseLabel]="updateRecipe?.image ? 'Mettre à jour l\'image' : 'Importer une image'"
                               chooseIcon="pi pi-upload" name="demo[]"
