@@ -117,9 +117,9 @@
                 <p-fileupload mode="basic"
                               [chooseLabel]="updateRecipe?.image ? 'Mettre à jour l\'image' : 'Importer une image'"
                               chooseIcon="pi pi-upload" name="demo[]"
-                              [url]="environment.uploadUrl()" accept="image/*" maxFileSize="4000000"
+                              accept="image/*" maxFileSize="4000000"
                               [auto]="true"
-                              (onUpload)="onUpload($event)"/>
+                              (onSelect)="onSelectImage($event)"/>
 
             </div>
 

@@ -11,7 +11,7 @@ import { RecipeStep } from '../../dto/RecipeStep';
 import { Message } from 'primeng/message';
 import { Recipe } from '../../dto/Recipe';
 import { AlertService } from '../../services/alert.service';
-import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
+import { FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { categories } from '../categories';
@@ -145,7 +145,7 @@ export class CreateRecipe implements OnInit {
         }
     }
 
-    onUpload(event: FileUploadEvent) {
+    onSelectImage(event: FileSelectEvent) {
         const file: File = event.files[0];
         if (file) {
             const reader = new FileReader();

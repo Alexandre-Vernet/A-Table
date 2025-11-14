@@ -4,7 +4,6 @@ export const environment = {
     recipeUrl: () => `${ environment.API_URL }/recipe`,
     authUrl: () => `${ environment.API_URL }/auth`,
     userUrl: () => `${ environment.API_URL }/users`,
-    uploadUrl: () => `${ environment.API_URL }/upload`,
     recipeSavedUrl: () => `${ environment.API_URL }/recipe-saved`,
     EMAIL_JS: {
         PUBLIC_KEY: 'd3gvz9u7Hm4sLnK2e',
