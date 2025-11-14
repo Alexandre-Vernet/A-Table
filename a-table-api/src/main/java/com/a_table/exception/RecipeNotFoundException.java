@@ -1,8 +1,10 @@
 package com.a_table.exception;
 
-public class RecipeNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class RecipeNotFoundException extends ApiException {
 
     public RecipeNotFoundException() {
-        super("Cette recette n'existe pas");
+        super("RECIPE_NOT_FOUND", "Cette recette n'existe pas", HttpStatus.NOT_FOUND);
     }
 }

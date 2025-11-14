@@ -1,8 +1,10 @@
 package com.a_table.exception;
 
-public class AccountDeactivateException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class AccountDeactivateException extends ApiException {
 
     public AccountDeactivateException() {
-        super("Ce compte a été désactivé");
+        super("ACCOUNT_DEACTIVATE", "Ce compte a été désactivé", HttpStatus.FORBIDDEN);
     }
 }

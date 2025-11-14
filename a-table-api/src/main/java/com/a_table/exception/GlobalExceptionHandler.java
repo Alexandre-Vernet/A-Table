@@ -9,75 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RecipeNotFoundException.class)
-    public ResponseEntity<?> handleRecipeNotFoundException(RecipeNotFoundException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "RECIPE_NOT_FOUND"),
-                HttpStatus.NOT_FOUND
-        );
-    }
-
-    @ExceptionHandler(InvalidCategoryException.class)
-    public ResponseEntity<?> handleBadCategory(InvalidCategoryException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "INVALID_CATEGORY"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<?> handleBadCategory(UserAlreadyExistException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "USER_ALREADY_EXIST"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    @ExceptionHandler(RecipeCantBeDeleted.class)
-    public ResponseEntity<?> handleBadCategory(RecipeCantBeDeleted ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "IMPOSSIBLE_DELETE_RECIPE"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleBadCategory(UserNotFoundException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "USER_DOESNT_EXIST"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    @ExceptionHandler(JwtTokenExpiredException.class)
-    public ResponseEntity<?> handleBadCategory(JwtTokenExpiredException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "TOKEN_EXPIRE"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    @ExceptionHandler(AccountDeactivateException.class)
-    public ResponseEntity<?> handleBadCategory(AccountDeactivateException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "ACCOUNT_DEACTIVATE"),
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
     @ExceptionHandler(SecurityException.class)
-    public ResponseEntity<?> handleBadCategory(SecurityException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "AUTHENTICATION_NEEDED"),
-                HttpStatus.BAD_REQUEST
-        );
+    public ResponseEntity<?> handleBadCategory(SecurityException securityException) {
+        return new ResponseEntity<>(new ErrorResponse("AUTHENTICATION_NEEDED", securityException.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ImageConvertException.class)
-    public ResponseEntity<?> handleBadCategory(ImageConvertException ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "ERROR_CONVERT_IMAGE"),
-                HttpStatus.BAD_REQUEST
-        );
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<?> handleBadCategory(ApiException apiException) {
+        return new ResponseEntity<>(new ErrorResponse(apiException.getCode(), apiException.getMessage()), apiException.getStatus());
     }
 }

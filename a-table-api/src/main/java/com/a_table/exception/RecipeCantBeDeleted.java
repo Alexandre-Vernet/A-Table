@@ -1,8 +1,10 @@
 package com.a_table.exception;
 
-public class RecipeCantBeDeleted extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class RecipeCantBeDeleted extends ApiException {
 
     public RecipeCantBeDeleted() {
-        super("Impossible de supprimer cette recette");
+        super("IMPOSSIBLE_DELETE_RECIPE", "Impossible de supprimer cette recette", HttpStatus.UNAUTHORIZED);
     }
 }
