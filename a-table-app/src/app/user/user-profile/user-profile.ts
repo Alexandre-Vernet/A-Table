@@ -1,28 +1,21 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
 import { AlertService } from '../../services/alert.service';
 import { Paginate } from '../../dto/Paginate';
 import { Recipe } from '../../dto/Recipe';
-import { Paginator, PaginatorState } from 'primeng/paginator';
 import { RecipeService } from '../../services/recipe.service';
-import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { tap } from 'rxjs';
-import { TimeConvertPipe } from '../../pipes/time-convert-pipe';
-import { TitleCasePipe } from '@angular/common';
 import { FilterRecipe } from '../../recipe/filter-recipe/filter-recipe';
 import { Filter } from '../../dto/Filter';
+import { RecipeGrid } from '../../recipe/recipe-grid/recipe-grid';
 
 @Component({
     selector: 'app-user-profile',
     imports: [
-        RouterLink,
-        TruncateRecipeNamePipe,
-        Paginator,
-        TimeConvertPipe,
-        TitleCasePipe,
-        FilterRecipe
+        FilterRecipe,
+        RecipeGrid
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss',
@@ -34,7 +27,7 @@ export class UserProfile implements OnInit {
     recipes: Paginate<Recipe> = {
         content: [],
         pageNumber: 0,
-        pageSize: 20,
+        pageSize: 10,
         totalElements: 0,
         totalPages: 0,
         last: false,
@@ -73,13 +66,8 @@ export class UserProfile implements OnInit {
         this.getRecipesUser();
     }
 
-    goToPage(event: PaginatorState) {
-        window.scroll(0, 0);
-        this.recipes.pageSize = event.rows;
-        const page = event.page;
-        if (page >= 0 && page < this.recipes.totalPages) {
-            this.getRecipesUser(page);
-        }
+    goToPage(page: number) {
+        this.getRecipesUser(page);
     }
 
 
