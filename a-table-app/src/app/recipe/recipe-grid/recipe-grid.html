@@ -1,0 +1,36 @@
+@if (recipes.content.length > 0) {
+    <div class="recipes-grid mb-5">
+        @for (recipe of recipes.content; track recipe.id) {
+            <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
+               class="flex flex-column text-black-alpha-90 bg-white">
+                <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'no-preview.png'"
+                     alt="recipe">
+                <div class="flex flex-column gap-2">
+                    @if (showRecipeDetails) {
+                        <h2 class="text-lg mt-2">{{ recipe.name | truncateRecipeName }}</h2>
+                        <div class="flex justify-center align-items-center gap-2">
+                            <i class="pi pi-tag text-primary text-lg"></i>
+                            <span>{{ recipe.category | titlecase }}</span>
+                        </div>
+
+                        @if (recipe.cookingTime || recipe.preparationTime) {
+                            <div class="flex justify-center align-items-center gap-2">
+                                <i class="pi pi-hourglass text-primary text-lg"></i>
+                                <span>{{ recipe?.cookingTime + recipe?.preparationTime | timeConvert }}</span>
+                            </div>
+                        }
+                    } @else {
+                        <span class="text-center">{{ recipe.name | truncateRecipeName }}</span>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+
+    @if (recipes.totalElements > recipes.content.length) {
+        <p-paginator (onPageChange)="onPageChange($event)" [rows]="recipes.pageSize"
+                     [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
+    }
+} @else {
+    <h4 class="text-primary">Aucune recette trouvée</h4>
+}
