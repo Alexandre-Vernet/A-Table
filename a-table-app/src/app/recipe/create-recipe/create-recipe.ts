@@ -86,6 +86,8 @@ export class CreateRecipe implements OnInit {
         'feuille',
     ];
 
+    isResponsive = false;
+
     protected readonly environment = environment;
 
     get ingredients() {
@@ -105,6 +107,8 @@ export class CreateRecipe implements OnInit {
     }
 
     ngOnInit() {
+        this.isResponsive = window.innerWidth < 500;
+
         const recipeId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
         if (recipeId) {
             this.recipeService.getRecipe(recipeId)
