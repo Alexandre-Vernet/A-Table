@@ -1,14 +1,15 @@
 package com.a_table.exception;
 
 import com.a_table.dto.Category;
+import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class InvalidCategoryException extends RuntimeException {
+public class InvalidCategoryException extends ApiException {
 
     public InvalidCategoryException() {
-        super(getErrorMsg());
+        super("INVALID_CATEGORY", getErrorMsg(), HttpStatus.BAD_REQUEST);
     }
 
     private static String getErrorMsg() {

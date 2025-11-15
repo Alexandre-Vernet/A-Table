@@ -21,8 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
 import java.util.Comparator;
+
 @Service
 @Transactional
 public class RecipeService {
@@ -70,7 +70,7 @@ public class RecipeService {
         Page<RecipeEntity> recipeEntityPage;
 
         if (category != null) {
-            recipeEntityPage = recipeRepository.findByUserAndCategory(userMapper.dtoToEntity(user),category, pageable);
+            recipeEntityPage = recipeRepository.findByUserAndCategory(userMapper.dtoToEntity(user), category, pageable);
         } else {
             recipeEntityPage = recipeRepository.findByUser(userMapper.dtoToEntity(user), pageable);
         }
@@ -107,9 +107,7 @@ public class RecipeService {
         User user = userService.getCurrentUser();
 
         if (recipe.getImage() != null && recipe.getImage().startsWith("data:image")) {
-            String base64Image = recipe.getImage().split(",")[1];
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            byte[] jpegBytes = ImageUtils.convertPngToJpeg(imageBytes);
+            byte[] jpegBytes = ImageUtils.convertPngToJpeg(recipe.getImage());
             recipe.setImageBytes(jpegBytes);
         }
 

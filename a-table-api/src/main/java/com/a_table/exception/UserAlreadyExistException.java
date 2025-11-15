@@ -1,8 +1,10 @@
 package com.a_table.exception;
 
-public class UserAlreadyExistException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class UserAlreadyExistException extends ApiException {
 
     public UserAlreadyExistException() {
-        super("Cet email existe déjà");
+        super("USER_ALREADY_EXIST", "Cet email existe déjà", HttpStatus.CONFLICT);
     }
 }

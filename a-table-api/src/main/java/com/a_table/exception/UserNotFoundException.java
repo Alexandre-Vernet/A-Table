@@ -1,8 +1,10 @@
 package com.a_table.exception;
 
-public class UserNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class UserNotFoundException extends ApiException {
 
     public UserNotFoundException() {
-        super("Cet utilisateur n'existe pas");
+        super("USER_DOESNT_EXIST", "Cet utilisateur n'existe pas", HttpStatus.NOT_FOUND);
     }
 }
