@@ -31,7 +31,7 @@
     </div>
 
     @if (recipes.totalElements > recipes.content.length) {
-        <p-paginator (onPageChange)="onPageChange($event)" [rows]="recipes.pageSize"
+        <p-paginator (onPageChange)="onPageChange($event)" [rows]="recipes.pageSize"  [first]="recipes.pageNumber * recipes.pageSize"
                      [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
     }
 }
