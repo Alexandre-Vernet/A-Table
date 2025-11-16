@@ -14,6 +14,7 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import { MessageService } from "primeng/api";
 import { authInterceptor } from './auth/auth.interceptor';
 import { CustomPreset } from './CustomPreset';
+import { loaderInterceptor } from './interceptor/loader-interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
             scrollPositionRestoration: 'top',
             anchorScrolling: 'enabled'
         })),
-        provideHttpClient(withInterceptors([authInterceptor])),
+        provideHttpClient(withInterceptors([authInterceptor, loaderInterceptor])),
         providePrimeNG({
             theme: {
                 preset: CustomPreset
@@ -34,6 +35,6 @@ export const appConfig: ApplicationConfig = {
             registrationStrategy: 'registerWhenStable:30000'
         }),
         provideAnimations(),
-        MessageService
+        MessageService,
     ]
 };

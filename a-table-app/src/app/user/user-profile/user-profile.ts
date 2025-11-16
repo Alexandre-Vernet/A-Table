@@ -79,9 +79,8 @@ export class UserProfile implements OnInit {
         };
         this.recipeService.getRecipesUser(this.user.id, filter)
             .subscribe({
-                next: (recipes) => {
-                    this.recipes = recipes;
-                }
+                next: (recipes) => this.recipes = recipes,
+                error: () => this.alertService.showError('Impossible de récupérer les recettes de cet utilisateur')
             })
     }
 }

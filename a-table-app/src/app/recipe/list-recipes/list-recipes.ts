@@ -10,6 +10,7 @@ import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Subject } from 'rxjs';
 import { Filter } from '../../dto/Filter';
 import { RecipeGrid } from '../recipe-grid/recipe-grid';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-list-recipes',
@@ -46,7 +47,8 @@ export class ListRecipes implements OnInit {
     private lastScrollPosition: number;
 
     constructor(
-        private readonly recipeService: RecipeService
+        private readonly recipeService: RecipeService,
+        private readonly alertService: AlertService
     ) {
     }
 
@@ -72,7 +74,8 @@ export class ListRecipes implements OnInit {
                         this.hideOverlay$.next();
                     }
                     this.recipes = paginateRecipe;
-                }
+                },
+                error: () => this.alertService.showError('Impossible d\'afficher les recettes')
             });
     }
 

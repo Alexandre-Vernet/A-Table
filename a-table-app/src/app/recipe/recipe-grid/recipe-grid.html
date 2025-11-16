@@ -1,4 +1,7 @@
-@if (recipes.content.length > 0) {
+@if (isLoading) {
+    <p-progress-spinner class="center-vertical-horizontal" ariaLabel="loading"/>
+}
+@if (!isLoading && recipes.content.length > 0) {
     <div class="recipes-grid mb-5">
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
@@ -31,6 +34,8 @@
         <p-paginator (onPageChange)="onPageChange($event)" [rows]="recipes.pageSize"
                      [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
     }
-} @else {
-    <h4 class="text-primary">Aucune recette trouvée</h4>
+}
+
+@if (!isLoading && recipes.totalElements === 0) {
+    <h3 class="text-primary center-vertical-horizontal">Aucune recette trouvée</h3>
 }

@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Filter } from '../../dto/Filter';
 import { RecipeGrid } from '../recipe-grid/recipe-grid';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-recipe-saved',
@@ -43,6 +44,7 @@ export class RecipesSaved implements OnInit {
 
     constructor(
         private readonly recipeSaved: RecipeSavedService,
+        private alertService: AlertService
     ) {
     }
 
@@ -68,7 +70,8 @@ export class RecipesSaved implements OnInit {
 
         this.recipeSaved.getSavedRecipes(filter)
             .subscribe({
-                next: (recipes) => this.recipes = recipes
+                next: (recipes) => this.recipes = recipes,
+                error: () => this.alertService.showError('Impossible de récupérer les recettes sauvegardées')
             });
     }
 
