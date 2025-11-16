@@ -6,7 +6,7 @@
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
                class="flex flex-column text-black-alpha-90 bg-white">
-                <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'no-preview.png'"
+                <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'no-preview.png'"
                      alt="recipe">
                 <div class="flex flex-column gap-2">
                     @if (showRecipeDetails) {
