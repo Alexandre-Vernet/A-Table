@@ -6,3 +6,10 @@
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 10px;
 }
+
+.center-vertical-horizontal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
