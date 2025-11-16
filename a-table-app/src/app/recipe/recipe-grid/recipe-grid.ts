@@ -40,7 +40,6 @@ export class RecipeGrid implements OnInit {
     @Output() goToPage = new Subject<number>();
 
     isLoading = true;
-    imagesLoaded = false;
 
     constructor(
         private readonly loaderService: LoaderService,
@@ -60,10 +59,5 @@ export class RecipeGrid implements OnInit {
         if (event.page >= 0 && event.page < this.recipes.totalPages) {
             this.goToPage.next(event.page);
         }
-    }
-
-    onImagesLoaded() {
-        this.imagesLoaded = true;
-        this.loaderService.hide();
     }
 }

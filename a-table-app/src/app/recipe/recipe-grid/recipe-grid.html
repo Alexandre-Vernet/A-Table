@@ -1,13 +1,12 @@
-@if (isLoading || !imagesLoaded) {
+@if (isLoading) {
     <p-progress-spinner class="center-vertical-horizontal" ariaLabel="loading"/>
 }
-@if (!isLoading && imagesLoaded && recipes.content.length > 0) {
+@if (!isLoading && recipes.content.length > 0) {
     <div class="recipes-grid mb-5">
         @for (recipe of recipes.content; track recipe.id) {
             <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
                class="flex flex-column text-black-alpha-90 bg-white">
                 <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'no-preview.png'"
-                     (load)="onImagesLoaded()"
                      alt="recipe">
                 <div class="flex flex-column gap-2">
                     @if (showRecipeDetails) {
