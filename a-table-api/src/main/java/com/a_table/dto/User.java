@@ -24,5 +24,5 @@ public class User {
 
     List<Recipe> recipes = new ArrayList<>();
 
-    Boolean status;
+    Boolean isAccountActive;
 }

@@ -37,7 +37,7 @@ public class UserService {
         }
 
         UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-        if (!userEntity.getStatus()) {
+        if (!userEntity.getIsAccountActive()) {
             throw new AccountDeactivateException();
         }
 
@@ -52,7 +52,7 @@ public class UserService {
                 .email(userEntity.getEmail())
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
-                .status(userEntity.getStatus())
+                .isAccountActive(userEntity.getIsAccountActive())
                 .build();
     }
 
@@ -69,7 +69,7 @@ public class UserService {
 
     public void deactivateAccount() {
         UserEntity userEntity = getCurrentUserEntity();
-        userEntity.setStatus(false);
+        userEntity.setIsAccountActive(false);
         userRepository.save(userEntity);
     }
 
