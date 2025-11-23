@@ -51,8 +51,8 @@ public class AuthService {
         String jwtToken = jwtService.generateToken(userDetails);
 
         UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-        if (!userEntity.getStatus()) {
-            userEntity.setStatus(true);
+        if (!userEntity.getIsAccountActive()) {
+            userEntity.setIsAccountActive(true);
             userRepository.save(userEntity);
         }
 
@@ -66,6 +66,7 @@ public class AuthService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setIsAccountActive(true);
         UserEntity userEntity = userRepository.save(userMapper.dtoToEntity(user));
 
         return userMapper.entityToDto(userEntity);

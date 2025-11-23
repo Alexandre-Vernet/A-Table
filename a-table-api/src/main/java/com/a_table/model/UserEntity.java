@@ -2,6 +2,7 @@ package com.a_table.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -47,7 +48,8 @@ public class UserEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<RecipeEntity> recipes = new ArrayList<>();
 
-    private Boolean status;
+    @Column(name = "is_account_active")
+    private Boolean isAccountActive;
 
 
     @Override

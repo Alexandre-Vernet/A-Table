@@ -24,7 +24,7 @@ public class UserMapper {
                                 .map(recipe -> recipeMapper.entityToDto(recipe))
                                 .toList()
                 )
-                .status(userEntity.getStatus())
+                .isAccountActive(userEntity.getIsAccountActive())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
-                .status(user.getStatus())
+                .isAccountActive(user.getIsAccountActive())
                 .build();
     }
 
