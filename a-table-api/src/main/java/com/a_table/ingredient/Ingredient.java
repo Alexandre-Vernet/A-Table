@@ -1,0 +1,26 @@
+package com.a_table.ingredient;
+
+import com.a_table.recipe.Recipe;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Ingredient {
+
+    private Long id;
+
+    private String name;
+
+    private Integer quantity;
+
+    private String unit;
+
+    Recipe recipe;
+}

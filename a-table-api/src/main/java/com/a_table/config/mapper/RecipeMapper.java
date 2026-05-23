@@ -1,13 +1,13 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.Ingredient;
-import com.a_table.dto.Recipe;
-import com.a_table.dto.RecipeStep;
-import com.a_table.dto.User;
-import com.a_table.model.IngredientEntity;
-import com.a_table.model.RecipeEntity;
-import com.a_table.model.RecipeStepEntity;
-import com.a_table.model.UserEntity;
+import com.a_table.ingredient.Ingredient;
+import com.a_table.recipe.Recipe;
+import com.a_table.recipestep.RecipeStep;
+import com.a_table.user.User;
+import com.a_table.ingredient.IngredientEntity;
+import com.a_table.recipe.RecipeEntity;
+import com.a_table.recipestep.RecipeStepEntity;
+import com.a_table.user.UserEntity;
 import com.a_table.utils.ImageUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

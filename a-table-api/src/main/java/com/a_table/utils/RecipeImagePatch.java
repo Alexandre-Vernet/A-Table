@@ -1,7 +1,7 @@
 package com.a_table.utils;
 
-import com.a_table.model.RecipeEntity;
-import com.a_table.repository.RecipeRepository;
+import com.a_table.recipe.RecipeEntity;
+import com.a_table.recipe.RecipeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

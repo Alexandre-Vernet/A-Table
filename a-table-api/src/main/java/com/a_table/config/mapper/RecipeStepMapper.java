@@ -1,7 +1,7 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.RecipeStep;
-import com.a_table.model.RecipeStepEntity;
+import com.a_table.recipestep.RecipeStep;
+import com.a_table.recipestep.RecipeStepEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
