@@ -1,7 +1,7 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.User;
-import com.a_table.model.UserEntity;
+import com.a_table.user.User;
+import com.a_table.user.UserEntity;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

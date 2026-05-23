@@ -1,6 +1,6 @@
 package com.a_table.exception;
 
-import com.a_table.dto.Category;
+import com.a_table.recipe.Category;
 import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
