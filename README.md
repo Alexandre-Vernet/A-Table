@@ -49,3 +49,5 @@ Users can add new recipe by including :
 ### Save Your Favorite Recipes
 
 Bookmark any recipe to quickly access the dishes you love most.
+
+<img width="479" height="1179" alt="Image" src="https://github.com/user-attachments/assets/f04a95f7-8b08-429c-8c6a-e486e6f14b54" />
