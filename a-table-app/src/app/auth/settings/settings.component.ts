@@ -90,14 +90,13 @@ export class SettingsComponent implements OnInit {
             message: 'Voulez-vous vraiment désactiver votre compte ?',
             header: 'Important',
             icon: 'pi pi-info-circle',
-            rejectLabel: 'Cancel',
             rejectButtonProps: {
-                label: 'Cancel',
+                label: 'Non',
                 severity: 'secondary',
                 outlined: true,
             },
             acceptButtonProps: {
-                label: 'Delete',
+                label: 'Désactiver',
                 severity: 'danger',
             },
 

@@ -1,4 +1,4 @@
-<div class="m-2 pb-5">
+<div class="container">
     <h2 class="text-primary mb-4">Recettes sauvegardées</h2>
     <div class="flex justify-content-center align-items-center mt-1 mb-5 gap-4">
         <p-floatlabel variant="in">
@@ -7,25 +7,5 @@
         </p-floatlabel>
         <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
     </div>
-
-    @if (recipes.content.length > 0) {
-        <div class="recipes-grid">
-            @for (recipe of recipes.content; track recipe.id) {
-                <div
-                    class="text-center flex flex-column justify-center align-items-center gap-1 cursor-pointer"
-                    [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]">
-                    <img class="recipe-image border-round-xl" [src]="recipe.image ?? 'no-preview.png'"
-                         alt="recipe">
-                    <span>{{ recipe.name | truncateRecipeName }}</span>
-                </div>
-            }
-        </div>
-    } @else {
-      <h4 class="ml-2 no-recipe">Aucune recette trouvée</h4>
-    }
+    <app-recipe-grid [recipes]="recipes" [showRecipeDetails]="false" (goToPage)="goToPage($event)"></app-recipe-grid>
 </div>
-
-@if (recipes && recipes.totalElements > recipes.content.length) {
-    <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
-                 [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
-}

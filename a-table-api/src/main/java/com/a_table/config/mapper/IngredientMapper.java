@@ -1,7 +1,7 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.Ingredient;
-import com.a_table.model.IngredientEntity;
+import com.a_table.ingredient.Ingredient;
+import com.a_table.ingredient.IngredientEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

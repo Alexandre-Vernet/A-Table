@@ -1,38 +1,11 @@
-<div class="flex justify-content-center align-items-center mt-1 gap-4 m-3">
-    <app-search-recipe class="flex-1" [hideOverlay$]="hideOverlay$" [searchUser$]="searchUser$"
-                       (searchRecipes$)="searchRecipes($event)"></app-search-recipe>
-    <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
-</div>
-
 <div class="container">
-    <div class="recipes-grid mb-5">
-        @for (recipe of recipes.content; track recipe.id) {
-            <a [routerLink]="['/', 'recipe', 'view-recipe', recipe.id]"
-               class="flex flex-column text-black-alpha-90 bg-white p-3">
-                <img class="recipe-image border-round-xl" loading="lazy" [src]="recipe.image ?? 'no-preview.png'"
-                     alt="recipe">
-                <div class="flex flex-column gap-2">
-                    <h2 class="text-lg mt-2">{{ recipe.name | truncateRecipeName }}</h2>
-                    <div class="flex justify-center align-items-center gap-2">
-                        <i class="pi pi-tag text-primary text-lg"></i>
-                        <span>{{ recipe.category | titlecase }}</span>
-                    </div>
-
-                    @if (recipe.cookingTime && recipe.preparationTime) {
-                        <div class="flex justify-center align-items-center gap-2">
-                            <i class="pi pi-hourglass text-primary text-lg"></i>
-                            <span>{{ recipe.cookingTime + recipe.preparationTime | timeConvert }}</span>
-                        </div>
-                    }
-                </div>
-            </a>
-        }
+    <div class="flex justify-content-center align-items-center mt-1 gap-4 mb-3">
+        <app-search-recipe class="flex-1" [hideOverlay$]="hideOverlay$" [searchUser$]="searchUser$"
+                           (searchRecipes$)="searchRecipes($event)"></app-search-recipe>
+        <app-filter-recipe (category)="filter($event)"></app-filter-recipe>
     </div>
 
-    @if (recipes && recipes.totalElements > recipes.content.length) {
-        <p-paginator (onPageChange)="goToPage($event)" [rows]="recipes.pageSize"
-                     [totalRecords]="recipes.totalElements" [rowsPerPageOptions]="[10, 20, 30]"/>
-    }
+    <app-recipe-grid [recipes]="recipes" (goToPage)="goToPage($event)"></app-recipe-grid>
 
     <div class="btn-add-recipe-wrapper" [ngClass]="{
     'hide-button': !showButtonAddRecipe

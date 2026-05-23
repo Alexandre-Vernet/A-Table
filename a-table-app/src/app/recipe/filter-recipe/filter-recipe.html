@@ -4,12 +4,12 @@
     <p-popover #op>
         <div class="flex flex-column">
             @for (category of categories; track category) {
-                <span class="flex items-center px-2 py-2"
+                <span class="flex items-center px-2 py-2 cursor-pointer"
                       (click)="filterCategory(category); op.hide()">
                     {{ category }}
                 </span>
             }
-            <span class="px-2 py-2" (click)="resetFilter(); op.hide()">Réinitialiser</span>
+            <span class="px-2 py-2 cursor-pointer" (click)="resetFilter(); op.hide()">Réinitialiser</span>
         </div>
     </p-popover>
 </div>

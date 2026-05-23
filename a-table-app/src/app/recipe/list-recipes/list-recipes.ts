@@ -2,16 +2,15 @@ import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/cor
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../dto/Recipe';
 import { RouterLink } from '@angular/router';
-import { NgClass, TitleCasePipe } from "@angular/common";
-import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
+import { NgClass } from "@angular/common";
 import { SearchRecipe } from "../search-recipe/search-recipe";
 import { Button } from "primeng/button";
-import { Paginator, PaginatorState } from 'primeng/paginator';
 import { Paginate } from '../../dto/Paginate';
 import { FilterRecipe } from '../filter-recipe/filter-recipe';
 import { Subject } from 'rxjs';
-import { TruncateRecipeNamePipe } from '../../pipes/truncate-recipe-name-pipe';
 import { Filter } from '../../dto/Filter';
+import { RecipeGrid } from '../recipe-grid/recipe-grid';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-list-recipes',
@@ -19,14 +18,11 @@ import { Filter } from '../../dto/Filter';
     styleUrl: './list-recipes.scss',
     imports: [
         RouterLink,
-        TitleCasePipe,
-        TimeConvertPipe,
         SearchRecipe,
         Button,
         NgClass,
-        Paginator,
         FilterRecipe,
-        TruncateRecipeNamePipe
+        RecipeGrid
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None
@@ -39,7 +35,7 @@ export class ListRecipes implements OnInit {
     recipes: Paginate<Recipe> = {
         content: [],
         pageNumber: 0,
-        pageSize: 20,
+        pageSize: 10,
         totalElements: 0,
         totalPages: 0,
         last: false,
@@ -51,7 +47,8 @@ export class ListRecipes implements OnInit {
     private lastScrollPosition: number;
 
     constructor(
-        private readonly recipeService: RecipeService
+        private readonly recipeService: RecipeService,
+        private readonly alertService: AlertService
     ) {
     }
 
@@ -77,7 +74,8 @@ export class ListRecipes implements OnInit {
                         this.hideOverlay$.next();
                     }
                     this.recipes = paginateRecipe;
-                }
+                },
+                error: () => this.alertService.showError('Impossible d\'afficher les recettes')
             });
     }
 
@@ -86,6 +84,15 @@ export class ListRecipes implements OnInit {
         this.getRecipes();
     }
 
+
+    filter(category: string) {
+        this.filterCategory = category;
+        this.getRecipes();
+    }
+
+    goToPage(page: number) {
+        this.getRecipes(page);
+    }
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
@@ -101,17 +108,5 @@ export class ListRecipes implements OnInit {
         }
 
         this.lastScrollPosition = currentScrollPosition;
-    }
-
-    goToPage(event: PaginatorState) {
-        this.recipes.pageSize = event.rows;
-        if (event.page >= 0 && event.page < this.recipes.totalPages) {
-            this.getRecipes(event.page);
-        }
-    }
-
-    filter(category: string) {
-        this.filterCategory = category;
-        this.getRecipes();
     }
 }

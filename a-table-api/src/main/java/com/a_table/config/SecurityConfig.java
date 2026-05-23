@@ -1,5 +1,6 @@
 package com.a_table.config;
 
+import com.a_table.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

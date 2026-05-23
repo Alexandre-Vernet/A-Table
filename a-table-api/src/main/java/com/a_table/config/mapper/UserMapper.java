@@ -1,7 +1,7 @@
 package com.a_table.config.mapper;
 
-import com.a_table.dto.User;
-import com.a_table.model.UserEntity;
+import com.a_table.user.User;
+import com.a_table.user.UserEntity;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class UserMapper {
                                 .map(recipe -> recipeMapper.entityToDto(recipe))
                                 .toList()
                 )
-                .status(userEntity.getStatus())
+                .isAccountActive(userEntity.getIsAccountActive())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
-                .status(user.getStatus())
+                .isAccountActive(user.getIsAccountActive())
                 .build();
     }
 
