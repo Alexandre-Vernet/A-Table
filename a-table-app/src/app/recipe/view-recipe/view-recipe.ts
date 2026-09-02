@@ -81,7 +81,7 @@ export class ViewRecipe implements OnInit {
             });
     }
 
-    updateRecipe() {
+    navigateToUpdateRecipe() {
         this.router.navigate(['recipe', 'update-recipe', this.recipe.id]);
     }
 
