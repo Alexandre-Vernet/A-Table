@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
@@ -19,6 +19,7 @@ import { RecipeGrid } from '../../recipe/recipe-grid/recipe-grid';
     ],
     templateUrl: './user-profile.html',
     styleUrl: './user-profile.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     encapsulation: ViewEncapsulation.None
 })
 export class UserProfile implements OnInit {

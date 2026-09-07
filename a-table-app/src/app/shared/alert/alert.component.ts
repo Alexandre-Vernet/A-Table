@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertService } from '../../services/alert.service';
 import { Alert } from '../../dto/Alert';
 import { Message } from 'primeng/message';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
         Message
     ],
     templateUrl: './alert.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './alert.component.scss'
 })
 export class AlertComponent implements OnInit, OnDestroy {

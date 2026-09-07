@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass } from '@angular/common';
@@ -24,6 +24,7 @@ import { AuthService } from '../../services/auth.service';
         Message,
         Password
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true
 })
 export class ResetPasswordComponent implements OnInit {

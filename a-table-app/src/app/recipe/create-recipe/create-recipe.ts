@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InputText } from 'primeng/inputtext';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Textarea } from 'primeng/textarea';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { RecipeService } from '../../services/recipe.service';
 import { RecipeStep } from '../../dto/RecipeStep';
 import { Message } from 'primeng/message';
@@ -34,8 +34,10 @@ import { zeroToNull } from '../../utils/zeroToNull';
         Message,
         FileUpload,
         TableModule,
+        ButtonDirective
     ],
     templateUrl: './create-recipe.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './create-recipe.scss'
 })
 export class CreateRecipe implements OnInit {

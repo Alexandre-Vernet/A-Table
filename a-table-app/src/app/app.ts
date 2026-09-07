@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { AlertComponent } from "./shared/alert/alert.component";
 import { SwPush, SwUpdate } from "@angular/service-worker";
@@ -13,6 +13,7 @@ import { UserService } from './services/user.service';
     selector: 'app-root',
     imports: [RouterOutlet, AlertComponent, Navbar, NgClass],
     templateUrl: './app.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './app.scss',
 })
 export class App implements OnInit {

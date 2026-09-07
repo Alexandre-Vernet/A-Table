@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { Select, SelectChangeEvent } from 'primeng/select';
@@ -14,6 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         Select
     ],
     templateUrl: './search-recipe.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './search-recipe.scss',
 })
 export class SearchRecipe implements OnInit {
