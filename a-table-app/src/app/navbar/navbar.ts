@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Menubar } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 import { Router, RouterLink } from '@angular/router';
@@ -15,6 +15,7 @@ import { Ripple } from 'primeng/ripple';
         RouterLink
     ],
     templateUrl: './navbar.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './navbar.scss'
 })
 export class Navbar implements OnInit {

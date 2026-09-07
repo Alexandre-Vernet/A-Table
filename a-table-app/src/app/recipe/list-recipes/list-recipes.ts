@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../dto/Recipe';
 import { RouterLink } from '@angular/router';
@@ -25,6 +25,7 @@ import { AlertService } from '../../services/alert.service';
         RecipeGrid
     ],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     encapsulation: ViewEncapsulation.None
 })
 export class ListRecipes implements OnInit {

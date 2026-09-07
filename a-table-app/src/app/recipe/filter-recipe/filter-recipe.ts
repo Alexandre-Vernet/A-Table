@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { categories } from '../categories';
 import { Popover } from 'primeng/popover';
@@ -8,9 +8,10 @@ import { Button } from 'primeng/button';
     selector: 'app-filter-recipe',
     imports: [
         Popover,
-        Button
+        Button,
     ],
     templateUrl: './filter-recipe.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './filter-recipe.scss'
 })
 export class FilterRecipe {

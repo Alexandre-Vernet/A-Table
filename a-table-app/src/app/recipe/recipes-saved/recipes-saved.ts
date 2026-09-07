@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RecipeSavedService } from '../../services/recipe-saved.service';
 import { Recipe } from '../../dto/Recipe';
 import { Paginate } from '../../dto/Paginate';
@@ -24,6 +24,7 @@ import { AlertService } from '../../services/alert.service';
     ],
     templateUrl: './recipes-saved.html',
     styleUrl: './recipes-saved.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     encapsulation: ViewEncapsulation.None
 })
 export class RecipesSaved implements OnInit {

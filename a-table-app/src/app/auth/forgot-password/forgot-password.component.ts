@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
     imports: [CommonModule, Button, Dialog, FloatLabel, InputText, Message, ReactiveFormsModule],
     templateUrl: './forgot-password.component.html',
     styleUrl: './forgot-password.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true
 })
 export class ForgotPasswordComponent {

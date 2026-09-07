@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, Output } from '@angular/core';
 import { Paginator, PaginatorState } from "primeng/paginator";
 import { TimeConvertPipe } from "../../pipes/time-convert-pipe";
 import { TitleCasePipe } from "@angular/common";
@@ -22,6 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         ProgressSpinner
     ],
     templateUrl: './recipe-grid.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './recipe-grid.scss',
 })
 export class RecipeGrid implements OnInit {

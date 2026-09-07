@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UserService } from '../../services/user.service';
 import { Select, SelectChangeEvent } from 'primeng/select';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
         Select
     ],
     templateUrl: './search-user.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './search-user.scss'
 })
 export class SearchUser {

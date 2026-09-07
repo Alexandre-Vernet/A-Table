@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/User';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -26,6 +26,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     ],
     providers: [ConfirmationService],
     templateUrl: './settings.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {

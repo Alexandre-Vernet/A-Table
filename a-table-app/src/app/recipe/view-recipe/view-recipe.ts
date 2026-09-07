@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../dto/Recipe';
@@ -31,6 +31,7 @@ import { catchError, combineLatest, of, switchMap } from 'rxjs';
     templateUrl: './view-recipe.html',
     styleUrl: './view-recipe.scss',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [ConfirmationService]
 })
 export class ViewRecipe implements OnInit {
